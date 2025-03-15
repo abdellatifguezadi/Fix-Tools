@@ -16,6 +16,7 @@ return new class extends Migration
             $table->decimal('base_price', 10, 2)->nullable();
             $table->foreignId('professional_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_available')->default(true);
+            $table->string('image_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
