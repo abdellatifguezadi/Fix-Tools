@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\ServiceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,3 +20,12 @@ Route::post('/materials', [MaterialController::class, 'store'])->name('materials
 Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
 Route::put('/materials/{material}', [MaterialController::class, 'update'])->name('materials.update');
 Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
+Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
+Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+
+Route::get('/services/category/{category}', [ServiceController::class, 'byCategory'])->name('services.by-category');
+Route::get('/my-services', [ServiceController::class, 'myServices'])->name('services.my-services');

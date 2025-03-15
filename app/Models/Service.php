@@ -16,7 +16,8 @@ class Service extends Model
         'category_id',
         'base_price',
         'professional_id',
-        'is_available'
+        'is_available',
+        'image_path'
     ];
 
     protected $casts = [
