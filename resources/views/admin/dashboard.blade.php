@@ -6,141 +6,154 @@
     <div class="p-8">
         <!-- Stats Overview -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <x-stats-card 
-                title="Total Utilisateurs"
-                value="2,543"
-                change="+12%"
-                icon="users"
-                color="blue"
-            />
+            <!-- Total Users -->
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-sm text-gray-600">Total Utilisateurs</p>
+                        <p class="text-2xl font-bold">2,543</p>
+                    </div>
+                    <div class="text-blue-500">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> +12% ce mois
+                </p>
+            </div>
 
-            <x-stats-card 
-                title="Professionnels Actifs"
-                value="847"
-                change="+5%"
-                icon="hard-hat"
-                color="yellow"
-            />
+            <!-- Active Professionals -->
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-sm text-gray-600">Professionnels Actifs</p>
+                        <p class="text-2xl font-bold">847</p>
+                    </div>
+                    <div class="text-yellow-500">
+                        <i class="fas fa-hard-hat text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> +5% ce mois
+                </p>
+            </div>
 
-            <x-stats-card 
-                title="Services Complétés"
-                value="1,234"
-                change="+8%"
-                icon="check-circle"
-                color="green"
-            />
+            <!-- Completed Services -->
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-sm text-gray-600">Services Complétés</p>
+                        <p class="text-2xl font-bold">1,234</p>
+                    </div>
+                    <div class="text-green-500">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> +8% ce mois
+                </p>
+            </div>
 
-            <x-stats-card 
-                title="Revenu Total"
-                value="$45,678"
-                change="+15%"
-                icon="dollar-sign"
-                color="purple"
-            />
-        </div>
-
-        <!-- Tables Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <!-- Services Table -->
-            <x-card title="Aperçu des Services">
-                <x-table>
-                    <x-slot name="header">
-                        <x-table.th>Service</x-table.th>
-                        <x-table.th>Total</x-table.th>
-                        <x-table.th>Actif</x-table.th>
-                    </x-slot>
-
-                    <x-table.tr>
-                        <x-table.td>Plomberie</x-table.td>
-                        <x-table.td>450</x-table.td>
-                        <x-table.td class="text-green-500">85%</x-table.td>
-                    </x-table.tr>
-
-                    <x-table.tr>
-                        <x-table.td>Électricité</x-table.td>
-                        <x-table.td>380</x-table.td>
-                        <x-table.td class="text-green-500">78%</x-table.td>
-                    </x-table.tr>
-
-                    <x-table.tr>
-                        <x-table.td>Peinture</x-table.td>
-                        <x-table.td>275</x-table.td>
-                        <x-table.td class="text-green-500">92%</x-table.td>
-                    </x-table.tr>
-                </x-table>
-            </x-card>
-
-            <!-- Revenue Table -->
-            <x-card title="Revenu Mensuel">
-                <x-table>
-                    <x-slot name="header">
-                        <x-table.th>Mois</x-table.th>
-                        <x-table.th>Revenu</x-table.th>
-                        <x-table.th>Croissance</x-table.th>
-                    </x-slot>
-
-                    <x-table.tr>
-                        <x-table.td>Juin</x-table.td>
-                        <x-table.td>$12,000</x-table.td>
-                        <x-table.td class="text-green-500">+15%</x-table.td>
-                    </x-table.tr>
-
-                    <x-table.tr>
-                        <x-table.td>Mai</x-table.td>
-                        <x-table.td>$9,500</x-table.td>
-                        <x-table.td class="text-green-500">+8%</x-table.td>
-                    </x-table.tr>
-
-                    <x-table.tr>
-                        <x-table.td>Avril</x-table.td>
-                        <x-table.td>$8,800</x-table.td>
-                        <x-table.td class="text-red-500">-3%</x-table.td>
-                    </x-table.tr>
-                </x-table>
-            </x-card>
+            <!-- Total Revenue -->
+            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-purple-500">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-sm text-gray-600">Revenu Total</p>
+                        <p class="text-2xl font-bold">45,678€</p>
+                    </div>
+                    <div class="text-purple-500">
+                        <i class="fas fa-euro-sign text-2xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up"></i> +15% ce mois
+                </p>
+            </div>
         </div>
 
         <!-- Recent Activity -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Recent Services -->
-            <x-card title="Services Récents">
-                <div class="space-y-4">
-                    <x-activity-item
-                        icon="wrench"
-                        color="blue"
-                        title="Réparation Plomberie"
-                        subtitle="John Smith"
-                        status="completed"
-                    />
-
-                    <x-activity-item
-                        icon="paint-roller"
-                        color="yellow"
-                        title="Peinture Maison"
-                        subtitle="Sarah Johnson"
-                        status="in-progress"
-                    />
+            <div class="bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold">Services Récents</h2>
                 </div>
-            </x-card>
+                <div class="p-4 space-y-4">
+                    <div class="flex items-center">
+                        <div class="bg-blue-100 p-3 rounded-full">
+                            <i class="fas fa-wrench text-blue-500"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-semibold">Réparation Plomberie</p>
+                            <p class="text-sm text-gray-600">John Smith - Terminé</p>
+                        </div>
+                        <span class="ml-auto text-sm text-gray-500">Il y a 2h</span>
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="bg-yellow-100 p-3 rounded-full">
+                            <i class="fas fa-paint-roller text-yellow-500"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-semibold">Peinture Maison</p>
+                            <p class="text-sm text-gray-600">Sarah Johnson - En cours</p>
+                        </div>
+                        <span class="ml-auto text-sm text-gray-500">Il y a 4h</span>
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="bg-green-100 p-3 rounded-full">
+                            <i class="fas fa-bolt text-green-500"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="font-semibold">Installation Électrique</p>
+                            <p class="text-sm text-gray-600">Mike Brown - Terminé</p>
+                        </div>
+                        <span class="ml-auto text-sm text-gray-500">Il y a 6h</span>
+                    </div>
+                </div>
+            </div>
 
             <!-- New Users -->
-            <x-card title="Nouveaux Utilisateurs">
-                <div class="space-y-4">
-                    <x-user-item
-                        name="Alex Johnson"
-                        role="Client"
-                        time="2 mins"
-                        image="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde"
-                    />
-
-                    <x-user-item
-                        name="Mike Brown"
-                        role="Professionnel"
-                        time="5 mins"
-                        image="https://images.unsplash.com/photo-1540569014015-19a7be504e3a"
-                    />
+            <div class="bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold">Nouveaux Utilisateurs</h2>
                 </div>
-            </x-card>
+                <div class="p-4 space-y-4">
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" 
+                             alt="Alex Johnson" 
+                             class="w-10 h-10 rounded-full">
+                        <div class="ml-4">
+                            <p class="font-semibold">Alex Johnson</p>
+                            <p class="text-sm text-gray-600">Client</p>
+                        </div>
+                        <span class="ml-auto text-sm text-gray-500">Il y a 2 mins</span>
+                    </div>
+
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a" 
+                             alt="Mike Brown" 
+                             class="w-10 h-10 rounded-full">
+                        <div class="ml-4">
+                            <p class="font-semibold">Mike Brown</p>
+                            <p class="text-sm text-gray-600">Professionnel</p>
+                        </div>
+                        <span class="ml-auto text-sm text-gray-500">Il y a 5 mins</span>
+                    </div>
+
+                    <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" 
+                             alt="Sophie Martin" 
+                             class="w-10 h-10 rounded-full">
+                        <div class="ml-4">
+                            <p class="font-semibold">Sophie Martin</p>
+                            <p class="text-sm text-gray-600">Client</p>
+                        </div>
+                        <span class="ml-auto text-sm text-gray-500">Il y a 10 mins</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout> 

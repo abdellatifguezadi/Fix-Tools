@@ -1,60 +1,43 @@
-<nav class="fixed left-0 top-0 h-full w-64 bg-black text-white pt-20 px-4 overflow-y-auto">
-    <div class="space-y-4">
-        <!-- Dashboard -->
-        <a href="{{ route('dashboard') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('dashboard') ? 'bg-yellow-400 text-black' : '' }}">
-            <i class="fas fa-home mr-2"></i>
-            Tableau de bord
-        </a>
-
-        <!-- Services -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Services</p>
-            <a href="{{ route('services.my-services') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('services.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-tools mr-2"></i>
-                Mes Services
-            </a>
-        </div>
-
-        <!-- Demandes -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Demandes</p>
-            <a href="{{ route('service-requests.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('service-requests.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-clipboard-list mr-2"></i>
-                Demandes de Service
-            </a>
-        </div>
-
-        <!-- Messages -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Communication</p>
-            <a href="{{ route('messages.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('messages.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-envelope mr-2"></i>
-                Messages
-            </a>
-        </div>
-
-        <!-- Points de fidélité -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Points</p>
-            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black">
-                <i class="fas fa-star mr-2"></i>
-                Points de fidélité
-            </a>
-        </div>
-
-        <!-- Profil -->
-        <div class="pt-4 border-t border-gray-700">
-            <a href="{{ route('profile.edit') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('profile.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-user-circle mr-2"></i>
-                Mon Profil
-            </a>
-            <form method="POST" action="{{ route('logout') }}" class="block">
-                @csrf
-                <button type="submit" class="w-full text-left py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
-                    Déconnexion
-                </button>
-            </form>
+<div class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg pt-16 overflow-hidden flex flex-col">
+    <div class="px-4 pt-4 overflow-y-auto flex-1">
+        <!-- Close sidebar button (mobile only) -->
+        <button id="closeSidebar" class="sm:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mb-8">
+            <h2 class="text-yellow-400 text-lg font-semibold mb-4">Espace Professionnel</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{{ route('dashboard') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('services.my-services') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-tools w-6"></i>
+                        <span>Mes Services</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('material-purchases.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-shopping-cart w-6"></i>
+                        <span>Achats Matériaux</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('messages.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-envelope w-6"></i>
+                        <span>Messages</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('profile.edit') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-user-circle w-6"></i>
+                        <span>Mon Profil</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</nav> 
+</div> 

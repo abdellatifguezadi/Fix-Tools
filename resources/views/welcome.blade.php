@@ -15,9 +15,9 @@
             <p class="text-xl mb-8">
                 Trouvez des professionnels qualifiés pour tous vos travaux de maintenance, installation et réparation
             </p>
-            <a href="{{ route('professionals.index') }}" class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
+            <button class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
                 Trouver un Professionnel
-            </a>
+            </button>
         </div>
     </header>
 
@@ -26,23 +26,38 @@
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Nos Services</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <x-service-card 
-                    title="Plomberie"
-                    description="Installation, réparation et maintenance de vos systèmes de plomberie"
-                    image="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39"
-                />
+                <!-- Service Card 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39" 
+                         alt="Plomberie" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Plomberie</h3>
+                        <p class="text-gray-600">Installation, réparation et maintenance de vos systèmes de plomberie</p>
+                    </div>
+                </div>
 
-                <x-service-card 
-                    title="Électricité"
-                    description="Installations et réparations électriques pour votre sécurité"
-                    image="https://images.unsplash.com/photo-1621905251918-48416bd8575a"
-                />
+                <!-- Service Card 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1621905251918-48416bd8575a" 
+                         alt="Électricité" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Électricité</h3>
+                        <p class="text-gray-600">Installations et réparations électriques pour votre sécurité</p>
+                    </div>
+                </div>
 
-                <x-service-card 
-                    title="Peinture"
-                    description="Travaux de peinture intérieure et extérieure"
-                    image="https://images.unsplash.com/photo-1589939705384-5185137a7f0f"
-                />
+                <!-- Service Card 3 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f" 
+                         alt="Peinture" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Peinture</h3>
+                        <p class="text-gray-600">Travaux de peinture intérieure et extérieure</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -56,9 +71,18 @@
                     <h3 class="text-2xl font-bold text-yellow-400">Votre Partenaire de Confiance</h3>
                     <p class="text-gray-300">Fix and Tools connecte les propriétaires avec des professionnels qualifiés pour tous leurs besoins de maintenance et de réparation.</p>
                     <ul class="space-y-4">
-                        <x-feature-item>Réseau de Professionnels Vérifiés</x-feature-item>
-                        <x-feature-item>Service de Qualité Garanti</x-feature-item>
-                        <x-feature-item>Support Client 24/7</x-feature-item>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-yellow-400 mr-2"></i>
+                            Réseau de Professionnels Vérifiés
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-yellow-400 mr-2"></i>
+                            Service de Qualité Garanti
+                        </li>
+                        <li class="flex items-center text-gray-300">
+                            <i class="fas fa-check text-yellow-400 mr-2"></i>
+                            Support Client 24/7
+                        </li>
                     </ul>
                 </div>
                 <div class="relative h-96">
@@ -76,32 +100,59 @@
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Professionnels les Mieux Notés</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <x-professional-card 
-                    name="John Smith"
-                    title="Maître Plombier"
-                    experience="15+ ans"
-                    jobs="250+"
-                    rating="4.9"
-                    image="https://images.unsplash.com/photo-1540569014015-19a7be504e3a"
-                />
+                <!-- Professional Card 1 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a" 
+                             alt="John Smith" 
+                             class="w-16 h-16 rounded-full">
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold">John Smith</h3>
+                            <p class="text-gray-600">Maître Plombier</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-gray-600"><i class="fas fa-tools text-yellow-400 mr-2"></i>15+ ans d'expérience</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase text-yellow-400 mr-2"></i>250+ projets</p>
+                        <p class="text-gray-600"><i class="fas fa-star text-yellow-400 mr-2"></i>4.9/5 (120 avis)</p>
+                    </div>
+                </div>
 
-                <x-professional-card 
-                    name="Sarah Johnson"
-                    title="Expert Peintre"
-                    experience="10+ ans"
-                    jobs="180+"
-                    rating="4.8"
-                    image="https://images.unsplash.com/photo-1516822669470-95f059f5a051"
-                />
+                <!-- Professional Card 2 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1516822669470-95f059f5a051" 
+                             alt="Sarah Johnson" 
+                             class="w-16 h-16 rounded-full">
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold">Sarah Johnson</h3>
+                            <p class="text-gray-600">Expert Peintre</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-gray-600"><i class="fas fa-tools text-yellow-400 mr-2"></i>10+ ans d'expérience</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase text-yellow-400 mr-2"></i>180+ projets</p>
+                        <p class="text-gray-600"><i class="fas fa-star text-yellow-400 mr-2"></i>4.8/5 (95 avis)</p>
+                    </div>
+                </div>
 
-                <x-professional-card 
-                    name="Mike Brown"
-                    title="Spécialiste Bricolage"
-                    experience="12+ ans"
-                    jobs="200+"
-                    rating="4.9"
-                    image="https://images.unsplash.com/photo-1621905252507-b35492cc74b4"
-                />
+                <!-- Professional Card 3 -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4" 
+                             alt="Mike Brown" 
+                             class="w-16 h-16 rounded-full">
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold">Mike Brown</h3>
+                            <p class="text-gray-600">Spécialiste Bricolage</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-gray-600"><i class="fas fa-tools text-yellow-400 mr-2"></i>12+ ans d'expérience</p>
+                        <p class="text-gray-600"><i class="fas fa-briefcase text-yellow-400 mr-2"></i>200+ projets</p>
+                        <p class="text-gray-600"><i class="fas fa-star text-yellow-400 mr-2"></i>4.9/5 (150 avis)</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -112,12 +163,12 @@
             <h2 class="text-3xl font-bold text-white mb-6">Prêt à Commencer ?</h2>
             <p class="text-yellow-400 text-xl mb-8">Rejoignez notre communauté de professionnels et de clients satisfaits</p>
             <div class="space-x-4">
-                <a href="{{ route('register') }}?type=client" class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
+                <button class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
                     Je suis un Client
-                </a>
-                <a href="{{ route('register') }}?type=professional" class="border-2 border-yellow-400 text-yellow-400 px-8 py-3 rounded-lg font-bold hover:bg-yellow-400 hover:text-black inline-block">
+                </button>
+                <button class="border-2 border-yellow-400 text-yellow-400 px-8 py-3 rounded-lg font-bold hover:bg-yellow-400 hover:text-black inline-block">
                     Je suis un Professionnel
-                </a>
+                </button>
             </div>
         </div>
     </section>

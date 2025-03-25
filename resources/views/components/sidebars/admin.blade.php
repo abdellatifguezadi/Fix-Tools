@@ -1,69 +1,39 @@
-<nav class="fixed left-0 top-0 h-full w-64 bg-black text-white pt-20 px-4 overflow-y-auto">
-    <div class="space-y-4">
-        <!-- Dashboard -->
-        <a href="{{ route('dashboard') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('dashboard') ? 'bg-yellow-400 text-black' : '' }}">
-            <i class="fas fa-home mr-2"></i>
-            Tableau de bord
-        </a>
-
-        <!-- Utilisateurs -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Utilisateurs</p>
-            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black">
-                <i class="fas fa-users mr-2"></i>
-                Gérer les utilisateurs
-            </a>
-        </div>
-
-        <!-- Catégories -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Catégories</p>
-            <a href="{{ route('categories.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('categories.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-tags mr-2"></i>
-                Gérer les catégories
-            </a>
-        </div>
-
-        <!-- Services -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Services</p>
-            <a href="{{ route('services.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('services.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-tools mr-2"></i>
-                Gérer les services
-            </a>
-        </div>
-
-        <!-- Matériaux -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Matériaux</p>
-            <a href="{{ route('materials.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('materials.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-box mr-2"></i>
-                Gérer les matériaux
-            </a>
-        </div>
-
-        <!-- Avis -->
-        <div>
-            <p class="text-gray-400 text-xs uppercase font-bold mb-2">Avis</p>
-            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black">
-                <i class="fas fa-star mr-2"></i>
-                Gérer les avis
-            </a>
-        </div>
-
-        <!-- Profil -->
-        <div class="pt-4 border-t border-gray-700">
-            <a href="{{ route('profile.edit') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black {{ request()->routeIs('profile.*') ? 'bg-yellow-400 text-black' : '' }}">
-                <i class="fas fa-user-circle mr-2"></i>
-                Mon Profil
-            </a>
-            <form method="POST" action="{{ route('logout') }}" class="block">
-                @csrf
-                <button type="submit" class="w-full text-left py-2.5 px-4 rounded transition duration-200 hover:bg-yellow-400 hover:text-black">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
-                    Déconnexion
-                </button>
-            </form>
+<div class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg pt-20">
+    <div class="px-4">
+        <div class="mb-8">
+            <h2 class="text-yellow-400 text-lg font-semibold mb-4">Administration</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('categories.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-tags w-6"></i>
+                        <span>Catégories</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('materials.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-box-open w-6"></i>
+                        <span>Matériaux</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('professionals.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-user-tie w-6"></i>
+                        <span>Professionnels</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('services.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-tools w-6"></i>
+                        <span>Services</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-</nav> 
+</div> 
