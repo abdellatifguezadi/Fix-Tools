@@ -46,6 +46,17 @@
                             @endforelse
 
                     </div>
+
+                    <!-- Ajoutez ceci juste après la balise <div class="container mx-auto py-6 px-4"> -->
+                    <!-- <div class="mb-4">
+                        @foreach($services as $service)
+                            <div class="text-sm text-gray-600">
+                                Image URL: {{ $service['image'] }}<br>
+                                Storage URL: {{ Storage::url($service['image']) }}<br>
+                                Asset URL: {{ asset('storage/' . $service['image']) }}
+                            </div>
+                        @endforeach
+                    </div> -->
                 </div>
             </div>
 
