@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -18,7 +19,8 @@ class DashboardController extends Controller
             case 'admin':
                 return view('admin.dashboard');
             case 'professional':
-                return view('professionals.index');
+                $serviceController = new ServiceController();
+                return $serviceController->myServices();
             case 'client':
                 return view('welcome');
             default:

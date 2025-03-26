@@ -6,6 +6,7 @@ use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -105,11 +106,26 @@ class ServiceController extends Controller
 
     public function myServices()
     {
-        $services = Service::with(['category'])
-            ->where('professional_id', auth()->id())
-            ->latest()
-            ->paginate(10);
+        if (!Auth::check() || Auth::user()->role !== 'professional') {
+            return view('professionals.index', ['services' => []]);
+        }
 
-        return view('services.my-services', compact('services'));
+        $services = Service::with(['category'])
+            ->where('professional_id', Auth::id())
+            ->latest()
+            ->get()
+            ->map(function ($service) {
+                return [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'category' => $service->category->name,
+                    'description' => $service->description,
+                    'price' => number_format($service->base_price, 2),
+                    'image' => $service->image_path ? Storage::url($service->image_path) : 'https://via.placeholder.com/400x300?text=No+Image',
+                    'isAvailable' => $service->is_available
+                ];
+            });
+
+        return view('professionals.index', compact('services'));
     }
 } 
