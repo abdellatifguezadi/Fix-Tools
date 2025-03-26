@@ -59,7 +59,7 @@
     </div>
 
     <!-- Add, Edit, Delete Modals -->
-    <x-modals.add-service-modal />
+    <x-modals.add-service-modal :categories="$categories" />
     <x-modals.edit-service-modal />
     <x-modals.delete-service-modal />
 
