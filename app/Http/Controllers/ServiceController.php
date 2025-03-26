@@ -23,11 +23,10 @@ class ServiceController extends Controller
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'base_price' => 'required|numeric|min:0',
-            'professional_id' => 'required|exists:users,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'is_available' => 'boolean'
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
+        $validated['professional_id'] = Auth::id();
         $validated['is_available'] = $request->has('is_available');
 
         if ($request->hasFile('image')) {
@@ -37,8 +36,12 @@ class ServiceController extends Controller
             $validated['image_path'] = 'services/' . $imageName;
         }
 
-        Service::create($validated);
-        return redirect()->route('services.index')->with('success', 'Service ajouté avec succès');
+        try {
+            $service = Service::create($validated);
+            return redirect()->route('dashboard')->with('success', 'Service ajouté avec succès');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erreur lors de la création du service: ' . $e->getMessage());
+        }
     }
 
     public function show(Service $service)
@@ -106,8 +109,10 @@ class ServiceController extends Controller
 
     public function myServices()
     {
+        $categories = Category::all();
+
         if (!Auth::check() || Auth::user()->role !== 'professional') {
-            return view('professionals.index', ['services' => []]);
+            return view('professionals.index', ['services' => [], 'categories' => $categories]);
         }
 
         $services = Service::with(['category'])
@@ -126,6 +131,6 @@ class ServiceController extends Controller
                 ];
             });
 
-        return view('professionals.index', compact('services'));
+        return view('professionals.index', compact('services', 'categories'));   
     }
 } 
