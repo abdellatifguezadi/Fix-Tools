@@ -32,16 +32,16 @@ class ServiceController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/services', $imageName);
+            $image->storeAs('services', $imageName);
             $validated['image_path'] = 'services/' . $imageName;
         }
 
-        try {
+        // try {
             $service = Service::create($validated);
             return redirect()->route('dashboard')->with('success', 'Service ajouté avec succès');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erreur lors de la création du service: ' . $e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()->back()->with('error', 'Erreur lors de la création du service: ' . $e->getMessage());
+        // }
     }
 
     public function show(Service $service)
@@ -120,17 +120,22 @@ class ServiceController extends Controller
             ->latest()
             ->get()
             ->map(function ($service) {
+                // Pour déboguer
+                \Log::info('Image path: ' . $service->image_path);
+                
                 return [
                     'id' => $service->id,
                     'name' => $service->name,
                     'category' => $service->category->name,
                     'description' => $service->description,
                     'price' => number_format($service->base_price, 2),
-                    'image' => $service->image_path ? Storage::url($service->image_path) : 'https://via.placeholder.com/400x300?text=No+Image',
+                    'image' => $service->image_path 
+                        ? Storage::url($service->image_path)
+                        : 'https://via.placeholder.com/400x300?text=No+Image',
                     'isAvailable' => $service->is_available
                 ];
             });
 
-        return view('professionals.index', compact('services', 'categories'));   
+        return view('professionals.index', compact('services', 'categories'));
     }
 } 
