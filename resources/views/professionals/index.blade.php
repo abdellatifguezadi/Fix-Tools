@@ -18,47 +18,33 @@
                     <div class="mb-6 bg-white shadow-sm rounded-lg p-4">
                         <div class="flex justify-between items-center">
                             <h1 class="text-2xl font-bold">Mes Services</h1>
-                            <button onclick="openAddModal()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg flex items-center">
-                                <i class="fas fa-plus mr-2"></i>
-                                Ajouter un service
-                            </button>
+                            @if(auth()->check() && auth()->user()->isProfessional())
+                                <button onclick="openAddModal()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg flex items-center">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Ajouter un service
+                                </button>
+                            @endif
                         </div>
                     </div>
 
                     <!-- Services Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Service Card 1 -->
-                        <x-professional-service-card 
-                            :id="1"
-                            name="Service de Plomberie"
-                            category="Plomberie"
-                            description="Installation et réparation de systèmes de plomberie, débouchage, maintenance..."
-                            price="75.00"
-                            image="https://images.unsplash.com/photo-1581244277943-fe4a9c777189"
-                            :isAvailable="true"
-                        />
+                            @forelse($services as $service)
+                                <x-professional-service-card 
+                                    :id="$service['id']"
+                                    :name="$service['name']"
+                                    :category="$service['category']"
+                                    :description="$service['description']"
+                                    :price="$service['price']"
+                                    :image="$service['image']"
+                                    :isAvailable="$service['isAvailable']"
+                                />
+                            @empty
+                                <div class="col-span-full text-center py-8">
+                                    <p class="text-gray-500">Vous n'avez pas encore de services. Ajoutez-en un en cliquant sur le bouton ci-dessus.</p>
+                                </div>
+                            @endforelse
 
-                        <!-- Service Card 2 -->
-                        <x-professional-service-card 
-                            :id="2"
-                            name="Service d'Électricité"
-                            category="Électricité"
-                            description="Installation électrique, dépannage, mise aux normes, installation domotique..."
-                            price="85.00"
-                            image="https://images.unsplash.com/photo-1621905251918-48416bd8575a"
-                            :isAvailable="true"
-                        />
-
-                        <!-- Service Card 3 -->
-                        <x-professional-service-card 
-                            :id="3"
-                            name="Service de Peinture"
-                            category="Peinture"
-                            description="Travaux de peinture intérieure et extérieure, revêtements muraux..."
-                            price="65.00"
-                            image="https://images.unsplash.com/photo-1589939705384-5185137a7f0f"
-                            :isAvailable="true"
-                        />
                     </div>
                 </div>
             </div>
@@ -113,19 +99,15 @@
         }
 
         function confirmDelete() {
-            // Ici vous pourriez rediriger vers une URL de suppression ou soumettre un formulaire
-            // Pour le moment, nous allons simplement fermer le modal
             alert("Service " + currentServiceId + " supprimé avec succès");
             closeDeleteModal();
         }
 
-        // Sidebar toggle functionality
         document.getElementById('sidebarToggle').addEventListener('click', function() {
             const sidebar = document.querySelector('aside');
             sidebar.classList.toggle('-translate-x-full');
         });
 
-        // Close modals when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('bg-black')) {
                 closeAddModal();

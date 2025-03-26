@@ -12,11 +12,15 @@
                 <span class="text-sm text-gray-500">{{ $isAvailable ? 'Disponible' : 'Non disponible' }}</span>
             </div>
             <div class="space-x-2">
-                <button onclick="openEditModal({{ $id ?? '' }})" 
+                <button type="button"
+                        data-id="{{ $id }}"
+                        onclick="openEditModal(this.dataset.id)" 
                         class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button onclick="openDeleteModal({{ $id ?? '' }})" 
+                <button type="button"
+                        data-id="{{ $id }}"
+                        onclick="openDeleteModal(this.dataset.id)" 
                         class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
                     <i class="fas fa-trash"></i>
                 </button>
