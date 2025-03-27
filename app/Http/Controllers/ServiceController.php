@@ -90,7 +90,9 @@ class ServiceController extends Controller
         }
 
         $service->delete();
-        return redirect()->route('services.index')->with('success', 'Service supprimé avec succès');
+        // return redirect()->route('services.index')->with('success', 'Service supprimé avec succès');
+        return redirect()->route('dashboard')->with('success', 'Service supprimé avec succès');
+        
     }
 
     public function byCategory(Category $category)
@@ -121,16 +123,18 @@ class ServiceController extends Controller
                     'id' => $service->id,
                     'name' => $service->name,
                     'category' => $service->category->name,
-                    'categoryId' => (int) $service->category_id,
+                    'category_id' => $service->category_id,
                     'description' => $service->description,
-                    'price' => number_format($service->base_price, 2),
-                    'image' => $service->image_path 
+                    'base_price' => $service->base_price,
+                    'image_path' => $service->image_path 
                         ? Storage::url($service->image_path)
                         : 'https://via.placeholder.com/400x300?text=No+Image',
-                    'isAvailable' => $service->is_available
+                    'is_available' => $service->is_available
                 ];
             });
 
-        return view('professionals.index', compact('services', 'categories'));
+        $service = Service::where('professional_id', Auth::id())->first();
+
+        return view('professionals.index', compact('services', 'categories', 'service'));
     }
 } 

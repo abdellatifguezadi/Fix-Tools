@@ -13,30 +13,32 @@
             @csrf
             @method('PUT')
 
-            <input type="hidden" name="service_id" id="edit_service_id">
+            <input type="hidden" name="service_id" value="{{ old('service_id') }}">
             <div>
                 <label class="block text-gray-700 mb-2">Nom du service</label>
-                <input type="text" name="name" id="edit_name" required
+                <input type="text" name="name" value="{{ old('name') }}" required
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
             </div>
             <div>
                 <label class="block text-gray-700 mb-2">Description</label>
-                <textarea name="description" id="edit_description" rows="3" required
-                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"></textarea>
+                <textarea name="description" rows="3" required
+                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">{{ old('description') }}</textarea>
             </div>
             <div>
                 <label class="block text-gray-700 mb-2">Catégorie</label>
-                <select name="category_id" id="edit_category_id" required
+                <select name="category_id" required
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
                     <option value="">Sélectionner une catégorie</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
             <div>
                 <label class="block text-gray-700 mb-2">Prix de base (€)</label>
-                <input type="number" name="base_price" id="edit_base_price" step="0.01" required
+                <input type="number" name="base_price" value="{{ old('base_price') }}" step="0.01" required
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
             </div>
             <div>
@@ -46,7 +48,7 @@
                 <p class="text-sm text-gray-500 mt-1">Laissez vide pour conserver l'image actuelle</p>
             </div>
             <div class="flex items-center mb-4">
-                <input type="checkbox" name="is_available" id="edit_is_available"
+                <input type="checkbox" name="is_available" {{ old('is_available') ? 'checked' : '' }}
                     class="rounded border-gray-300 text-yellow-400 focus:ring-yellow-400">
                 <label for="edit_is_available" class="ml-2 text-gray-700">Service disponible</label>
             </div>
