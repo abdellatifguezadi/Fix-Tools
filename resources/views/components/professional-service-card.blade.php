@@ -1,3 +1,5 @@
+@props(['id', 'name', 'category', 'description', 'price', 'image', 'isAvailable', 'categoryId' => null])
+
 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
     <img src="{{ $image }}" 
          alt="{{ $name }}" 
@@ -14,7 +16,19 @@
             <div class="space-x-2">
                 <button type="button"
                         data-id="{{ $id }}"
-                        onclick="openEditModal(this.dataset.id)" 
+                        data-name="{{ $name }}"
+                        data-description="{{ $description }}"
+                        data-category-id="{{ $categoryId }}"
+                        data-price="{{ str_replace(',', '', $price) }}"
+                        data-is-available="{{ $isAvailable ? 'true' : 'false' }}"
+                        onclick="openEditModal(
+                            this.dataset.id,
+                            this.dataset.name,
+                            this.dataset.description,
+                            Number(this.dataset.categoryId || 0),
+                            this.dataset.price,
+                            this.dataset.isAvailable === 'true'
+                        )" 
                         class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
                     <i class="fas fa-edit"></i>
                 </button>

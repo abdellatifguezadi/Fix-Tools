@@ -36,12 +36,10 @@ class ServiceController extends Controller
             $validated['image_path'] = 'services/' . $imageName;
         }
 
-        // try {
+
             $service = Service::create($validated);
             return redirect()->route('dashboard')->with('success', 'Service ajouté avec succès');
-        // } catch (\Exception $e) {
-        //     return redirect()->back()->with('error', 'Erreur lors de la création du service: ' . $e->getMessage());
-        // }
+
     }
 
     public function show(Service $service)
@@ -57,27 +55,26 @@ class ServiceController extends Controller
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'base_price' => 'required|numeric|min:0',
-            'professional_id' => 'required|exists:users,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'is_available' => 'boolean'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         $validated['is_available'] = $request->has('is_available');
+        
+        $validated['professional_id'] = $service->professional_id;
 
         if ($request->hasFile('image')) {
-
             if ($service->image_path) {
                 Storage::delete('public/' . $service->image_path);
             }
 
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/services', $imageName);
+            $image->storeAs('services', $imageName);
             $validated['image_path'] = 'services/' . $imageName;
         }
 
         $service->update($validated);
-        return redirect()->route('services.index')->with('success', 'Service mis à jour avec succès');
+        return redirect()->route('services.my-services')->with('success', 'Service mis à jour avec succès');
     }
 
     public function destroy(Service $service)
@@ -120,13 +117,11 @@ class ServiceController extends Controller
             ->latest()
             ->get()
             ->map(function ($service) {
-                // Pour déboguer
-                \Log::info('Image path: ' . $service->image_path);
-                
                 return [
                     'id' => $service->id,
                     'name' => $service->name,
                     'category' => $service->category->name,
+                    'categoryId' => (int) $service->category_id,
                     'description' => $service->description,
                     'price' => number_format($service->base_price, 2),
                     'image' => $service->image_path 
