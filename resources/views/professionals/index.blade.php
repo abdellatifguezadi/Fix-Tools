@@ -34,6 +34,7 @@
                                     :id="$service['id']"
                                     :name="$service['name']"
                                     :category="$service['category']"
+                                    :categoryId="$service['categoryId']"
                                     :description="$service['description']"
                                     :price="$service['price']"
                                     :image="$service['image']"
@@ -44,7 +45,6 @@
                                     <p class="text-gray-500">Vous n'avez pas encore de services. Ajoutez-en un en cliquant sur le bouton ci-dessus.</p>
                                 </div>
                             @endforelse
-
                     </div>
 
                     <!-- Ajoutez ceci juste après la balise <div class="container mx-auto py-6 px-4"> -->
@@ -71,7 +71,7 @@
 
     <!-- Add, Edit, Delete Modals -->
     <x-modals.add-service-modal :categories="$categories" />
-    <x-modals.edit-service-modal />
+    <x-modals.edit-service-modal :categories="$categories" />
     <x-modals.delete-service-modal />
 
     <script>
@@ -85,10 +85,37 @@
             document.getElementById('addModal').classList.remove('flex');
         }
 
-        function openEditModal(id) {
+        function openEditModal(id, name, description, category_id, price, isAvailable) {
+
+            const editModal = document.getElementById('editModal');
+            const editForm = editModal.querySelector('form');
+
+            const formAction = editForm.action;
+            editForm.action = formAction.replace(':service_id', id);
+
             document.getElementById('edit_service_id').value = id;
-            document.getElementById('editModal').classList.remove('hidden');
-            document.getElementById('editModal').classList.add('flex');
+            document.getElementById('edit_name').value = name;
+            document.getElementById('edit_description').value = description;
+            
+
+            const categorySelect = document.getElementById('edit_category_id');
+
+            if (category_id) {
+                for (let i = 0; i < categorySelect.options.length; i++) {
+                    if (categorySelect.options[i].value == category_id) {
+                        categorySelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                categorySelect.selectedIndex = 0;
+            }
+            
+            document.getElementById('edit_base_price').value = price;
+            document.getElementById('edit_is_available').checked = isAvailable;
+
+            editModal.classList.remove('hidden');
+            editModal.classList.add('flex');
         }
 
         function closeEditModal() {
