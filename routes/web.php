@@ -43,14 +43,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Profile (accessible à tous les utilisateurs authentifiés)
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Messages (accessible à tous les utilisateurs authentifiés)
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
-    Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
+    // // Messages (accessible à tous les utilisateurs authentifiés)
+    // Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    // Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
+    // Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
     
     // Routes pour les professionnels
     Route::middleware('professional')->group(function () {
@@ -58,15 +58,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
         Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
         Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
-        Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
-        Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
+        // Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
+        // Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
     });
     
     // Routes pour les clients
-    Route::middleware('client')->group(function () {
-        Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('service-requests.store');
-        Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    });
+    // Route::middleware('client')->group(function () {
+    //     Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('service-requests.store');
+    //     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    // });
     
     // Routes pour l'admin
     Route::middleware('admin')->group(function () {
