@@ -37,7 +37,15 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        // Redirect based on user role
+        switch ($user->role) {
+            case 'professional':
+                return redirect()->route('services.my-services');
+            case 'client':
+                return redirect()->route('home');
+            default:
+                return redirect()->route('home');
+        }
     }
 
     public function login()
