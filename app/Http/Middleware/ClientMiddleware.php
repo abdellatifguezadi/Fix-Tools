@@ -16,7 +16,7 @@ class ClientMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check() || !auth()->user()->isClient()) {
-            return redirect()->route('dashboard')->with('error', 'Accès non autorisé - Zone Clients uniquement');
+            return redirect()->route('home')->with('error', 'Accès non autorisé - Zone Clients uniquement');
         }
 
         return $next($request);

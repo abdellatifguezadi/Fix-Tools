@@ -18,7 +18,17 @@ use App\Http\Controllers\ContactController;
 // Routes publiques
 Route::get('/', function () {
     if (auth()->check()) {
-        return redirect()->route('dashboard');
+        $user = auth()->user();
+        switch ($user->role) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'professional':
+                return redirect()->route('services.my-services');
+            case 'client':
+                return view('welcome');
+            default:
+                return view('welcome');
+        }
     }
     return view('welcome');
 })->name('home');
@@ -43,14 +53,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Profile (accessible à tous les utilisateurs authentifiés)
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // // Messages (accessible à tous les utilisateurs authentifiés)
-    // Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    // Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
-    // Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
+    // Messages (accessible à tous les utilisateurs authentifiés)
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
     
     // Routes pour les professionnels
     Route::middleware('professional')->group(function () {
@@ -58,8 +68,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
         Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
         Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
-        // Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
-        // Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
+        Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
+        Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
     });
     
     // Routes pour les clients
@@ -74,6 +84,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
         Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
         Route::put('/materials/{material}', [MaterialController::class, 'update'])->name('materials.update');
         Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
@@ -83,8 +95,8 @@ Route::middleware('auth')->group(function () {
 // Routes publiques pour consultation
 Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
 Route::get('/professionals/{professional}', [ProfessionalController::class, 'show'])->name('professionals.show');
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+// Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+// Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
 Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');

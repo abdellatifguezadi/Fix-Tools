@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
 
         // Create 5 regular users
         User::factory()->count(5)->create([
-            'role' => 'user',
+            'role' => 'client',
         ]);
     }
 } 

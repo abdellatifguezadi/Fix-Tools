@@ -30,17 +30,8 @@ class DashboardController extends Controller
             case 'client':
                 return view('welcome');
             default:
-                return redirect()->route('login')->with('error', 'Rôle non reconnu');
+                return view('welcome')->with('error', 'Rôle non reconnu');
         }
-
-        // if (Auth::user()->role === 'professional') {
-        //     $serviceController = new ServiceController();
-        //     return $serviceController->myServices();
-        // }
-        
-
-        // $categories = Category::all();
-        // return view('dashboard', compact('categories'));
     }
     
     public function adminDashboard()
@@ -71,7 +62,7 @@ class DashboardController extends Controller
                 ];
             });
         
-        // Monthly revenue with growth calculation (limité à 3 mois)
+        
         $monthlyRevenue = [];
         $previousMonthRevenue = 0;
         
@@ -100,7 +91,7 @@ class DashboardController extends Controller
             $previousMonthRevenue = $currentMonthRevenue;
         }
         
-        // Recent services (limité à 3)
+        
         $recentServices = ServiceRequest::with(['service.category', 'client'])
                         ->latest()
                         ->take(3)
