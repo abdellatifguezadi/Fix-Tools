@@ -45,32 +45,31 @@ class DashboardController extends Controller
     
     public function adminDashboard()
     {
-        // User statistics
         $totalUsers = User::count();
-        
-        // Professionals statistics
         $activeProfessionals = User::where('role', 'professional')->where('is_available', true)->count();
-        
-        // Services statistics
         $completedServices = ServiceRequest::where('status', 'completed')->count();
-        
-        // Revenue statistics
         $totalRevenue = ServiceRequest::where('status', 'completed')->sum('final_price');
         
-        // Services overview by category (limité à 3)
-        $servicesOverview = Category::withCount(['services as total'])
-                          ->withCount(['services as active_count' => function($query) {
-                              $query->where('is_available', true);
-                          }])
-                          ->take(3)
-                          ->get()
-                          ->map(function($category) {
-                              return [
-                                  'name' => $category->name,
-                                  'total' => $category->total,
-                                  'active' => $category->total > 0 ? round(($category->active_count / $category->total) * 100) : 0
-                              ];
-                          });
+        
+        $servicesOverview = Category::where('type', 'service')
+            ->withCount(['services as total_services'])
+            ->withCount(['services as active_services' => function($query) {
+                $query->where('is_available', true);
+            }])
+            ->orderByDesc('total_services')
+            ->take(3)
+            ->get()
+            ->map(function($category) {
+                $activePercentage = $category->total_services > 0 
+                    ? round(($category->active_services / $category->total_services) * 100) 
+                    : 0;
+
+                return [
+                    'name' => $category->name,
+                    'total' => $category->total_services,
+                    'active' => $activePercentage
+                ];
+            });
         
         // Monthly revenue with growth calculation (limité à 3 mois)
         $monthlyRevenue = [];
@@ -90,7 +89,7 @@ class DashboardController extends Controller
             if ($previousMonthRevenue > 0) {
                 $growth = round((($currentMonthRevenue - $previousMonthRevenue) / $previousMonthRevenue) * 100, 1);
             } elseif ($currentMonthRevenue > 0 && $i < 2) {
-                $growth = 100; // First month with revenue shows 100% growth
+                $growth = 100; 
             }
             
             $monthlyRevenue[$monthName] = [
@@ -114,7 +113,7 @@ class DashboardController extends Controller
                             ];
                         });
         
-        // New users (limité à 3, sans les admins)
+        
         $newUsers = User::where('role', '!=', 'admin')
                    ->latest()
                    ->take(3)
