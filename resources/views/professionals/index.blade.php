@@ -69,7 +69,7 @@
 
     <x-modals.add-service-modal :categories="$categories" />
     <x-modals.edit-service-modal :categories="$categories" />
-    <x-modals.delete-service-modal :service="$services->first()" />
+    <x-modals.delete-service-modal :service="isset($services[0]) ? $services[0] : null" />
 
     <script>
         function openAddModal() {
@@ -106,10 +106,16 @@
         }
 
         function openDeleteModal(id) {
-            const deleteForm = document.querySelector('#deleteModal form');
-            deleteForm.action = `/services/${id}`;
-            document.getElementById('deleteModal').classList.remove('hidden');
-            document.getElementById('deleteModal').classList.add('flex');
+            const deleteModal = document.getElementById('deleteModal');
+            const deleteForm = deleteModal.querySelector('form');
+            
+            if (deleteForm) {
+                const formAction = deleteForm.action;
+                deleteForm.action = formAction.replace(':service', id);
+            }
+            
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
         }
 
         function closeDeleteModal() {
@@ -126,8 +132,7 @@
         }
 
         document.getElementById('sidebarToggle').addEventListener('click', function() {
-            const sidebar = document.querySelector('aside');
-            sidebar.classList.toggle('-translate-x-full');
+            document.querySelector('aside').classList.toggle('-translate-x-full');
         });
     </script>
 </x-app-layout> 
