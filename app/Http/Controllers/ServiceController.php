@@ -10,10 +10,26 @@ use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except(['index', 'show', 'byCategory']);
+    //     $this->middleware('professional')->except(['index', 'show', 'byCategory']);
+    // }
+
     public function index()
     {
-        $services = Service::with(['category', 'professional'])->latest()->paginate(10);
-        return view('services.index', compact('services'));
+        $services = Service::with(['category', 'professional'])
+            ->where('is_available', true)
+            ->latest()
+            ->paginate(10);
+        $categories = Category::where('type', 'service')->get();
+        return view('services.index', compact('services', 'categories'));
+    }
+
+    public function create()
+    {
+        $categories = Category::where('type', 'service')->get();
+        return view('services.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -36,10 +52,8 @@ class ServiceController extends Controller
             $validated['image_path'] = 'services/' . $imageName;
         }
 
-
-            $service = Service::create($validated);
-            return redirect()->route('dashboard')->with('success', 'Service ajouté avec succès');
-
+        Service::create($validated);
+        return redirect()->route('services.my-services')->with('success', 'Service ajouté avec succès');
     }
 
     public function show(Service $service)
@@ -48,8 +62,17 @@ class ServiceController extends Controller
         return view('services.show', compact('service'));
     }
 
+    public function edit(Service $service)
+    {
+        // $this->authorize('update', $service);
+        $categories = Category::where('type', 'service')->get();
+        return view('services.edit', compact('service', 'categories'));
+    }
+
     public function update(Request $request, Service $service)
     {
+        // $this->authorize('update', $service);
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -59,8 +82,6 @@ class ServiceController extends Controller
         ]);
 
         $validated['is_available'] = $request->has('is_available');
-        
-        $validated['professional_id'] = $service->professional_id;
 
         if ($request->hasFile('image')) {
             if ($service->image_path) {
@@ -79,9 +100,10 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
+        // $this->authorize('delete', $service);
 
         if ($service->serviceRequests()->where('status', 'pending')->exists()) {
-            return redirect()->route('services.index')
+            return redirect()->route('services.my-services')
                 ->with('error', 'Impossible de supprimer ce service car il a des demandes en cours');
         }
 
@@ -90,9 +112,7 @@ class ServiceController extends Controller
         }
 
         $service->delete();
-        // return redirect()->route('services.index')->with('success', 'Service supprimé avec succès');
-        return redirect()->route('dashboard')->with('success', 'Service supprimé avec succès');
-        
+        return redirect()->route('services.my-services')->with('success', 'Service supprimé avec succès');
     }
 
     public function byCategory(Category $category)
@@ -108,12 +128,6 @@ class ServiceController extends Controller
 
     public function myServices()
     {
-        $categories = Category::all();
-
-        if (!Auth::check() || Auth::user()->role !== 'professional') {
-            return view('professionals.index', ['services' => [], 'categories' => $categories]);
-        }
-
         $services = Service::with(['category'])
             ->where('professional_id', Auth::id())
             ->latest()
@@ -133,8 +147,7 @@ class ServiceController extends Controller
                 ];
             });
 
-        $service = Service::where('professional_id', Auth::id())->first();
-
-        return view('professionals.index', compact('services', 'categories', 'service'));
+        $categories = Category::where('type', 'service')->get();
+        return view('professionals.index', compact('services', 'categories'));
     }
 } 
