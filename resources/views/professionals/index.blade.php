@@ -18,8 +18,8 @@
                             <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-8">
                                 <div class="flex items-center">
                                     <div class="w-24 h-24 rounded-full bg-white overflow-hidden ring-4 ring-white shadow-lg">
-                                        @if($user->profile_photo_path)
-                                            <img src="{{ Storage::url($user->profile_photo_path) }}" alt="Profile" class="w-full h-full object-cover">
+                                        @if($user->image)
+                                            <img src="{{ Storage::url($user->image) }}" alt="Profile" class="w-full h-full object-cover">
                                         @else
                                             <div class="w-full h-full bg-gray-100 flex items-center justify-center">
                                                 <span class="text-4xl text-yellow-500 font-bold">{{ substr($user->name, 0, 1) }}</span>
@@ -35,68 +35,121 @@
 
                             <!-- Profile Content -->
                             <div class="p-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-6">
                                     <!-- Personal Information -->
                                     <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-                                        <h2 class="text-lg font-semibold mb-4 text-gray-800">Informations Personnelles</h2>
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label class="text-sm text-gray-600">Nom Complet</label>
-                                                <p class="font-medium text-gray-800">{{ $user->name }}</p>
+                                        <div class="flex items-center justify-between mb-6">
+                                            <h2 class="text-xl font-bold text-gray-800">Informations Personnelles</h2>
+                                            <span class="px-3 py-1 rounded-full text-sm {{ $user->is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                {{ $user->is_available ? 'Disponible' : 'Non disponible' }}
+                                            </span>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-gray-600">Nom Complet</p>
+                                                    <p class="font-semibold text-gray-800">{{ $user->name }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label class="text-sm text-gray-600">Email</label>
-                                                <p class="font-medium text-gray-800">{{ $user->email }}</p>
+                                            <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-gray-600">Email</p>
+                                                    <p class="font-semibold text-gray-800">{{ $user->email }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label class="text-sm text-gray-600">Téléphone</label>
-                                                <p class="font-medium text-gray-800">{{ $user->phone ?? 'Non spécifié' }}</p>
+                                            <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-gray-600">Téléphone</p>
+                                                    <p class="font-semibold text-gray-800">{{ $user->phone ?? 'Non spécifié' }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label class="text-sm text-gray-600">Statut</label>
-                                                <p class="font-medium">
-                                                    <span class="px-3 py-1 rounded-full text-sm {{ $user->is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                        {{ $user->is_available ? 'Disponible' : 'Non disponible' }}
-                                                    </span>
-                                                </p>
+                                            <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-gray-600">Ville</p>
+                                                    <p class="font-semibold text-gray-800">{{ $user->city ?? 'Non spécifiée' }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="md:col-span-2 flex items-center p-4 bg-gray-50 rounded-lg">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm text-gray-600">Adresse</p>
+                                                    <p class="font-semibold text-gray-800">{{ $user->address ?? 'Non spécifiée' }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Professional Information -->
                                     <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-                                        <h2 class="text-lg font-semibold mb-4 text-gray-800">Informations Professionnelles</h2>
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label class="text-sm text-gray-600">Spécialité</label>
-                                                <p class="font-medium text-gray-800">{{ $user->specialty ?? 'Non spécifié' }}</p>
+                                        <div class="flex items-center justify-between mb-6">
+                                            <h2 class="text-xl font-bold text-gray-800">Informations Professionnelles</h2>
+                                        </div>
+                                        <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+                                            <div class="flex-1 flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-6">
+                                                    <h3 class="text-lg font-semibold text-gray-900">Spécialité</h3>
+                                                    <p class="text-gray-700 mt-1">{{ $user->specialty ?? 'Non spécifiée' }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label class="text-sm text-gray-600">Expérience</label>
-                                                <p class="font-medium text-gray-800">{{ $user->experience ?? 'Non spécifié' }}</p>
-                                            </div>
-                                            <div>
-                                                <label class="text-sm text-gray-600">Tarif Horaire</label>
-                                                <p class="font-medium text-gray-800">{{ $user->hourly_rate ?? 'Non spécifié' }} DH</p>
+                                            <div class="flex-1 flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-6">
+                                                    <h3 class="text-lg font-semibold text-gray-900">Expérience</h3>
+                                                    <p class="text-gray-700 mt-1">{{ $user->experience ? $user->experience . ' années' : 'Non spécifiée' }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="mt-8 flex space-x-4">
+                                <div class="mt-8 flex justify-center space-x-4">
                                     <a href="{{ route('services.my-services') }}" class="inline-flex items-center px-6 py-3 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-300 transition-colors duration-200 shadow-md hover:shadow-lg font-bold">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2M7 7h10"></path>
                                         </svg>
                                         Mes Services
                                     </a>
-                                    <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md hover:shadow-lg font-bold">
+                                    <button onclick="openEditProfileModal()" class="inline-flex items-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md hover:shadow-lg font-bold">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                         Modifier le Profil
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -112,9 +165,117 @@
         </button>
     </div>
 
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg w-full max-w-2xl mx-4">
+            <div class="flex justify-between items-center border-b px-6 py-4">
+                <h3 class="text-lg font-bold">Modifier le Profil</h3>
+                <button onclick="closeEditProfileModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editProfileForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="p-6">
+                @csrf
+                @method('PUT')
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom Complet</label>
+                        <input type="text" name="name" id="name" value="{{ $user->name }}" required
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" name="email" id="email" value="{{ $user->email }}" required
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                        <input type="tel" name="phone" id="phone" value="{{ $user->phone }}"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                        <input type="text" name="address" id="address" value="{{ $user->address }}"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                        <input type="text" name="city" id="city" value="{{ $user->city }}"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="profile_photo" class="block text-sm font-medium text-gray-700 mb-1">Photo de Profil</label>
+                        <input type="file" name="profile_photo" id="profile_photo" accept="image/*"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                        @if($user->image)
+                            <p class="mt-1 text-sm text-gray-500">Photo actuelle conservée si aucune nouvelle n'est sélectionnée</p>
+                        @endif
+                    </div>
+                    <div>
+                        <label for="specialty" class="block text-sm font-medium text-gray-700 mb-1">Spécialité</label>
+                        <input type="text" name="specialty" id="specialty" value="{{ $user->specialty }}"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="experience" class="block text-sm font-medium text-gray-700 mb-1">Expérience (années)</label>
+                        <input type="number" name="experience" id="experience" value="{{ $user->experience }}" min="0"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe actuel</label>
+                        <input type="password" name="current_password" id="current_password"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Nouveau mot de passe</label>
+                        <input type="password" name="password" id="password"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le nouveau mot de passe</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation"
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="is_available" class="block text-sm font-medium text-gray-700 mb-1">Disponibilité</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" name="is_available" id="is_available" value="1" {{ $user->is_available ? 'checked' : '' }}
+                                class="h-4 w-4 text-yellow-400 focus:ring-yellow-400 border-gray-300 rounded">
+                            <label for="is_available" class="ml-2 text-sm text-gray-700">Je suis disponible pour des services</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-6 space-x-4">
+                    <button type="button" onclick="closeEditProfileModal()" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-bold">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-6 py-3 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-300 transition-colors duration-200 font-bold">
+                        Mettre à jour
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         document.getElementById('sidebarToggle').addEventListener('click', function() {
             document.querySelector('aside').classList.toggle('-translate-x-full');
         });
+
+        function openEditProfileModal() {
+            document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').classList.add('hidden');
+        }
+
+        // Fermer le modal si on clique en dehors
+        window.onclick = function(event) {
+            const modal = document.getElementById('editProfileModal');
+            if (event.target === modal) {
+                closeEditProfileModal();
+            }
+        }
     </script>
 </x-app-layout> 
