@@ -1,4 +1,4 @@
-@props(['id', 'name', 'category', 'description', 'price', 'image', 'isAvailable', 'categoryId' => null])
+@props(['id', 'name', 'category', 'categoryId', 'description', 'price', 'image', 'isAvailable'])
 
 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
     <img src="{{ $image }}" 
@@ -10,7 +10,7 @@
         <p class="text-gray-600 mb-4">{{ $description }}</p>
         <div class="flex justify-between items-center mt-4">
             <div>
-                <p class="font-semibold text-lg">{{ $price }}€</p>
+                <p class="font-semibold text-lg">{{ $price }} DH</p>
                 <span class="text-sm text-gray-500">{{ $isAvailable ? 'Disponible' : 'Non disponible' }}</span>
             </div>
             <div class="space-x-2">
@@ -32,12 +32,13 @@
                         class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button type="button"
-                        data-id="{{ $id }}"
-                        onclick="openDeleteModal(this.dataset.id)" 
-                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
-                    <i class="fas fa-trash"></i>
-                </button>
+                <form action="{{ route('services.destroy', $id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce service?')" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

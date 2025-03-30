@@ -25,8 +25,7 @@ class DashboardController extends Controller
             case 'admin':
                 return $this->adminDashboard();
             case 'professional':
-                $serviceController = new ServiceController();
-                return $serviceController->myServices();
+                return view('professionals.index', compact('user'));
             case 'client':
                 return view('welcome');
             default:
@@ -91,7 +90,7 @@ class DashboardController extends Controller
             $previousMonthRevenue = $currentMonthRevenue;
         }
         
-        
+        // Recent services (limité à 3)
         $recentServices = ServiceRequest::with(['service.category', 'client'])
                         ->latest()
                         ->take(3)
