@@ -148,6 +148,6 @@ class ServiceController extends Controller
             });
 
         $categories = Category::where('type', 'service')->get();
-        return view('professionals.index', compact('services', 'categories'));
+        return view('professionals.myservices', compact('services', 'categories'));
     }
 } 

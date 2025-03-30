@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
         Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
         Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
+        Route::put('/profile', [ProfessionalController::class, 'update'])->name('profile.update');
+        Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
     });
     
     // Routes pour les clients
@@ -85,7 +87,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+        Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
         Route::post('/materials', [MaterialController::class, 'store'])->name('materials.store');
         Route::put('/materials/{material}', [MaterialController::class, 'update'])->name('materials.update');
         Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
@@ -93,7 +95,6 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 });
 
 // Routes publiques pour consultation
-Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
 Route::get('/professionals/{professional}', [ProfessionalController::class, 'show'])->name('professionals.show');
 // Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 // Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
