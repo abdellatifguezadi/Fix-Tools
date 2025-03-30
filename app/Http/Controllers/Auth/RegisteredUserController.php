@@ -33,6 +33,14 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
+        
+        if ($request->role === 'professional') {
+            $user->image = 'default_professional_avatar.png';
+        } else {
+            $user->image = 'default_client_avatar.png';
+        }
+
+
         event(new Registered($user));
 
         Auth::login($user);
