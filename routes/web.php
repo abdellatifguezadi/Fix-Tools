@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
         Route::put('/profile', [ProfessionalController::class, 'update'])->name('profile.update');
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
+        Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
     });
     
     // Routes pour les clients
@@ -92,6 +93,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/materials/{material}', [MaterialController::class, 'update'])->name('materials.update');
         Route::delete('/materials/{material}', [MaterialController::class, 'destroy'])->name('materials.destroy');
     });
+
+  
 });
 
 // Routes publiques pour consultation

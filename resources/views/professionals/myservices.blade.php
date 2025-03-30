@@ -39,13 +39,19 @@
                                 >
                                     <div class="flex space-x-2">
                                         <button class="text-blue-600 hover:text-blue-800" 
+                                            data-id="{{ $service['id'] }}"
+                                            data-name="{{ $service['name'] }}"
+                                            data-description="{{ $service['description'] }}"
+                                            data-category-id="{{ $service['category_id'] }}"
+                                            data-price="{{ $service['base_price'] }}"
+                                            data-is-available="{{ $service['is_available'] ? 'true' : 'false' }}"
                                             onclick="openEditModal(
-                                                '{{ $service['id'] }}',
-                                                '{{ addslashes($service['name']) }}',
-                                                '{{ addslashes($service['description']) }}',
-                                                {{ $service['category_id'] }},
-                                                {{ $service['base_price'] }},
-                                                {{ $service['is_available'] ? 'true' : 'false' }}
+                                                this.dataset.id,
+                                                this.dataset.name,
+                                                this.dataset.description,
+                                                Number(this.dataset.categoryId || 0),
+                                                Number(this.dataset.price || 0),
+                                                this.dataset.isAvailable === 'true'
                                             )">
                                             <i class="fas fa-edit"></i>
                                         </button>
@@ -103,20 +109,23 @@
             document.getElementById('addModal').classList.remove('flex');
         }
 
-        function openEditModal(id, name, description, category_id, price, isAvailable) {
+        function openEditModal(id, name, description, categoryId, price, isAvailable) {
             const editModal = document.getElementById('editModal');
             const editForm = editModal.querySelector('form');
+            
+            // Construire l'URL de base pour le formulaire
+            const baseUrl = '{{ route("services.update", ":service_id") }}';
+            editForm.action = baseUrl.replace(':service_id', id);
 
-            const formAction = editForm.action;
-            editForm.action = formAction.replace(':service_id', id);
-
+            // Mettre à jour les champs du formulaire
             editForm.querySelector('[name="service_id"]').value = id;
             editForm.querySelector('[name="name"]').value = name;
             editForm.querySelector('[name="description"]').value = description;
-            editForm.querySelector('[name="category_id"]').value = category_id;
+            editForm.querySelector('[name="category_id"]').value = categoryId;
             editForm.querySelector('[name="base_price"]').value = price;
             editForm.querySelector('[name="is_available"]').checked = isAvailable;
             
+            // Afficher le modal
             editModal.classList.remove('hidden');
             editModal.classList.add('flex');
         }
