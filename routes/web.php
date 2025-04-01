@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/profile', [ProfessionalController::class, 'update'])->name('profile.update');
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
+        Route::get('/professionals/marketplace/filter', [MaterialPurchaseController::class, 'filter'])->name('professionals.marketplace.filter');
     });
     
     // Routes pour les clients

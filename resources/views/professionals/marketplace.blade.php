@@ -19,29 +19,58 @@
                         </div>
 
                         <!-- Section des filtres -->
-                        <x-marketplace.filters :categories="$categories" />
+                        <div class="bg-white p-6 rounded-lg shadow-md mt-4">
+                            <form id="filterForm" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <!-- Recherche -->
+                                    <div>
+                                        <input type="text" 
+                                            name="search" 
+                                            placeholder="Rechercher des outils..." 
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                    </div>
+
+                                    <!-- Catégorie -->
+                                    <div>
+                                        <select name="category" 
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                            <option value="">Toutes les catégories</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Prix -->
+                                    <div>
+                                        <select name="price_range" 
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                            <option value="">Tous les prix</option>
+                                            <option value="0-100">0 - 100 DH</option>
+                                            <option value="101-500">101 - 500 DH</option>
+                                            <option value="501-1000">501 - 1000 DH</option>
+                                            <option value="1001-+">Plus de 1000 DH</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Points -->
+                                    <div>
+                                        <select name="points_range" 
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                            <option value="">Tous les points</option>
+                                            <option value="0-50">0 - 50 points</option>
+                                            <option value="51-100">51 - 100 points</option>
+                                            <option value="101-+">Plus de 100 points</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
                         <!-- Liste des matériels -->
-                        <div class="mt-6">
+                        <div id="materialsContainer" class="mt-6">
                             <p class="mb-4">Parcourir et acheter des outils professionnels :</p>
-
-                            @if($materials->isEmpty())
-                                <div class="text-center py-8">
-                                    <i class="fas fa-tools text-gray-400 text-4xl mb-4"></i>
-                                    <p class="text-gray-600">Aucun outil ne correspond à vos critères de recherche.</p>
-                                </div>
-                            @else
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    @foreach($materials as $material)
-                                        <x-marketplace.material-card :material="$material" />
-                                    @endforeach
-                                </div>
-
-                                <!-- Pagination -->
-                                <div class="mt-6">
-                                    {{ $materials->links() }}
-                                </div>
-                            @endif
+                            <x-marketplace.materials-grid :materials="$materials" />
                         </div>
                     </div>
                 </div>
@@ -74,6 +103,36 @@
     @endif
 
     <script>
+        // Fonction pour mettre à jour les résultats
+        function updateResults() {
+            const form = document.getElementById('filterForm');
+            const formData = new FormData(form);
+            const queryString = new URLSearchParams(formData).toString();
+
+            fetch(`{{ route('professionals.marketplace.filter') }}?${queryString}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('materialsContainer').innerHTML = html;
+            });
+        }
+
+        // Écouteurs d'événements pour les filtres
+        document.querySelectorAll('#filterForm select').forEach(element => {
+            element.addEventListener('change', updateResults);
+        });
+
+        // Délai pour la recherche
+        let searchTimeout;
+        document.querySelector('#filterForm input[name="search"]').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(updateResults, 300);
+        });
+
+        // Fonctions pour les modals
         function openImageModal(imageUrl) {
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
