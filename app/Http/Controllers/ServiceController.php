@@ -10,11 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth')->except(['index', 'show', 'byCategory']);
-    //     $this->middleware('professional')->except(['index', 'show', 'byCategory']);
-    // }
+   
 
     public function index()
     {
@@ -64,14 +60,14 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
-        // $this->authorize('update', $service);
+        
         $categories = Category::where('type', 'service')->get();
         return view('services.edit', compact('service', 'categories'));
     }
 
     public function update(Request $request, Service $service)
     {
-        // $this->authorize('update', $service);
+       
         
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -100,7 +96,7 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
-        // $this->authorize('delete', $service);
+       
 
         if ($service->serviceRequests()->where('status', 'pending')->exists()) {
             return redirect()->route('services.my-services')

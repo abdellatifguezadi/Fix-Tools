@@ -64,13 +64,13 @@ Route::middleware('auth')->group(function () {
     
     // Routes pour les professionnels
     Route::middleware('professional')->group(function () {
+        Route::get('/professional/dashboard', [ProfessionalController::class, 'index'])->name('professionals.dashboard');
         Route::get('/my-services', [ServiceController::class, 'myServices'])->name('services.my-services');
         Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
         Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
         Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
         Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
         Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
-        Route::put('/profile', [ProfessionalController::class, 'update'])->name('profile.update');
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
         Route::get('/professionals/marketplace/filter', [MaterialPurchaseController::class, 'filter'])->name('professionals.marketplace.filter');

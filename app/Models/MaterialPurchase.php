@@ -50,4 +50,10 @@ class MaterialPurchase extends Model
     {
         return $query->where('status', 'completed');
     }
+
+    // Accesseurs
+    public function getTotalAmountAttribute()
+    {
+        return $this->quantity * $this->price_paid;
+    }
 }

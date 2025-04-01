@@ -26,7 +26,6 @@ class MaterialPurchaseController extends Controller
     {
         $query = Material::query();
 
-        // Filtre par recherche
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -35,12 +34,10 @@ class MaterialPurchaseController extends Controller
             });
         }
 
-        // Filtre par catégorie
         if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
 
-        // Filtre par prix
         if ($request->filled('price_range')) {
             list($min, $max) = explode('-', $request->price_range);
             if ($max === '+') {
@@ -50,7 +47,6 @@ class MaterialPurchaseController extends Controller
             }
         }
 
-        // Filtre par points
         if ($request->filled('points_range')) {
             list($min, $max) = explode('-', $request->points_range);
             if ($max === '+') {

@@ -25,7 +25,7 @@ class DashboardController extends Controller
             case 'admin':
                 return $this->adminDashboard();
             case 'professional':
-                return view('professionals.index', compact('user'));
+                return redirect()->route('professionals.dashboard');
             case 'client':
                 return view('welcome');
             default:
@@ -89,8 +89,7 @@ class DashboardController extends Controller
             
             $previousMonthRevenue = $currentMonthRevenue;
         }
-        
-        // Recent services (limité à 3)
+
         $recentServices = ServiceRequest::with(['service.category', 'client'])
                         ->latest()
                         ->take(3)
