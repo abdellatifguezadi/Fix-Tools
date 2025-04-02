@@ -14,6 +14,7 @@ use App\Http\Controllers\MaterialPurchaseController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ServiceTrackingController;
 
 // Routes publiques
 Route::get('/', function () {
@@ -74,6 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
         Route::get('/professionals/marketplace/filter', [MaterialPurchaseController::class, 'filter'])->name('professionals.marketplace.filter');
+        Route::get('/service-tracking', [ServiceTrackingController::class, 'index'])->name('service-tracking.index');
     });
     
     // Routes pour les clients
