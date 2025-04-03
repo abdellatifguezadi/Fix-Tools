@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('services.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                    <a href="{{ route('admin.services.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
                         <i class="fas fa-tools w-6"></i>
                         <span>Services</span>
                     </a>
