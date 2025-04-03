@@ -28,8 +28,9 @@
         @endif
     @endauth
 
-    <!-- Flash Messages -->
-    <x-flash-messages/>
+    <!-- Toast Notifications -->
+    <x-toast-notifications type="success" />
+    <x-toast-notifications type="error" />
 
     <!-- Main Content -->
     <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) ml-64 @endif @endauth">

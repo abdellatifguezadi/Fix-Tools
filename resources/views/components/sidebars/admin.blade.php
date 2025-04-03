@@ -10,21 +10,21 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-users w-6"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('categories.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
-                        <i class="fas fa-tags w-6"></i>
-                        <span>Catégories</span>
+                        <i class="fas fa-list w-6"></i>
+                        <span>Categories</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('materials.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
                         <i class="fas fa-box-open w-6"></i>
                         <span>Matériaux</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('professionals.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
-                        <i class="fas fa-user-tie w-6"></i>
-                        <span>Professionnels</span>
                     </a>
                 </li>
                 <li>

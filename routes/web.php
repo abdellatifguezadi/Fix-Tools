@@ -15,6 +15,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServiceTrackingController;
+use App\Http\Controllers\UserController;
 
 // Routes publiques
 Route::get('/', function () {
@@ -87,6 +88,14 @@ Route::middleware('auth')->group(function () {
     // Routes pour l'admin
     Route::middleware('admin')->group(function () {
         Route::get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+        
+        // User Management Routes
+        Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
+        Route::post('/admin/users/{user}/suspend', [UserController::class, 'suspend'])->name('admin.users.suspend');
+        Route::post('/admin/users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
+        
+        // Existing admin routes
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
