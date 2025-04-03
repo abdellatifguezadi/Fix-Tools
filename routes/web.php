@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServiceTrackingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientServiceController;
 
 // Routes publiques
 Route::get('/', function () {
@@ -95,6 +96,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/users/{user}/suspend', [UserController::class, 'suspend'])->name('admin.users.suspend');
         Route::post('/admin/users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
         
+        // Service Management Routes
+        Route::get('/admin/services', [ServiceController::class, 'index'])->name('admin.services.index');
+        Route::get('/admin/services/create', [ServiceController::class, 'create'])->name('admin.services.create');
+        Route::post('/admin/services', [ServiceController::class, 'store'])->name('admin.services.store');
+        Route::get('/admin/services/{service}/edit', [ServiceController::class, 'edit'])->name('admin.services.edit');
+        Route::put('/admin/services/{service}', [ServiceController::class, 'update'])->name('admin.services.update');
+        Route::delete('/admin/services/{service}', [ServiceController::class, 'destroy'])->name('admin.services.destroy');
+        
         // Existing admin routes
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
@@ -111,10 +120,12 @@ Route::middleware('auth')->group(function () {
 
 // Routes publiques pour consultation
 Route::get('/professionals/{professional}', [ProfessionalController::class, 'show'])->name('professionals.show');
-// Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-// Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
 Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/services/category/{category}', [ServiceController::class, 'byCategory'])->name('services.by-category');
-Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
+
+// Routes des services (accès client uniquement)
+Route::middleware(['auth', 'client'])->group(function () {
+    Route::get('/services', [ClientServiceController::class, 'index'])->name('client.services.index');
+    Route::get('/services/{service}', [ClientServiceController::class, 'show'])->name('client.services.show');
+    Route::get('/services/category/{category}', [ClientServiceController::class, 'byCategory'])->name('client.services.by-category');
+});
