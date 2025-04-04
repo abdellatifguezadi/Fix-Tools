@@ -20,26 +20,7 @@ class ClientServiceController extends Controller
             ->latest()
             ->get()
             ->map(function ($service) {
-                return [
-                    'id' => $service->id,
-                    'name' => $service->name,
-                    'description' => $service->description,
-                    'base_price' => $service->base_price,
-                    'image_path' => $service->image_path 
-                        ? Storage::url($service->image_path)
-                        : 'https://via.placeholder.com/400x300?text=No+Image',
-                    'category' => $service->category->name,
-                    'is_available' => $service->is_available,
-                    'professional' => [
-                        'id' => $service->professional->id,
-                        'name' => $service->professional->name,
-                        'image' => $service->professional->image 
-                            ? Storage::url($service->professional->image)
-                            : 'https://via.placeholder.com/150x150?text=No+Image',
-                        'rating' => $service->professional->receivedReviews()->avg('rating') ?? 0,
-                        'reviews_count' => $service->professional->receivedReviews()->count()
-                    ],
-                ];
+                return $this->formatService($service);
             });
 
         $categories = Category::where('type', 'service')->get();
@@ -47,4 +28,67 @@ class ClientServiceController extends Controller
         return view('client.services.index', compact('services', 'categories'));
     }
 
-    } 
+    public function search(Request $request)
+    {
+        $query = Service::with(['category', 'professional']);
+
+        // Search by name or description
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by category
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+
+        // Filter by price range
+        if ($request->has('price_range') && $request->price_range != '') {
+            switch ($request->price_range) {
+                case '0-50':
+                    $query->where('base_price', '<=', 50);
+                    break;
+                case '51-100':
+                    $query->where('base_price', '>', 50)->where('base_price', '<=', 100);
+                    break;
+                case '101+':
+                    $query->where('base_price', '>', 100);
+                    break;
+            }
+        }
+
+        $services = $query->latest()->get()->map(function ($service) {
+            return $this->formatService($service);
+        });
+
+        return response()->json($services);
+    }
+
+    private function formatService($service)
+    {
+        return [
+            'id' => $service->id,
+            'name' => $service->name,
+            'description' => $service->description,
+            'base_price' => $service->base_price,
+            'image_path' => $service->image_path 
+                ? Storage::url($service->image_path)
+                : 'https://via.placeholder.com/400x300?text=No+Image',
+            'category' => $service->category->name,
+            'is_available' => $service->is_available,
+            'professional' => [
+                'id' => $service->professional->id,
+                'name' => $service->professional->name,
+                'image' => $service->professional->image 
+                    ? Storage::url($service->professional->image)
+                    : 'https://via.placeholder.com/150x150?text=No+Image',
+                'rating' => $service->professional->receivedReviews()->avg('rating') ?? 0,
+                'reviews_count' => $service->professional->receivedReviews()->count()
+            ],
+        ];
+    }
+} 
