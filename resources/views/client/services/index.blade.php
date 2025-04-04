@@ -1,23 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services - Fix and Tools</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .logo-text {
-            font-family: 'Brush Script MT', 'Dancing Script', cursive;
-            letter-spacing: 0.05em;
-        }
-    </style>
-</head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <x-navbar />
-
+<x-app-layout>
     <!-- Header Section -->
     <header class="bg-black text-white py-12">
         <div class="container mx-auto px-4 text-center">
@@ -60,15 +41,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-black text-white py-8 mt-12">
-        <div class="container mx-auto px-4">
-            <div class="text-center text-yellow-400">
-                <p>&copy; {{ date('Y') }} Fix and Tools. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
+    @push('scripts')
     <script>
         let searchTimeout;
         const searchInput = document.getElementById('searchInput');
@@ -130,11 +103,23 @@
                                         <span class="bg-gray-100 px-3 py-1 rounded-full text-xs">Insured</span>
                                     </div>
                                 </div>
-                                <a href="${service.is_available ? '{{ route('client.services.show', '') }}/' + service.id : '#'}" 
-                                   class="w-full mt-6 px-4 py-3 rounded-lg transition-colors font-semibold text-center block ${service.is_available ? 'bg-yellow-400 text-black hover:bg-yellow-300' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}"
-                                   ${!service.is_available ? 'disabled' : ''}>
-                                    ${service.is_available ? 'Book Service' : 'Service Not Available'}
-                                </a>
+                                <form action="{{ route('client.service-requests.store') }}" method="POST" class="mt-6">
+                                    @csrf
+                                    <input type="hidden" name="service_id" value="${service.id}">
+                                    <input type="hidden" name="professional_id" value="${service.professional.id}">
+                                    <div class="mb-4">
+                                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                        <textarea name="description" 
+                                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                                                placeholder="Describe what you need help with..."
+                                                required></textarea>
+                                    </div>
+                                    <button type="submit" 
+                                            class="w-full px-4 py-3 rounded-lg transition-colors font-semibold text-center block ${service.is_available ? 'bg-yellow-400 text-black hover:bg-yellow-300' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}"
+                                            ${!service.is_available ? 'disabled' : ''}>
+                                        ${service.is_available ? 'Book Service' : 'Service Not Available'}
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     `).join('');
@@ -152,5 +137,5 @@
         categoryFilter.addEventListener('change', performSearch);
         priceFilter.addEventListener('change', performSearch);
     </script>
-</body>
-</html> 
+    @endpush
+</x-app-layout> 

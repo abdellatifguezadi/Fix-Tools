@@ -5,7 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfessionalController;
-use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\Client\ServiceRequestController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -129,4 +129,5 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/services/search', [ClientServiceController::class, 'search'])->name('client.services.search');
     Route::get('/services/{service}', [ClientServiceController::class, 'show'])->name('client.services.show');
     Route::get('/services/category/{category}', [ClientServiceController::class, 'byCategory'])->name('client.services.by-category');
+    Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('client.service-requests.store');
 });

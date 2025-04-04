@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\ServiceRequest;
+use App\Models\LoyaltyPoint;
 
 class ServiceTrackingController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        
-        // Récupérer les services complétés ce mois
-        $completedServices = $user->providedServices()
+
+        $completedServices = ServiceRequest::where('professional_id', $user->id)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
             ->where('status', 'completed')
@@ -22,11 +23,9 @@ class ServiceTrackingController extends Controller
             }])
             ->get();
 
-        // Compter les services complétés
         $completedServicesCount = $completedServices->count();
 
-        // Calculer les points totaux (utiliser points_earned au lieu de points)
-        $totalPoints = $user->loyaltyPoints()
+        $totalPoints = LoyaltyPoint::where('professional_id', $user->id)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
             ->sum('points_earned');
