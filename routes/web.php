@@ -126,6 +126,7 @@ Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('
 // Routes des services (accès client uniquement)
 Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/services', [ClientServiceController::class, 'index'])->name('client.services.index');
+    Route::get('/services/search', [ClientServiceController::class, 'search'])->name('client.services.search');
     Route::get('/services/{service}', [ClientServiceController::class, 'show'])->name('client.services.show');
     Route::get('/services/category/{category}', [ClientServiceController::class, 'byCategory'])->name('client.services.by-category');
 });
