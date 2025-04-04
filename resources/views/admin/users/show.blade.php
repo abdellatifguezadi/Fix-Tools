@@ -85,10 +85,10 @@
                                     <label class="block text-sm font-medium text-gray-700">Experience (years)</label>
                                     <p class="mt-1 text-sm text-gray-900">{{ $user->experience ?? 'Not specified' }}</p>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <label class="block text-sm font-medium text-gray-700">Hourly Rate</label>
                                     <p class="mt-1 text-sm text-gray-900">{{ $user->hourly_rate ? '$' . $user->hourly_rate : 'Not specified' }}</p>
-                                </div>
+                                </div> -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Description</label>
                                     <p class="mt-1 text-sm text-gray-900">{{ $user->description ?? 'No description provided' }}</p>

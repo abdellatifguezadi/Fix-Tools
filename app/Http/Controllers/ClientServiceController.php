@@ -32,7 +32,6 @@ class ClientServiceController extends Controller
     {
         $query = Service::with(['category', 'professional']);
 
-        // Search by name or description
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -41,12 +40,10 @@ class ClientServiceController extends Controller
             });
         }
 
-        // Filter by category
         if ($request->has('category') && $request->category != '') {
             $query->where('category_id', $request->category);
         }
 
-        // Filter by price range
         if ($request->has('price_range') && $request->price_range != '') {
             switch ($request->price_range) {
                 case '0-50':
@@ -90,5 +87,13 @@ class ClientServiceController extends Controller
                 'reviews_count' => $service->professional->receivedReviews()->count()
             ],
         ];
+    }
+
+    public function show(Service $service)
+    {
+        $service->load(['category', 'professional']);
+        $formattedService = $this->formatService($service);
+        
+        return view('client.services.show', compact('formattedService'));
     }
 } 
