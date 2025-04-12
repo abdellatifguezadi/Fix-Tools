@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\Category;
+use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ClientServiceController extends Controller
 {
@@ -24,8 +26,13 @@ class ClientServiceController extends Controller
             });
 
         $categories = Category::where('type', 'service')->get();
+        
+        // Get the count of pending requests for the current user
+        $pendingRequestsCount = ServiceRequest::where('client_id', Auth::id())
+            ->where('status', 'pending')
+            ->count();
 
-        return view('client.services.index', compact('services', 'categories'));
+        return view('client.services.index', compact('services', 'categories', 'pendingRequestsCount'));
     }
 
     public function search(Request $request)

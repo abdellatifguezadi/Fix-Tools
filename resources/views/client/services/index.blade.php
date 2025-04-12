@@ -3,7 +3,19 @@
     <header class="bg-black text-white py-12">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl font-bold mb-4">Our Services</h1>
-            <p class="text-xl text-gray-300">Find the right service for your needs</p>
+            <p class="text-xl text-gray-300 mb-6">Find the right service for your needs</p>
+            <div class="flex justify-center space-x-4">
+                <a href="{{ route('client.service-requests.index') }}" 
+                   class="inline-flex items-center px-6 py-3 bg-yellow-400 text-black rounded-lg font-semibold hover:bg-yellow-300 transition-colors">
+                    <i class="fas fa-list mr-2"></i>
+                    My Service Requests
+                    @if($pendingRequestsCount > 0)
+                        <span class="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                            {{ $pendingRequestsCount }}
+                        </span>
+                    @endif
+                </a>
+            </div>
         </div>
     </header>
 

@@ -10,6 +10,16 @@ use Carbon\Carbon;
 
 class ServiceRequestController extends Controller
 {
+    public function index()
+    {
+        $serviceRequests = ServiceRequest::with(['service', 'professional', 'service.category'])
+            ->where('client_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('client.services.my-requests', compact('serviceRequests'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,7 +37,16 @@ class ServiceRequestController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('client.services.index')
+        return redirect()->route('client.service-requests.index')
             ->with('success', 'Service request submitted successfully!');
+    }
+
+    public function cancel(ServiceRequest $serviceRequest)
+    {
+        if ($serviceRequest->client_id === auth()->id() && $serviceRequest->status === 'pending') {
+            $serviceRequest->update(['status' => 'cancelled']);
+        }
+        
+        return redirect()->back();
     }
 } 

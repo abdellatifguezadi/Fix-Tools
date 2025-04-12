@@ -130,4 +130,6 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/services/{service}', [ClientServiceController::class, 'show'])->name('client.services.show');
     Route::get('/services/category/{category}', [ClientServiceController::class, 'byCategory'])->name('client.services.by-category');
     Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('client.service-requests.store');
+    Route::get('/my-requests', [ServiceRequestController::class, 'index'])->name('client.service-requests.index');
+    Route::post('/service-requests/{serviceRequest}/cancel', [ServiceRequestController::class, 'cancel'])->name('client.service-requests.cancel');
 });
