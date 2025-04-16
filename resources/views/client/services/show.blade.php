@@ -78,29 +78,48 @@
 
                     <!-- Booking Form -->
                     <div class="mt-8">
-                        <form action="{{ route('client.service-requests.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="service_id" value="{{ $formattedService['id'] }}">
-                            <input type="hidden" name="professional_id" value="{{ $formattedService['professional']['id'] }}">
-                            
-                            <div class="mb-4">
-                                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                                <textarea id="description" 
-                                        name="description" 
-                                        rows="4" 
-                                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Describe what you need help with..."
-                                        required></textarea>
+                        <h2 class="text-xl font-semibold mb-4">Book this Service</h2>
+                        
+                        @if(isset($formattedService['already_booked']) && $formattedService['already_booked'])
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                                <div class="flex items-center">
+                                    <i class="fas fa-info-circle text-blue-500 text-lg mr-3"></i>
+                                    <p class="text-blue-600">You have already booked this service.</p>
+                                </div>
+                                <a href="{{ route('client.my-requests') }}" class="mt-4 inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">
+                                    View My Requests
+                                </a>
                             </div>
+                        @else
+                            <form action="{{ route('client.service-requests.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="service_id" value="{{ $formattedService['id'] }}">
+                                <input type="hidden" name="professional_id" value="{{ $formattedService['professional']['id'] }}">
+                                
+                                <div class="mb-4">
+                                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Please describe what you need help with
+                                        <span class="text-red-500">*</span>
+                                    </label>
+                                    <textarea id="description" 
+                                            name="description" 
+                                            rows="4" 
+                                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Be as specific as possible about your requirements, timeline, and any special considerations..."
+                                            required></textarea>
+                                    <p class="text-sm text-gray-500 mt-1">The more details you provide, the better the professional can prepare for your service.</p>
+                                </div>
 
-                            <div class="flex justify-end">
-                                <button type="submit" 
-                                        class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition duration-150"
-                                        {{ !$formattedService['is_available'] ? 'disabled' : '' }}>
-                                    {{ $formattedService['is_available'] ? 'Book Service' : 'Service Not Available' }}
-                                </button>
-                            </div>
-                        </form>
+                                <div class="flex justify-end">
+                                    <button type="submit" 
+                                            class="px-6 py-3 bg-yellow-400 text-black rounded-lg font-medium hover:bg-yellow-300 transition duration-150 flex items-center"
+                                            {{ !$formattedService['is_available'] ? 'disabled' : '' }}>
+                                        <i class="fas fa-calendar-check mr-2"></i>
+                                        {{ $formattedService['is_available'] ? 'Book Service Now' : 'Service Not Available' }}
+                                    </button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
