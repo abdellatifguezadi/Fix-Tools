@@ -57,7 +57,7 @@
                                 </td>
                                 <td class="px-4 py-3">{{ $material->name }}</td>
                                 <td class="px-4 py-3">{{ $material->category->name }}</td>
-                                <td class="px-4 py-3">${{ number_format($material->price, 2) }}</td>
+                                <td class="px-4 py-3">{{ number_format($material->price, 2) }} MAD</td>
                                 <td class="px-4 py-3">{{ $material->points_cost }}</td>
                                 <td class="px-4 py-3">{{ $material->stock_quantity }}</td>
                                 <td class="px-4 py-3">

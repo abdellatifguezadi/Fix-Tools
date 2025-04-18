@@ -104,7 +104,7 @@
                                     <label for="final_price" class="block text-sm font-medium text-gray-700 mb-1">Propose Final Price:</label>
                                     <div class="flex">
                                         <span class="inline-flex items-center px-3 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md text-gray-500">
-                                            $
+                                            DH
                                         </span>
                                         <input type="number" name="final_price" id="final_price" 
                                                class="flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
@@ -118,7 +118,7 @@
                         @elseif($request->final_price)
                             <div class="mb-4">
                                 <h4 class="font-semibold mb-1">Final Price:</h4>
-                                <p class="text-xl font-bold text-yellow-600">${{ number_format($request->final_price, 2) }}</p>
+                                <p class="text-xl font-bold text-yellow-600">{{ number_format($request->final_price, 2) }} DH</p>
                             </div>
                         @endif
                         

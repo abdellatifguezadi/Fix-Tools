@@ -25,7 +25,10 @@
                             <p class="text-gray-600 mt-1">Category: {{ $formattedService['category'] }}</p>
                         </div>
                         <div class="text-right">
-                            <span class="text-2xl font-bold text-blue-600">${{ number_format($formattedService['base_price'], 2) }}</span>
+                            <div class="mt-4 flex items-center space-x-4">
+                                <span class="text-2xl font-bold text-blue-600">{{ number_format($formattedService['base_price'], 2) }} DH</span>
+                                <span class="text-gray-500 text-sm">/hr</span>
+                            </div>
                             <div class="mt-1">
                                 @if($formattedService['is_available'])
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">

@@ -4,7 +4,7 @@
             alt="{{ $service['name'] }}" 
             class="w-full h-full object-cover">
         <div class="absolute top-4 right-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
-            ${{ number_format($service['base_price'], 2) }}/hr
+            {{ number_format($service['base_price'], 2) }} DH/hr
         </div>
         @if(isset($service['already_booked']) && $service['already_booked'])
             <div class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">

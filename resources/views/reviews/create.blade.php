@@ -34,7 +34,7 @@
                         <h4 class="text-lg font-semibold">{{ $serviceRequest->service->name }}</h4>
                         <p class="text-gray-600 mb-2">{{ $serviceRequest->service->category ? $serviceRequest->service->category->name : 'Uncategorized' }}</p>
                         <p class="text-gray-600 mb-4">Completed on {{ $serviceRequest->completion_date ? $serviceRequest->completion_date->format('M d, Y') : 'N/A' }}</p>
-                        <p class="font-medium">Price: ${{ number_format($serviceRequest->final_price, 2) }}</p>
+                        <p class="font-medium">Price: {{ number_format($serviceRequest->final_price, 2) }} MAD</p>
                     </div>
                 </div>
                 

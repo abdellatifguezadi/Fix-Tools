@@ -121,8 +121,8 @@ use Illuminate\Support\Str;
                                     <span>{{ $request->service->category ? $request->service->category->name : 'Uncategorized' }}</span>
                                 </div>
                                 <div class="flex items-center text-sm">
-                                    <i class="fas fa-dollar-sign text-yellow-400 mr-2"></i>
-                                    <span>${{ number_format($request->service->base_price, 2) }}/hr</span>
+                                    <i class="fas fa-coins text-yellow-400 mr-2"></i>
+                                    <span>{{ number_format($request->service->base_price, 2) }} DH/hr</span>
                                 </div>
                                 <p class="text-gray-600 text-sm">
                                     {{ Str::limit($request->description, 100) }}
@@ -133,7 +133,7 @@ use Illuminate\Support\Str;
                             @if($request->final_price)
                                 <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100">
                                     <h4 class="font-semibold mb-1">Final Price Quote:</h4>
-                                    <p class="text-2xl font-bold text-yellow-600">${{ number_format($request->final_price, 2) }}</p>
+                                    <p class="text-2xl font-bold text-yellow-600">{{ number_format($request->final_price, 2) }} DH</p>
                                 </div>
                             @endif
 

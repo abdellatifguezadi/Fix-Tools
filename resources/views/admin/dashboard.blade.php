@@ -51,10 +51,10 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm">Total Revenue</p>
-                            <h3 class="text-2xl font-bold">${{ number_format($totalRevenue, 2) }}</h3>
+                            <h3 class="text-2xl font-bold">{{ number_format($totalRevenue, 2) }} MAD</h3>
                         </div>
                         <div class="bg-purple-100 p-3 rounded-full">
-                            <i class="fas fa-dollar-sign text-purple-500 text-xl"></i>
+                            <i class="fas fa-coins text-purple-500 text-xl"></i>
                         </div>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                                 @foreach($monthlyRevenue as $month => $data)
                                 <tr>
                                     <td class="px-4 py-3">{{ $month }}</td>
-                                    <td class="px-4 py-3">${{ number_format($data['revenue'], 2) }}</td>
+                                    <td class="px-4 py-3">{{ number_format($data['revenue'], 2) }} MAD</td>
                                     <td class="px-4 py-3 text-{{ $data['growth'] >= 0 ? 'green' : 'red' }}-500">
                                         {{ $data['growth'] >= 0 ? '+' : '' }}{{ $data['growth'] }}%
                                     </td>

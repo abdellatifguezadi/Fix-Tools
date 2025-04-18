@@ -41,9 +41,9 @@
                 <div class="relative">
                     <select id="priceFilter" name="price_range" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 pr-10">
                         <option value="">All Prices</option>
-                        <option value="0-50" {{ request('price_range') == '0-50' ? 'selected' : '' }}>$0 - $50</option>
-                        <option value="51-100" {{ request('price_range') == '51-100' ? 'selected' : '' }}>$51 - $100</option>
-                        <option value="101+" {{ request('price_range') == '101+' ? 'selected' : '' }}>$101+</option>
+                        <option value="0-50" {{ request('price_range') == '0-50' ? 'selected' : '' }}>0 - 50 DH</option>
+                        <option value="51-100" {{ request('price_range') == '51-100' ? 'selected' : '' }}>51 - 100 DH</option>
+                        <option value="101+" {{ request('price_range') == '101+' ? 'selected' : '' }}>101+ DH</option>
                     </select>
                     <button type="button" id="clearPrice" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600" style="display: none;">
                         <i class="fas fa-times"></i>
@@ -83,46 +83,33 @@
             const servicesGrid = document.getElementById('servicesGrid');
             const loadingIndicator = document.getElementById('loadingIndicator');
             const noResults = document.getElementById('noResults');
-            
-            // Boutons de réinitialisation
+
             const clearSearch = document.getElementById('clearSearch');
             const clearCategory = document.getElementById('clearCategory');
             const clearPrice = document.getElementById('clearPrice');
-            
-            // Variables pour le debounce
+
             let searchTimeout;
-            
-            // Fonction pour mettre à jour l'affichage des boutons de réinitialisation
+
             function updateClearButtons() {
-                // Afficher/masquer le bouton de réinitialisation de recherche
+
                 clearSearch.style.display = searchInput.value ? 'block' : 'none';
-                
-                // Afficher/masquer le bouton de réinitialisation de catégorie
                 clearCategory.style.display = categoryFilter.value ? 'block' : 'none';
-                
-                // Afficher/masquer le bouton de réinitialisation de prix
                 clearPrice.style.display = priceFilter.value ? 'block' : 'none';
             }
-            
-            // Fonction pour effectuer la recherche AJAX
+
             function performSearch() {
-                // Afficher indicateur de chargement
                 servicesGrid.style.opacity = '0.5';
                 loadingIndicator.style.display = 'block';
                 noResults.style.display = 'none';
-                
-                // Mettre à jour les boutons de réinitialisation
+
                 updateClearButtons();
-                
-                // Récupérer les valeurs des filtres
+
                 const search = searchInput.value;
                 const category = categoryFilter.value;
                 const priceRange = priceFilter.value;
-                
-                // Construire l'URL de recherche
+
                 const url = `{{ route('client.services.search') }}?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&price_range=${encodeURIComponent(priceRange)}`;
-                
-                // Effectuer la requête AJAX
+
                 fetch(url, {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',
@@ -131,21 +118,16 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Cacher l'indicateur de chargement
                     servicesGrid.style.opacity = '1';
                     loadingIndicator.style.display = 'none';
-                    
-                    // Vérifier s'il y a des résultats
+
                     if (data.length === 0) {
                         servicesGrid.innerHTML = '';
                         noResults.style.display = 'block';
                         return;
                     }
-                    
-                    // Construire le HTML pour les résultats
+
                     noResults.style.display = 'none';
-                    
-                    // Construire le HTML pour chaque service
                     const serviceHTML = data.map(service => {
                         return `
                             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
@@ -154,7 +136,7 @@
                                         alt="${service.name}" 
                                         class="w-full h-full object-cover">
                                     <div class="absolute top-4 right-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-semibold">
-                                        $${service.base_price}/hr
+                                        ${service.base_price} DH/hr
                                     </div>
                                     ${service.already_booked ? `
                                         <div class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
