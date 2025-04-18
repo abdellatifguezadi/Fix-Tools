@@ -27,10 +27,10 @@ class MaterialController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'points_cost' => 'required|integer|min:0',
-            'stock_quantity' => 'required|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'price' => 'required|numeric|min:1',
+            'points_cost' => 'required|integer|min:1',
+            'stock_quantity' => 'required|integer|min:1',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
         
         $validated['is_available'] = $request->has('is_available');

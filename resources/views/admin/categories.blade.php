@@ -14,7 +14,7 @@
             </div>
 
             <!-- Flash Messages -->
-            <!-- @if(session('success'))
+            @if(session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
                     {{ session('success') }}
                 </div>
@@ -24,7 +24,7 @@
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
                     {{ session('error') }}
                 </div>
-            @endif -->
+            @endif
 
             <!-- Categories Table -->
             <div class="bg-white shadow rounded-lg p-6">
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <!-- Edit Category Modal -->
+
     <div id="editCategoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg w-full max-w-lg mx-4">
             <div class="flex justify-between items-center border-b px-6 py-4">
@@ -152,14 +152,15 @@
         </div>
     </div>
 
-    <x-slot name="scripts">
-        <script>
-            function openEditModal(id, name, type) {
-                document.getElementById('editCategoryForm').action = `/categories/${id}`;
+ 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.openEditModal = function(id, name, type) {
+                document.getElementById('editCategoryForm').action = "{{ url('/categories') }}/" + id;
                 document.getElementById('edit_name').value = name;
                 document.getElementById('edit_type').value = type;
                 document.getElementById('editCategoryModal').classList.remove('hidden');
-            }
-        </script>
-    </x-slot>
+            };
+        });
+    </script>
 </x-app-layout> 

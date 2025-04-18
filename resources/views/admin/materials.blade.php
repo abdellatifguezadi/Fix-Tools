@@ -234,12 +234,10 @@
         </div>
     </div>
 
-    <x-slot name="scripts">
-        <script>
-            function openEditModal(id, name, description, categoryId, price, pointsCost, stockQuantity, isAvailable) {
-
-                document.getElementById('editMaterialForm').action = `/materials/${id}`;
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.openEditModal = function(id, name, description, categoryId, price, pointsCost, stockQuantity, isAvailable) {
+                document.getElementById('editMaterialForm').action = "{{ url('/materials') }}/" + id;
                 document.getElementById('edit_name').value = name;
                 document.getElementById('edit_description').value = description;
                 document.getElementById('edit_category_id').value = categoryId;
@@ -247,9 +245,8 @@
                 document.getElementById('edit_points_cost').value = pointsCost;
                 document.getElementById('edit_stock_quantity').value = stockQuantity;
                 document.getElementById('edit_is_available').checked = isAvailable;
-
                 document.getElementById('editMaterialModal').classList.remove('hidden');
-            }
-        </script>
-    </x-slot>
+            };
+        });
+    </script>
 </x-app-layout>
