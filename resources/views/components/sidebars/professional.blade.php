@@ -1,6 +1,5 @@
 <div class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg pt-16 overflow-hidden flex flex-col">
     <div class="px-4 pt-4 overflow-y-auto flex-1">
-        <!-- Close sidebar button (mobile only) -->
         <button id="closeSidebar" class="sm:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
             <i class="fas fa-times"></i>
         </button>

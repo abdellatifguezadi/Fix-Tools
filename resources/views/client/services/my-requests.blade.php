@@ -197,7 +197,6 @@ use Illuminate\Support\Str;
 
             statusFilters.forEach(filter => {
                 filter.addEventListener('click', function() {
-                    // Update active filter button
                     statusFilters.forEach(f => f.classList.remove('bg-yellow-400', 'text-black'));
                     statusFilters.forEach(f => f.classList.add('bg-gray-200', 'text-gray-700'));
                     this.classList.remove('bg-gray-200', 'text-gray-700');

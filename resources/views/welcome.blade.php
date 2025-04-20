@@ -71,18 +71,9 @@
                     <h3 class="text-2xl font-bold text-yellow-400">Votre Partenaire de Confiance</h3>
                     <p class="text-gray-300">Fix and Tools connecte les propriétaires avec des professionnels qualifiés pour tous leurs besoins de maintenance et de réparation.</p>
                     <ul class="space-y-4">
-                        <li class="flex items-center text-gray-300">
-                            <i class="fas fa-check text-yellow-400 mr-2"></i>
-                            Réseau de Professionnels Vérifiés
-                        </li>
-                        <li class="flex items-center text-gray-300">
-                            <i class="fas fa-check text-yellow-400 mr-2"></i>
-                            Service de Qualité Garanti
-                        </li>
-                        <li class="flex items-center text-gray-300">
-                            <i class="fas fa-check text-yellow-400 mr-2"></i>
-                            Support Client 24/7
-                        </li>
+                        <x-feature-item>Réseau de Professionnels Vérifiés</x-feature-item>
+                        <x-feature-item>Service de Qualité Garanti</x-feature-item>
+                        <x-feature-item>Support Client 24/7</x-feature-item>
                     </ul>
                 </div>
                 <div class="relative h-96">
@@ -101,13 +92,12 @@
             <h2 class="text-3xl font-bold text-center mb-12">Professionnels les Mieux Notés</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Professional Card 1 -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <x-card title="John Smith">
                     <div class="flex items-center mb-4">
                         <img src="https://images.unsplash.com/photo-1540569014015-19a7be504e3a" 
                              alt="John Smith" 
                              class="w-16 h-16 rounded-full">
                         <div class="ml-4">
-                            <h3 class="text-xl font-bold">John Smith</h3>
                             <p class="text-gray-600">Maître Plombier</p>
                         </div>
                     </div>
@@ -116,16 +106,15 @@
                         <p class="text-gray-600"><i class="fas fa-briefcase text-yellow-400 mr-2"></i>250+ projets</p>
                         <p class="text-gray-600"><i class="fas fa-star text-yellow-400 mr-2"></i>4.9/5 (120 avis)</p>
                     </div>
-                </div>
+                </x-card>
 
                 <!-- Professional Card 2 -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <x-card title="Sarah Johnson">
                     <div class="flex items-center mb-4">
                         <img src="https://images.unsplash.com/photo-1516822669470-95f059f5a051" 
                              alt="Sarah Johnson" 
                              class="w-16 h-16 rounded-full">
                         <div class="ml-4">
-                            <h3 class="text-xl font-bold">Sarah Johnson</h3>
                             <p class="text-gray-600">Expert Peintre</p>
                         </div>
                     </div>
@@ -134,16 +123,15 @@
                         <p class="text-gray-600"><i class="fas fa-briefcase text-yellow-400 mr-2"></i>180+ projets</p>
                         <p class="text-gray-600"><i class="fas fa-star text-yellow-400 mr-2"></i>4.8/5 (95 avis)</p>
                     </div>
-                </div>
+                </x-card>
 
                 <!-- Professional Card 3 -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <x-card title="Mike Brown">
                     <div class="flex items-center mb-4">
                         <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4" 
                              alt="Mike Brown" 
                              class="w-16 h-16 rounded-full">
                         <div class="ml-4">
-                            <h3 class="text-xl font-bold">Mike Brown</h3>
                             <p class="text-gray-600">Spécialiste Bricolage</p>
                         </div>
                     </div>
@@ -152,7 +140,7 @@
                         <p class="text-gray-600"><i class="fas fa-briefcase text-yellow-400 mr-2"></i>200+ projets</p>
                         <p class="text-gray-600"><i class="fas fa-star text-yellow-400 mr-2"></i>4.9/5 (150 avis)</p>
                     </div>
-                </div>
+                </x-card>
             </div>
         </div>
     </section>

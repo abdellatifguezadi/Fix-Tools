@@ -31,7 +31,6 @@ class Material extends Model
         'deleted_at' => 'datetime'
     ];
 
-    // Relations
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -42,7 +41,6 @@ class Material extends Model
         return $this->hasMany(MaterialPurchase::class);
     }
 
-    // Scopes
     public function scopeAvailable($query)
     {
         return $query->where('is_available', true)

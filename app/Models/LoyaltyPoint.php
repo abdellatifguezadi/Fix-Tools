@@ -23,7 +23,6 @@ class LoyaltyPoint extends Model
         'updated_at' => 'datetime'
     ];
 
-    // Relations
     public function professional()
     {
         return $this->belongsTo(User::class, 'professional_id');

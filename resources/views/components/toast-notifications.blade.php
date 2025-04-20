@@ -32,7 +32,6 @@
     </div>
 
     <script>
-        // Fonction pour fermer une notification
         function closeToast(toastId) {
             const toast = document.getElementById(toastId);
             if (toast) {
@@ -40,7 +39,6 @@
             }
         }
 
-        // Fermer automatiquement après 5 secondes
         setTimeout(() => {
             const toast = document.getElementById('toast-{{ $type }}');
             if (toast) {

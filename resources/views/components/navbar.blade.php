@@ -16,6 +16,7 @@
                     
                     @if(auth()->user()->role === 'client')
                         <a href="{{ route('client.services.index') }}" class="text-yellow-400 hover:text-yellow-300">Services</a>
+                        <a href="{{ route('client.professionals.index') }}" class="text-yellow-400 hover:text-yellow-300">Professionals</a>
                     @endif
                     
                     @if(auth()->user()->role === 'professional')
@@ -36,6 +37,10 @@
                     </form>
                 </div>
             @else
+                <div class="space-x-6 mr-8">
+                    <a href="{{ route('home') }}" class="text-yellow-400 hover:text-yellow-300">Home</a>
+                    <a href="{{ route('contact') }}" class="text-yellow-400 hover:text-yellow-300">Contact</a>
+                </div>
                 <div class="space-x-4">
                     <a href="{{ route('login') }}" class="text-yellow-400 hover:text-yellow-300 px-4 py-2 border border-yellow-400 rounded-lg">Login</a>
                     <a href="{{ route('register') }}" class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-300">Register</a>

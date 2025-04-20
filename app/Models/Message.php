@@ -24,7 +24,6 @@ class Message extends Model
         'deleted_at' => 'datetime'
     ];
 
-    // Relations
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
@@ -35,7 +34,6 @@ class Message extends Model
         return $this->belongsTo(User::class, 'receiver_id');
     }
 
-    // Scopes
     public function scopeUnread($query)
     {
         return $query->where('is_read', false);

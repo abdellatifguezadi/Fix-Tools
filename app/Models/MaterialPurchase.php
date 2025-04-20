@@ -40,7 +40,6 @@ class MaterialPurchase extends Model
         return $this->belongsTo(Material::class);
     }
 
-    // Scopes
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
@@ -51,7 +50,6 @@ class MaterialPurchase extends Model
         return $query->where('status', 'completed');
     }
 
-    // Accesseurs
     public function getTotalAmountAttribute()
     {
         return $this->quantity * $this->price_paid;
