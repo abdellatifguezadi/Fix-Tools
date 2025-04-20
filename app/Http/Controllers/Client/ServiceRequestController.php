@@ -43,27 +43,24 @@ class ServiceRequestController extends Controller
     
     public function cancel(ServiceRequest $serviceRequest)
     {
-        if ($serviceRequest->client_id === auth()->id() && $serviceRequest->status === 'pending') {
+        if ($serviceRequest->client_id === Auth::id() && in_array($serviceRequest->status, ['pending', 'priced'])) {
             $serviceRequest->update(['status' => 'cancelled']);
             return redirect()->back()->with('success', 'Service request has been cancelled.');
         }
         
-        return redirect()->back()->with('error', 'Unable to cancel this request. Either it is not yours or its status is not pending.');
+        return redirect()->back()->with('error', 'Unable to cancel this request. Either it is not yours or its status is not eligible for cancellation.');
     }
     
     public function acceptPrice(ServiceRequest $serviceRequest)
     {
-        // Check if the request belongs to the authenticated user
         if ($serviceRequest->client_id !== Auth::id()) {
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
         
-        // Check if the request is in the correct status
         if ($serviceRequest->status !== 'priced') {
             return redirect()->back()->with('error', 'Only priced requests can be accepted.');
         }
         
-        // Update the request status
         $serviceRequest->update(['status' => 'accepted']);
         
         return redirect()->back()->with('success', 'Price accepted. The professional will start working on your request.');

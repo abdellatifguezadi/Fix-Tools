@@ -141,6 +141,10 @@ Route::middleware(['auth', 'client'])->group(function () {
     Route::get('/services/{service}', [ClientServiceController::class, 'show'])->name('client.services.show');
     Route::get('/services', [ClientServiceController::class, 'index'])->name('client.services.index');
     
+    // Professional routes for clients
+    Route::get('/professionals', [\App\Http\Controllers\Client\ClientProfessionalController::class, 'index'])->name('client.professionals.index');
+    Route::get('/professionals/{professional}', [\App\Http\Controllers\Client\ClientProfessionalController::class, 'show'])->name('client.professionals.show');
+    
     Route::get('/my-requests', [ServiceRequestController::class, 'index'])->name('client.my-requests');
     Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('client.service-requests.store');
     Route::post('/service-requests/{serviceRequest}/cancel', [ServiceRequestController::class, 'cancel'])->name('client.service-requests.cancel');

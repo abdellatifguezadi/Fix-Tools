@@ -30,7 +30,6 @@ class ServiceRequest extends Model
         'deleted_at' => 'datetime'
     ];
 
-    // Relations
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
@@ -56,7 +55,6 @@ class ServiceRequest extends Model
         return $this->hasOne(LoyaltyPoint::class);
     }
 
-    // Scopes
     public function scopePending($query)
     {
         return $query->where('status', 'pending');

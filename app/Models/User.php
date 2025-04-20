@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+ 
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
@@ -59,7 +59,6 @@ class User extends Authenticatable
         ];
     }
 
-    // Relations
     public function professionCategory()
     {
         return $this->belongsTo(Category::class, 'profession_category_id');
@@ -110,7 +109,6 @@ class User extends Authenticatable
         return $this->hasMany(MaterialPurchase::class, 'professional_id');
     }
 
-    // Helpers
     public function isAdmin()
     {
         return $this->role === 'admin';

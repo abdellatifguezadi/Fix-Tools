@@ -5,7 +5,6 @@
 
     <!-- Login Form -->
     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-        <!-- Background Image -->
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
             <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4" alt="Tools Background" 

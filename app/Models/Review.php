@@ -27,7 +27,6 @@ class Review extends Model
         'deleted_at' => 'datetime'
     ];
 
-    // Relations
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
@@ -43,7 +42,6 @@ class Review extends Model
         return $this->belongsTo(ServiceRequest::class);
     }
 
-    // Scopes
     public function scopeApproved($query)
     {
         return $query->where('is_approved', true);

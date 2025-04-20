@@ -39,7 +39,6 @@ class Category extends Model
         return $this->hasMany(User::class, 'profession_category_id');
     }
 
-    // Scopes
     public function scopeServiceCategories($query)
     {
         return $query->where('type', 'service');

@@ -45,7 +45,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Redirect based on user role
         switch ($user->role) {
             case 'professional':
                 return redirect()->route('services.my-services');

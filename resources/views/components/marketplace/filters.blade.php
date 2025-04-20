@@ -38,9 +38,9 @@
             <option value="101+" {{ request('points_range') == '101+' ? 'selected' : '' }}>Plus de 100 points</option>
         </select>
 
-        <button type="submit" 
+        <!-- <button type="submit" 
             class="bg-yellow-400 text-black px-4 py-2 rounded-md hover:bg-yellow-300 transition-colors duration-200">
             Appliquer les filtres
-        </button>
+        </button> -->
     </form>
 </div> 

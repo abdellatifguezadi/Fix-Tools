@@ -48,6 +48,16 @@
                         <p class="text-gray-700">{{ $formattedService['description'] }}</p>
                     </div>
 
+                    <!-- Service Features -->
+                    <div class="bg-black p-6 rounded-lg mb-6">
+                        <h3 class="text-xl font-bold mb-4 text-yellow-400">What's Included</h3>
+                        <ul class="space-y-2">
+                            <x-feature-item>Professional {{ $formattedService['category'] }} service</x-feature-item>
+                            <x-feature-item>Quality materials and tools</x-feature-item>
+                            <x-feature-item>Service warranty</x-feature-item>
+                        </ul>
+                    </div>
+
                     <!-- Professional Information -->
                     <div class="border-t pt-6">
                         <h2 class="text-xl font-semibold mb-4">Professional</h2>
@@ -78,6 +88,32 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Recent Activities -->
+                    @auth
+                    <div class="border-t pt-6 mb-6">
+                        <h2 class="text-xl font-semibold mb-4">Recent Activities</h2>
+                        <div class="space-y-4">
+                            <x-activity-item 
+                                icon="check-circle" 
+                                color="green" 
+                                title="Service Viewed" 
+                                subtitle="Today" 
+                                status="completed"
+                            />
+                            
+                            @if(isset($formattedService['already_booked']) && $formattedService['already_booked'])
+                            <x-activity-item 
+                                icon="calendar-check" 
+                                color="blue" 
+                                title="Service Requested" 
+                                subtitle="Previously" 
+                                status="pending"
+                            />
+                            @endif
+                        </div>
+                    </div>
+                    @endauth
 
                     <!-- Booking Form -->
                     <div class="mt-8">
@@ -128,4 +164,5 @@
             </div>
         </div>
     </div>
+    
 </x-app-layout> 
