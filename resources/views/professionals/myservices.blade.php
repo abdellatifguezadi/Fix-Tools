@@ -83,16 +83,8 @@
                     </div> -->
                 </div>
             </div>
-
-
         </div>
-        
- 
-        <button id="sidebarToggle" class="fixed top-4 left-4 z-40 sm:hidden bg-yellow-400 text-black p-2 rounded-md">
-            <i class="fas fa-bars"></i>
-        </button>
     </div>
-
 
     <x-modals.add-service-modal :categories="$categories" />
     <x-modals.edit-service-modal :categories="$categories" />
@@ -160,9 +152,5 @@
                 closeDeleteModal();
             }
         }
-
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.querySelector('aside').classList.toggle('-translate-x-full');
-        });
     </script>
 </x-app-layout> 

@@ -120,16 +120,5 @@
             </div>
 
         </div>
-        
- 
-        <button id="sidebarToggle" class="fixed top-4 left-4 z-40 sm:hidden bg-yellow-400 text-gray-900 p-2 rounded-md shadow-md hover:bg-yellow-300 transition-colors duration-200">
-            <i class="fas fa-bars"></i>
-        </button>
     </div>
-
-    <script>
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.querySelector('aside').classList.toggle('-translate-x-full');
-        });
-    </script>
 </x-app-layout> 

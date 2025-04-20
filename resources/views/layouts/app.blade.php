@@ -17,15 +17,32 @@
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <x-navbar/>
+    <div class="z-30 relative">
+        <x-navbar/>
+    </div>
+
+    <!-- Boutons toggle des sidebars (placés ici pour éviter les doublons) -->
+    @auth
+        @if(auth()->user()->isAdmin())
+            <button id="toggleAdminSidebar" class="fixed top-20 left-4 bg-yellow-400 text-black p-2 rounded-lg shadow-lg md:hidden z-30">
+                <i class="fas fa-bars"></i>
+            </button>
+        @elseif(auth()->user()->isProfessional()) 
+            <button id="toggleSidebar" class="fixed top-20 left-4 bg-yellow-400 text-black p-2 rounded-lg shadow-lg md:hidden z-30">
+                <i class="fas fa-bars"></i>
+            </button>
+        @endif
+    @endauth
 
     <!-- Sidebar pour admin et professionnel -->
     @auth
-        @if(auth()->user()->isAdmin())
-            <x-sidebars.admin/>
-        @elseif(auth()->user()->isProfessional())
-            <x-sidebars.professional/>
-        @endif
+        <div class="z-20 relative">
+            @if(auth()->user()->isAdmin())
+                <x-sidebars.admin/>
+            @elseif(auth()->user()->isProfessional())
+                <x-sidebars.professional/>
+            @endif
+        </div>
     @endauth
 
     <!-- Toast Notifications -->
@@ -33,7 +50,7 @@
     <x-toast-notifications type="error" />
 
     <!-- Main Content -->
-    <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) ml-64 @endif @endauth">
+    <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) md:ml-64 transition-all duration-300 @endif @endauth">
         {{ $slot }}
     </main>
 
@@ -41,5 +58,46 @@
     <x-footer/>
 
     @stack('scripts')
+    
+    <!-- Scripts des sidebars -->
+    @auth
+        @if(auth()->user()->isAdmin())
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const sidebar = document.getElementById('adminSidebar');
+                    const toggleBtn = document.getElementById('toggleAdminSidebar');
+                    const closeBtn = document.getElementById('closeAdminSidebar');
+                    
+                    if (toggleBtn && sidebar && closeBtn) {
+                        toggleBtn.addEventListener('click', function() {
+                            sidebar.classList.toggle('-translate-x-full');
+                        });
+                        
+                        closeBtn.addEventListener('click', function() {
+                            sidebar.classList.add('-translate-x-full');
+                        });
+                    }
+                });
+            </script>
+        @elseif(auth()->user()->isProfessional())
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const sidebar = document.getElementById('professionalSidebar');
+                    const toggleBtn = document.getElementById('toggleSidebar');
+                    const closeBtn = document.getElementById('closeSidebar');
+                    
+                    if (toggleBtn && sidebar && closeBtn) {
+                        toggleBtn.addEventListener('click', function() {
+                            sidebar.classList.toggle('-translate-x-full');
+                        });
+                        
+                        closeBtn.addEventListener('click', function() {
+                            sidebar.classList.add('-translate-x-full');
+                        });
+                    }
+                });
+            </script>
+        @endif
+    @endauth
 </body>
 </html> 

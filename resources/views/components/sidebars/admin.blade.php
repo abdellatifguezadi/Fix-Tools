@@ -1,5 +1,9 @@
-<div class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg pt-20">
-    <div class="px-4">
+<div id="adminSidebar" class="fixed left-0 top-16 w-64 h-full bg-black shadow-lg transform transition-transform duration-300 md:translate-x-0 -translate-x-full z-20">
+    <div class="px-4 pt-4">
+        <button id="closeAdminSidebar" class="sm:block md:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
+            <i class="fas fa-times"></i>
+        </button>
+        
         <div class="mb-8">
             <h2 class="text-yellow-400 text-lg font-semibold mb-4">Administration</h2>
             <ul class="space-y-2">

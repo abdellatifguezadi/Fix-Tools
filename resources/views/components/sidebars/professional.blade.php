@@ -1,8 +1,9 @@
-<div class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg pt-16 overflow-hidden flex flex-col">
+<div id="professionalSidebar" class="fixed left-0 top-16 w-64 h-full bg-black shadow-lg overflow-hidden transform transition-transform duration-300 md:translate-x-0 -translate-x-full z-20 flex flex-col">
     <div class="px-4 pt-4 overflow-y-auto flex-1">
-        <button id="closeSidebar" class="sm:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
+        <button id="closeSidebar" class="sm:block md:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
             <i class="fas fa-times"></i>
         </button>
+        
         <div class="mb-8">
             <h2 class="text-yellow-400 text-lg font-semibold mb-4">Espace Professionnel</h2>
             <ul class="space-y-2">
