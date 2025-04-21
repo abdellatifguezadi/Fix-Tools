@@ -4,6 +4,6 @@
             <i class="fas fa-times"></i>
         </button>
         
-        <img id="modalImage" src="" alt="Image en grand" class="max-h-[80vh] rounded-lg shadow-xl">
+        <img id="modalImage" src="" alt="Full size image" class="max-h-[80vh] rounded-lg shadow-xl">
     </div>
 </div> 

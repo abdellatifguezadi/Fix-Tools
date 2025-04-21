@@ -15,26 +15,27 @@ class ServiceRequestController extends Controller
             ->with(['client', 'service'])
             ->orderBy('created_at', 'desc')
             ->get();
+
+            // dd($requests);
             
         return view('professional.requests.index', compact('requests'));
     }
     
     public function updatePrice(Request $request, ServiceRequest $serviceRequest)
     {
-        // Check if the request belongs to this professional
         if ($serviceRequest->professional_id !== Auth::id()) {
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
         
-        // Validate the request
+
         $validated = $request->validate([
             'final_price' => 'required|numeric|min:0',
         ]);
         
-        // Update the service request with the final price
+
         $serviceRequest->update([
             'final_price' => $validated['final_price'],
-            'status' => 'priced', // Change status to indicate price has been set
+            'status' => 'priced', 
         ]);
         
         return redirect()->back()->with('success', 'Price proposal submitted successfully.');

@@ -13,15 +13,15 @@
                         <div class="flex justify-between items-center mb-6">
                             <h1 class="text-xl font-bold">Marketplace</h1>
                             <div class="bg-yellow-100 px-4 py-2 rounded-lg">
-                                <span class="text-yellow-800">Mes points : </span>
-                                <span class="font-bold text-yellow-800">{{ auth()->user()->loyalty_points ?? 0 }}</span>
+                                <span class="text-yellow-800">My points: </span>
+                                <span class="font-bold text-yellow-800">{{ $userPoints }}</span>
                             </div>
                         </div>
 
                         <x-marketplace.filters :categories="$categories" />
 
                         <div id="materialsContainer" class="mt-6">
-                            <p class="mb-4">Parcourir et acheter des outils professionnels :</p>
+                            <p class="mb-4">Browse and purchase professional tools:</p>
                             <x-marketplace.materials-grid :materials="$materials" />
                         </div>
                     </div>
@@ -30,7 +30,6 @@
         </div>
     </div>
 
-    <x-marketplace.purchase-modal />
 
     <x-marketplace.image-modal />
 

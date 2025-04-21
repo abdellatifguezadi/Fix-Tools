@@ -14,7 +14,6 @@
         <div>
             <p class="text-gray-500 text-sm">{{ $title }}</p>
             <h3 class="text-2xl font-bold">{{ $value }}</h3>
-            <p class="text-green-500 text-sm">{{ $change }} depuis le mois dernier</p>
         </div>
         <div class="{{ $colors[$color] }} p-3 rounded-full">
             <i class="fas fa-{{ $icon }} text-xl"></i>

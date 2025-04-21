@@ -17,6 +17,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServiceTrackingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientServiceController;
+use App\Http\Controllers\CartController;
 
 // Routes publiques
 Route::get('/', function () {
@@ -74,6 +75,23 @@ Route::middleware('auth')->group(function () {
         Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
         Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
         Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
+        // Route::get('/material-purchases/cart', [MaterialPurchaseController::class, 'cart'])->name('material-purchases.cart');
+        Route::get('/material-purchases/checkout/{purchase}', [MaterialPurchaseController::class, 'checkout'])->name('material-purchases.checkout');
+        
+        // API pour les matériaux
+        Route::get('/api/materials/{material}', function(\App\Models\Material $material) {
+            return response()->json($material);
+        });
+        
+        // Nouvelles routes pour le panier
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+        Route::post('/cart/update/{itemId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+        Route::delete('/cart/remove/{itemId}', [CartController::class, 'removeItem'])->name('cart.remove');
+        Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+        Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+        Route::post('/cart/complete-checkout', [CartController::class, 'completeCheckout'])->name('cart.complete-checkout');
+        
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
         Route::get('/professionals/marketplace/filter', [MaterialPurchaseController::class, 'filter'])->name('professionals.marketplace.filter');

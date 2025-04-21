@@ -1,7 +1,7 @@
 @if($materials->isEmpty())
     <div class="text-center py-8">
         <i class="fas fa-tools text-gray-400 text-4xl mb-4"></i>
-        <p class="text-gray-600">Aucun outil ne correspond à vos critères de recherche.</p>
+        <p class="text-gray-600">No tools match your search criteria.</p>
     </div>
 @else
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

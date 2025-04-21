@@ -15,11 +15,11 @@
 
                     <div class="mb-6 bg-white shadow-sm rounded-lg p-4">
                         <div class="flex justify-between items-center">
-                            <h1 class="text-2xl font-bold">Mes Services</h1>
+                            <h1 class="text-2xl font-bold">My Services</h1>
                             @if(auth()->check() && auth()->user()->isProfessional())
                                 <button onclick="openAddModal()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg flex items-center">
                                     <i class="fas fa-plus mr-2"></i>
-                                    Ajouter un service
+                                    Add a service
                                 </button>
                             @endif
                         </div>
@@ -36,37 +36,10 @@
                                     :price="number_format($service['base_price'], 2)"
                                     :image="$service['image_path']"
                                     :isAvailable="$service['is_available']"
-                                >
-                                    <div class="flex space-x-2">
-                                        <button class="text-blue-600 hover:text-blue-800" 
-                                            data-id="{{ $service['id'] }}"
-                                            data-name="{{ $service['name'] }}"
-                                            data-description="{{ $service['description'] }}"
-                                            data-category-id="{{ $service['category_id'] }}"
-                                            data-price="{{ $service['base_price'] }}"
-                                            data-is-available="{{ $service['is_available'] ? 'true' : 'false' }}"
-                                            onclick="openEditModal(
-                                                this.dataset.id,
-                                                this.dataset.name,
-                                                this.dataset.description,
-                                                Number(this.dataset.categoryId || 0),
-                                                Number(this.dataset.price || 0),
-                                                this.dataset.isAvailable === 'true'
-                                            )">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <form action="{{ route('services.destroy', $service['id']) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce service?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-800">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </x-professional-service-card>
+                                />
                             @empty
                                 <div class="col-span-full text-center py-8">
-                                    <p class="text-gray-500">Vous n'avez pas encore de services. Ajoutez-en un en cliquant sur le bouton ci-dessus.</p>
+                                    <p class="text-gray-500">You don't have any services yet. Add one by clicking the button above.</p>
                                 </div>
                             @endforelse
                     </div>

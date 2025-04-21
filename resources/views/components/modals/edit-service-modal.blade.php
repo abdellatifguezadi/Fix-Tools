@@ -30,14 +30,14 @@
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
                     <option value="">Sélectionner une catégorie</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
                     @endforeach
                 </select>
             </div>
             <div>
-                <label class="block text-gray-700 mb-2">Prix de base (€)</label>
+                <label class="block text-gray-700 mb-2">Prix de base (DH)</label>
                 <input type="number" name="base_price" value="{{ old('base_price') }}" step="0.01" required
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
             </div>
@@ -60,4 +60,4 @@
             </div>
         </form>
     </div>
-</div> 
+</div>

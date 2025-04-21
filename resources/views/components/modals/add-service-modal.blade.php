@@ -31,7 +31,7 @@
                 </select>
             </div>
             <div>
-                <label class="block text-gray-700 mb-2">Prix de base (€)</label>
+                <label class="block text-gray-700 mb-2">Prix de base (DH)</label>
                 <input type="number" name="base_price" step="0.01" required
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
             </div>
@@ -41,7 +41,7 @@
                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400">
             </div>
             <div class="flex items-center mb-4">
-                <input type="checkbox" name="is_available" id="is_available" 
+                <input type="checkbox" name="is_available" id="is_available"
                     class="rounded border-gray-300 text-yellow-400 focus:ring-yellow-400">
                 <label for="is_available" class="ml-2 text-gray-700">Service disponible</label>
             </div>
@@ -53,4 +53,4 @@
             </div>
         </form>
     </div>
-</div> 
+</div>

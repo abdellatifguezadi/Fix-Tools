@@ -14,14 +14,14 @@
                 <div class="container mx-auto py-6 px-4">
                     <!-- Welcome Section -->
                     <div class="mb-8">
-                        <h1 class="text-3xl font-bold text-gray-900">Bonjour, {{ $user->name }}</h1>
-                        <p class="mt-2 text-gray-600">Voici un aperçu de votre activité</p>
+                        <h1 class="text-3xl font-bold text-gray-900">Hello, {{ $user->name }}</h1>
+                        <p class="mt-2 text-gray-600">Here's an overview of your activity</p>
                     </div>
 
                     <!-- Statistics Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <!-- Services Card -->
-                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group">
                             <div class="flex items-center">
                                 <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,14 +29,14 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h2 class="text-lg font-semibold text-gray-700">Services Proposés</h2>
-                                    <p class="text-3xl font-bold text-gray-900">{{ $servicesCount }}</p>
+                                    <h2 class="text-lg font-semibold text-gray-700 transition duration-300 group-hover:text-yellow-500">Services Offered</h2>
+                                    <p class="text-3xl font-bold text-gray-900 transition duration-300 group-hover:text-yellow-500">{{ $servicesCount }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Materials Card -->
-                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group">
                             <div class="flex items-center">
                                 <div class="p-3 rounded-full bg-green-100 text-green-500">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,14 +44,14 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h2 class="text-lg font-semibold text-gray-700">Matériaux Achetés</h2>
-                                    <p class="text-3xl font-bold text-gray-900">{{ $materialPurchasesCount }}</p>
+                                    <h2 class="text-lg font-semibold text-gray-700 transition duration-300 group-hover:text-yellow-500">Materials Purchased</h2>
+                                    <p class="text-3xl font-bold text-gray-900 transition duration-300 group-hover:text-yellow-500">{{ $materialPurchasesCount }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Total Amount Card -->
-                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group">
                             <div class="flex items-center">
                                 <div class="p-3 rounded-full bg-blue-100 text-blue-500">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,8 +59,8 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <h2 class="text-lg font-semibold text-gray-700">Total des Achats</h2>
-                                    <p class="text-3xl font-bold text-gray-900">{{ number_format($totalPurchasesAmount, 2) }} DH</p>
+                                    <h2 class="text-lg font-semibold text-gray-700 transition duration-300 group-hover:text-yellow-500">Total Purchases</h2>
+                                    <p class="text-3xl font-bold text-gray-900 transition duration-300 group-hover:text-yellow-500">{{ number_format($totalPurchasesAmount, 2) }} DH</p>
                                 </div>
                             </div>
                         </div>
@@ -69,40 +69,42 @@
                     <!-- Recent Activity -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Recent Services -->
-                        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 transition duration-300 hover:shadow-lg">
                             <div class="p-6">
-                                <h2 class="text-xl font-bold text-gray-900 mb-4">Services Récents</h2>
+                                <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Services</h2>
                                 @if($recentServices->count() > 0)
                                     <div class="space-y-4">
                                         @foreach($recentServices as $service)
-                                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg transition duration-300 transform hover:scale-102 hover:shadow-md group">
                                                 <div>
-                                                    <h3 class="font-semibold text-gray-900">{{ $service->title }}</h3>
+                                                    <h3 class="font-semibold text-gray-900 transition duration-300 group-hover:text-yellow-500">{{ $service->title }}</h3>
                                                     <p class="text-sm text-gray-600">{{ $service->base_price }} DH</p>
                                                 </div>
                                                 <span class="px-3 py-1 text-sm rounded-full {{ $service->is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                    {{ $service->is_available ? 'Disponible' : 'Non disponible' }}
+                                                    {{ $service->is_available ? 'Available' : 'Not Available' }}
                                                 </span>
                                             </div>
                                         @endforeach
                                     </div>
                                 @else
-                                    <p class="text-gray-600">Aucun service récent</p>
+                                    <p class="text-gray-600">No recent services</p>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Recent Purchases -->
-                        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 transition duration-300 hover:shadow-lg">
                             <div class="p-6">
-                                <h2 class="text-xl font-bold text-gray-900 mb-4">Achats Récents</h2>
+                                <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Purchases</h2>
                                 @if($recentPurchases->count() > 0)
                                     <div class="space-y-4">
                                         @foreach($recentPurchases as $purchase)
-                                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg transition duration-300 transform hover:scale-102 hover:shadow-md group">
                                                 <div>
-                                                    <h3 class="font-semibold text-gray-900">{{ $purchase->material->name }}</h3>
-                                                    <p class="text-sm text-gray-600">{{ $purchase->quantity }} unités - {{ $purchase->total_amount }} DH</p>
+                                                    <h3 class="font-semibold text-gray-900 transition duration-300 group-hover:text-yellow-500">
+                                                        {{ $purchase->material ? $purchase->material->name : 'Material not available' }}
+                                                    </h3>
+                                                    <p class="text-sm text-gray-600">{{ $purchase->quantity }} units - {{ $purchase->total_amount }} DH</p>
                                                 </div>
                                                 <span class="text-sm text-gray-500">
                                                     {{ $purchase->created_at->format('d/m/Y') }}
@@ -111,7 +113,7 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <p class="text-gray-600">Aucun achat récent</p>
+                                    <p class="text-gray-600">No recent purchases</p>
                                 @endif
                             </div>
                         </div>

@@ -44,12 +44,14 @@
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($requests as $request)
-                <div class="request-card bg-white rounded-lg shadow-md overflow-hidden" data-status="{{ $request->status }}">
+                <div class="request-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group" data-status="{{ $request->status }}">
                     <!-- Service Image -->
                     @if($request->service->image_path)
-                        <img src="/storage/{{ $request->service->image_path }}" 
-                             alt="{{ $request->service->name }}" 
-                             class="w-full h-36 object-cover">
+                        <div class="overflow-hidden">
+                            <img src="/storage/{{ $request->service->image_path }}" 
+                                 alt="{{ $request->service->name }}" 
+                                 class="w-full h-36 object-cover transition-transform duration-500 ease-in-out hover:scale-110">
+                        </div>
                     @else
                         <div class="w-full h-36 bg-gray-200 flex items-center justify-center">
                             <i class="fas fa-tools text-gray-400 text-4xl"></i>
@@ -59,7 +61,7 @@
                     <div class="p-6">
                         <!-- Header with service name and status badge -->
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold">{{ $request->service->name }}</h3>
+                            <h3 class="text-xl font-bold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->service->name }}</h3>
                             <span class="px-2 py-1 rounded-full text-xs font-semibold 
                                 @if($request->status == 'pending') bg-blue-100 text-blue-800
                                 @elseif($request->status == 'priced') bg-yellow-100 text-yellow-800
@@ -74,7 +76,8 @@
                         <!-- Client info -->
                         <div class="flex items-center mb-4">
                             <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
-                                @if($request->client->profile_image)
+                                @if($request->client->image)
+                                
                                     <img src="{{ asset('storage/' . $request->client->profile_image) }}" 
                                          alt="{{ $request->client->name }}" 
                                          class="w-full h-full object-cover">
@@ -85,7 +88,7 @@
                                 @endif
                             </div>
                             <div>
-                                <h4 class="font-semibold">{{ $request->client->name }}</h4>
+                                <h4 class="font-semibold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->client->name }}</h4>
                                 <p class="text-sm text-gray-500">{{ $request->requested_date->format('M d, Y') }}</p>
                             </div>
                         </div>
@@ -111,14 +114,14 @@
                                                min="0" step="0.01" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded">
+                                <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition duration-200">
                                     Submit Price
                                 </button>
                             </form>
                         @elseif($request->final_price)
                             <div class="mb-4">
                                 <h4 class="font-semibold mb-1">Final Price:</h4>
-                                <p class="text-xl font-bold text-yellow-600">{{ number_format($request->final_price, 2) }} DH</p>
+                                <p class="text-xl font-bold text-yellow-600 transition-colors duration-300 group-hover:text-yellow-500">{{ number_format($request->final_price, 2) }} DH</p>
                             </div>
                         @endif
                         
@@ -126,7 +129,7 @@
                         <div class="flex space-x-2 mt-4">
                             @if($request->status == 'accepted' || $request->status == 'completed')
                                 <a href="{{ route('messages.show', $request->client->id) }}" 
-                                   class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-center">
+                                   class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-yellow-500 text-center transition duration-200">
                                     <i class="fas fa-envelope mr-2"></i>Message Client
                                 </a>
                                 
@@ -134,7 +137,7 @@
                                     <form action="{{ route('professional.requests.complete', $request) }}" method="POST" class="flex-1">
                                         @csrf
                                         <button type="submit" 
-                                                class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                                                class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-yellow-500 transition duration-200"
                                                 onclick="return confirm('Are you sure you want to mark this request as completed?')">
                                             <i class="fas fa-check mr-2"></i>Complete
                                         </button>

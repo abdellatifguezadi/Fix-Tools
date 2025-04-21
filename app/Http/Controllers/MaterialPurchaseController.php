@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Material;
 use App\Models\Category;
+use App\Models\Cart;
+use App\Models\LoyaltyPoint;
+use App\Models\MaterialPurchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,15 +18,22 @@ class MaterialPurchaseController extends Controller
         $materials = Material::where('is_available', true)->paginate(9);
         $categories = Category::where('type', 'material')->get();
 
+        $userPoints = $user->loyalty_points;
+        if($userPoints === null) {
+            $userPoints = LoyaltyPoint::where('professional_id', $user->id)->sum('points_earned') - 
+                         MaterialPurchase::where('professional_id', $user->id)->sum('points_used');
+        }
+
         if (request()->ajax()) {
             return view('components.marketplace.materials-grid', compact('materials'))->render();
         }
 
-        return view('professionals.marketplace', compact('materials', 'categories', 'user'));
+        return view('professionals.marketplace', compact('materials', 'categories', 'user', 'userPoints'));
     }
 
     public function filter(Request $request)
     {
+        $user = Auth::user();
         $query = Material::query();
 
         if ($request->filled('search')) {
@@ -58,11 +68,43 @@ class MaterialPurchaseController extends Controller
 
         $materials = $query->where('is_available', true)->paginate(9);
 
+        $userPoints = $user->loyalty_points;
+        if($userPoints === null) {
+            $userPoints = LoyaltyPoint::where('professional_id', $user->id)->sum('points_earned') - 
+                        MaterialPurchase::where('professional_id', $user->id)->sum('points_used');
+        }
+
         if ($request->ajax()) {
             return view('components.marketplace.materials-grid', compact('materials'))->render();
         }
 
         $categories = Category::where('type', 'material')->get();
-        return view('professionals.marketplace', compact('materials', 'categories'));
+        return view('professionals.marketplace', compact('materials', 'categories', 'user', 'userPoints'));
     }
+    
+
+    // public function cart()
+    // {
+    //     $user = Auth::user();
+        
+    //     $cart = Cart::where('professional_id', $user->id)
+    //                ->where('is_active', true)
+    //                ->with('items.material.category')
+    //                ->first();
+        
+    //     if (!$cart) {
+    //         $cart = Cart::create([
+    //             'professional_id' => $user->id,
+    //             'is_active' => true
+    //         ]);
+    //     }
+        
+    //     $userPoints = $user->loyalty_points;
+    //     if($userPoints === null) {
+    //         $userPoints = LoyaltyPoint::where('professional_id', $user->id)->sum('points_earned') - 
+    //                      MaterialPurchase::where('professional_id', $user->id)->sum('points_used');
+    //     }
+        
+    //     return redirect()->back()->with(compact('cart', 'userPoints'));
+    // }
 } 
