@@ -3,16 +3,13 @@
         Inscription
     </x-slot>
 
-    <!-- Register Form -->
     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-        <!-- Background Image -->
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
-            <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189" alt="Tools Background" 
+            <img src="{{ asset('images/service6.jpeg') }}" alt="Tools Background" 
                 class="w-full h-full object-cover opacity-70">
         </div>
         
-        <!-- Form Container -->
         <div class="max-w-md w-full space-y-8 bg-white/90 backdrop-blur-sm p-8 rounded-lg shadow-xl relative z-20">
             <div>
                 <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">Créer votre compte</h2>

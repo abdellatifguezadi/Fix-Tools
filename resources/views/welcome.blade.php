@@ -4,8 +4,8 @@
     </x-slot>
 
     <header class="bg-black text-white py-20 relative">
-        <div class="absolute inset-0 z-0">
-            <img src="{{ asset('images/service1.jpeg') }}" alt="Tools and Equipment" class="w-full h-full object-cover opacity-40">
+        <div class="absolute inset-0 z-0" id="heroImageContainer">
+            <img src="{{ asset('images/service1.jpeg') }}" alt="Tools and Equipment" class="w-full h-full object-cover opacity-40 hero-image">
         </div>
         <div class="container mx-auto px-4 text-center relative z-10">
             <h1 class="text-4xl md:text-6xl font-bold mb-6">
@@ -14,9 +14,11 @@
             <p class="text-xl mb-8">
                 Find qualified professionals for all your maintenance, installation and repair work
             </p>
+            @auth
             <button class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
                 Find a Professional
             </button>
+            @endauth
         </div>
     </header>
 
@@ -24,21 +26,8 @@
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center mb-12">Our Services</h2>
 
-            <div class="absolute top-1/2 left-4 transform -translate-y-1/2 z-10">
-                <button id="prevService" class="bg-black bg-opacity-50 hover:bg-yellow-400 text-white hover:text-black rounded-full p-3 focus:outline-none transition duration-300 shadow-lg">
-                    <i class="fas fa-chevron-left text-xl"></i>
-                </button>
-            </div>
-            
-            <div class="absolute top-1/2 right-4 transform -translate-y-1/2 z-10">
-                <button id="nextService" class="bg-black bg-opacity-50 hover:bg-yellow-400 text-white hover:text-black rounded-full p-3 focus:outline-none transition duration-300 shadow-lg">
-                    <i class="fas fa-chevron-right text-xl"></i>
-                </button>
-            </div>
->
             <div class="overflow-hidden">
                 <div id="serviceCarousel" class="flex flex-nowrap transition-transform duration-500 ease-in-out">
-
                     <div class="w-full md:w-1/3 px-4 flex-shrink-0">
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden h-full">
                             <img src="{{ asset('images/service1.jpeg') }}" 
@@ -154,6 +143,12 @@
                     <button class="w-3 h-3 rounded-full bg-yellow-400" data-slide="0"></button>
                     <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="1"></button>
                     <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="2"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="3"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="4"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="5"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="6"></button>
+                    <!-- <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="7"></button>
+                    <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="8"></button> -->
                 </div>
             </div>
         </div>
@@ -265,33 +260,59 @@
     @endguest
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
+            const heroImages = [
+                "{{ asset('images/service1.jpeg') }}",
+                "{{ asset('images/service2.jpeg') }}",
+                "{{ asset('images/service3.jpeg') }}",
+                "{{ asset('images/service4.jpeg') }}",
+                "{{ asset('images/service5.jpeg') }}",
+                "{{ asset('images/service6.jpeg') }}",
+                "{{ asset('images/service7.jpeg') }}",
+                "{{ asset('images/service8.jpeg') }}",
+                "{{ asset('images/service9.jpeg') }}",
+                "{{ asset('images/about.jpeg') }}"
+            ];
             
+            let currentHeroIndex = 0;
+            const heroImageElement = document.querySelector('.hero-image');
             
-            const carousel = document.getElementById('serviceCarousel');
-            const prevButton = document.getElementById('prevService');
-            const nextButton = document.getElementById('nextService');
-            const indicators = document.querySelectorAll('#serviceIndicators button');
-            
-            console.log('Elements found:', {
-                carousel: carousel,
-                prevButton: prevButton,
-                nextButton: nextButton,
-                indicators: indicators.length
-            });
-            
-            if (!carousel || !prevButton || !nextButton) {
-                console.error('Required elements not found!');
-                return;
+            function changeHeroImage() {
+                currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+                
+                const newImage = new Image();
+                newImage.src = heroImages[currentHeroIndex];
+                newImage.alt = "Tools and Equipment";
+                newImage.className = "w-full h-full object-cover opacity-0 hero-image absolute inset-0 transition-opacity duration-1000";
+                
+                const container = document.getElementById('heroImageContainer');
+                container.appendChild(newImage);
+                
+                setTimeout(() => {
+                    newImage.classList.remove('opacity-0');
+                    newImage.classList.add('opacity-40');
+                }, 50);
+                
+                setTimeout(() => {
+                    if (container.children.length > 1) {
+                        container.removeChild(container.children[0]);
+                    }
+                }, 1000);
             }
             
+            setInterval(changeHeroImage, 3000);
+            
+            const carousel = document.getElementById('serviceCarousel');
+            const indicators = document.querySelectorAll('#serviceIndicators button');
+            
             let currentIndex = 0;
-            const totalSlides = 3; 
+            const totalItems = 9; 
+            const visibleItems = 3; 
+            const totalSlides = totalItems - visibleItems + 1; 
             
             function updateCarousel() {
-                console.log('Updating carousel to index:', currentIndex);
-                const translateX = -(currentIndex * 100);
+                const itemWidth = 33.33;
+                const translateX = -(currentIndex * itemWidth);
                 carousel.style.transform = `translateX(${translateX}%)`;
                 
                 indicators.forEach((indicator, index) => {
@@ -305,53 +326,22 @@
                 });
             }
             
-            prevButton.addEventListener('click', function(e) {
-                console.log('Previous button clicked');
-                e.preventDefault();
-                if (currentIndex > 0) {
-                    currentIndex--;
-                } else {
-                    currentIndex = totalSlides - 1; 
-                }
-                updateCarousel();
-            });
+            // indicators.forEach((indicator, index) => {
+            //     indicator.addEventListener('click', function() {
+            //         currentIndex = index;
+            //         updateCarousel();
+            //     });
+            // });
             
-            nextButton.addEventListener('click', function(e) {
-                console.log('Next button clicked');
-                e.preventDefault();
-                if (currentIndex < totalSlides - 1) {
-                    currentIndex++;
-                } else {
-                    currentIndex = 0;
-                }
-                updateCarousel();
-            });
-            
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', function() {
-                    console.log('Indicator clicked:', index);
-                    currentIndex = index;
-                    updateCarousel();
-                });
-            });
-            
-
             updateCarousel();
             
-            const autoplayInterval = setInterval(function() {
-                console.log('Auto-advancing carousel');
+            // Auto-advance every 5 seconds
+            setInterval(function() {
                 currentIndex = (currentIndex + 1) % totalSlides;
                 updateCarousel();
-            }, 8000);
-            
-            carousel.addEventListener('mouseenter', function() {
-                console.log('Mouse entered carousel, stopping autoplay');
-                clearInterval(autoplayInterval);
-            });
+            }, 3000);
         });
     </script>
 </x-app-layout>
 
-@push('scripts')
-<!-- Keep this empty to avoid conflicts -->
-@endpush
+
