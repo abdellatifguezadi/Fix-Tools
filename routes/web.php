@@ -18,6 +18,8 @@ use App\Http\Controllers\ServiceTrackingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientServiceController;
 use App\Http\Controllers\CartController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 // Routes publiques
 Route::get('/', function () {
@@ -49,19 +51,34 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [RegisteredUserController::class, 'authenticate']);
 });
 
+// Routes pour la vérification d'email
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect()->route('dashboard')->with('success', 'Votre adresse email a été vérifiée avec succès!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('success', 'Un nouveau lien de vérification a été envoyé à votre adresse email.');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 // Routes protégées par authentification
 Route::middleware('auth')->group(function () {
     Route::post('logout', [RegisteredUserController::class, 'destroy'])->name('logout');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{user}', [MessageController::class, 'show'])->name('messages.show');
-    Route::post('/messages/{user}', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'edit'])->middleware('verified')->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->middleware('verified')->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware('verified')->name('profile.destroy');
+    Route::get('/messages', [MessageController::class, 'index'])->middleware('verified')->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])->middleware('verified')->name('messages.show');
+    Route::post('/messages/{user}', [MessageController::class, 'store'])->middleware('verified')->name('messages.store');
     
     // Routes pour les professionnels
-    Route::middleware('professional')->group(function () {
+    Route::middleware(['professional', 'verified'])->group(function () {
         Route::get('/professional/dashboard', [ProfessionalController::class, 'index'])->name('professionals.dashboard');
         Route::get('/my-services', [ServiceController::class, 'myServices'])->name('services.my-services');
         Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
@@ -97,7 +114,7 @@ Route::middleware('auth')->group(function () {
     // });
     
     // Routes pour l'admin
-    Route::middleware('admin')->group(function () {
+    Route::middleware(['admin', 'verified'])->group(function () {
         Route::get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
         
         Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
@@ -141,7 +158,7 @@ Route::get('/materials', [MaterialController::class, 'index'])->name('materials.
 // });
 
 // Routes des services (accès client uniquement)
-Route::middleware(['auth', 'client'])->group(function () {
+Route::middleware(['auth', 'client', 'verified'])->group(function () {
     Route::get('/services/search', [ClientServiceController::class, 'search'])->name('client.services.search');
     Route::get('/services/category/{category}', [ClientServiceController::class, 'byCategory'])->name('client.services.by-category');
     Route::get('/services/{service}', [ClientServiceController::class, 'show'])->name('client.services.show');
@@ -157,4 +174,16 @@ Route::middleware(['auth', 'client'])->group(function () {
 
     Route::get('/reviews/create/{serviceRequest}', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+});
+
+// Route de test pour vérifier la configuration de l'email
+Route::get('/test-email', function () {
+    $details = [
+        'title' => 'Test Email de Fix&Tools',
+        'body' => 'Ceci est un test pour vérifier la configuration de l\'email avec Mailtrap'
+    ];
+    
+    \Mail::to('test@example.com')->send(new \App\Mail\TestMail($details));
+    
+    return 'Email de test envoyé, vérifiez votre boîte Mailtrap';
 });
