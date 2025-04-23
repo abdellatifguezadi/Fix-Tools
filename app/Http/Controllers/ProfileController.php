@@ -13,19 +13,33 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('professionals.profile', compact('user'));
+        return $this->getProfileView($user);
     }
 
     public function profile()
     {
         $user = Auth::user();
-        return view('professionals.profile', compact('user'));
+        return $this->getProfileView($user);
     }
 
     public function edit()
     {
         $user = Auth::user();
-        return view('professionals.profile', compact('user'));
+        return $this->getProfileView($user);
+    }
+    
+    private function getProfileView($user)
+    {
+        switch ($user->role) {
+            case 'admin':
+                return view('admin.profile', compact('user'));
+            case 'professional':
+                return view('professionals.profile', compact('user'));
+            case 'client':
+                return view('clients.profile', compact('user'));
+            default:
+                return view('professionals.profile', compact('user'));
+        }
     }
 
     public function update(Request $request)

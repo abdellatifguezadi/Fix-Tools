@@ -17,6 +17,7 @@
                     @if(auth()->user()->role === 'client')
                         <a href="{{ route('client.services.index') }}" class="text-yellow-400 hover:text-yellow-300 whitespace-nowrap">Services</a>
                         <a href="{{ route('client.professionals.index') }}" class="text-yellow-400 hover:text-yellow-300 whitespace-nowrap">Professionals</a>
+                        <a href="{{ route('client.my-requests') }}" class="text-yellow-400 hover:text-yellow-300 whitespace-nowrap">My Requests</a>
                     @endif
                     
                     @if(auth()->user()->role === 'professional')
@@ -38,7 +39,10 @@
                     <a href="{{ route('contact') }}" class="text-yellow-400 hover:text-yellow-300 whitespace-nowrap">Contact</a>
                 </div>
                 <div class="flex items-center space-x-4 ml-4">
-                    <span class="text-yellow-400 whitespace-nowrap">{{ auth()->user()->name }}</span>
+                    <a href="{{ route('profile.edit') }}" class="flex items-center text-yellow-400 hover:text-yellow-300 whitespace-nowrap group">
+                        <i class="fas fa-user-circle mr-2"></i>
+                        <span class="group-hover:underline">{{ auth()->user()->name }}</span>
+                    </a>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit" class="text-yellow-400 hover:text-yellow-300 whitespace-nowrap">Logout</button>

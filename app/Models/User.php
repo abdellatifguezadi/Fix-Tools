@@ -66,6 +66,18 @@ class User extends Authenticatable
         return $this->hasMany(ServiceRequest::class, 'professional_id');
     }
 
+    // Méthode permettant d'accéder aux demandes de service en fonction du rôle de l'utilisateur
+    public function serviceRequests()
+    {
+        if ($this->role === 'client') {
+            return $this->requestedServices();
+        } elseif ($this->role === 'professional') {
+            return $this->providedServices();
+        }
+        
+        return $this->requestedServices(); // Par défaut, retourne les demandes du client
+    }
+
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'sender_id');
