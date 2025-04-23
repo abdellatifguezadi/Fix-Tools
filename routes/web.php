@@ -131,7 +131,7 @@ Route::middleware('auth')->group(function () {
 
 // // Routes publiques pour consultation
 // Route::get('/professionals/{professional}', [ProfessionalController::class, 'show'])->name('professionals.show');
-// Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
+Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
 // Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
 
 // Routes des avis (accessibles aux clients authentifiés)
