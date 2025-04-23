@@ -22,7 +22,15 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required', 
+                'confirmed', 
+                'min:8',
+                'regex:/[a-z]/',      
+                'regex:/[A-Z]/',      
+                'regex:/[0-9]/',      
+                'regex:/[@$!%*#?&]/'  
+            ],
             'role' => ['required', 'string', 'in:client,professional'],
         ]);
 
@@ -40,19 +48,15 @@ class RegisteredUserController extends Controller
             $user->image = 'default_client_avatar.png';
         }
 
+        $user->save();
 
         event(new Registered($user));
 
+        $user->sendEmailVerificationNotification();
+
         Auth::login($user);
 
-        switch ($user->role) {
-            case 'professional':
-                return redirect()->route('services.my-services');
-            case 'client':
-                return redirect()->route('home');
-            default:
-                return redirect()->route('home');
-        }
+        return redirect()->route('verification.notice');
     }
 
     public function login()
@@ -70,7 +74,11 @@ class RegisteredUserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard'));
+            if (Auth::user()->hasVerifiedEmail()) {
+                return redirect()->intended(route('dashboard'));
+            } else {
+                return redirect()->route('verification.notice');
+            }
         }
 
         return back()->withErrors([
@@ -82,7 +90,8 @@ class RegisteredUserController extends Controller
     {
         Auth::logout();
 
-
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
 
         return redirect()->route('home');
     }
