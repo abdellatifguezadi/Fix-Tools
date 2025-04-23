@@ -21,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::component('layouts.app', 'app-layout');
         
-        // Partager le nombre d'articles dans le panier avec toutes les vues
         View::composer('*', function ($view) {
             if (Auth::check() && Auth::user()->role === 'professional') {
                 try {

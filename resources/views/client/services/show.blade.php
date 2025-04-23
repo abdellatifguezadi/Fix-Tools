@@ -8,14 +8,12 @@
                 Back to Services
             </a>
 
-            <!-- Main Service Image with Gradient Overlay -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition duration-300 mb-6">
                 <div class="relative h-96 overflow-hidden">
                     <img src="{{ $formattedService['image_path'] }}" alt="{{ $formattedService['name'] }}"
                         class="w-full h-full object-cover transition-transform duration-700 ease-in-out hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
                     
-                    <!-- Title and Price Overlay -->
                     <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
                         <div class="flex justify-between items-end">
                             <div>
@@ -36,11 +34,8 @@
                 </div>
             </div>
 
-            <!-- Content Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Main Content (Left 2/3) -->
                 <div class="md:col-span-2 space-y-6">
-                    <!-- Description Card -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <div class="bg-yellow-400 px-6 py-3 flex items-center">
                             <div class="bg-white p-2 rounded-full mr-3">
@@ -53,7 +48,6 @@
                         </div>
                     </div>
 
-                    <!-- Booking Form -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <div class="bg-blue-600 px-6 py-3 flex items-center">
                             <div class="bg-white p-2 rounded-full mr-3">
@@ -115,9 +109,7 @@
                     </div>
                 </div>
                 
-                <!-- Sidebar (Right 1/3) -->
                 <div class="space-y-6">
-                    <!-- Professional Info -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <div class="bg-gray-800 px-6 py-3 flex items-center">
                             <div class="bg-white p-2 rounded-full mr-3">
@@ -184,7 +176,6 @@
                         </div>
                     </div>
                     
-                    <!-- Tips Card -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <div class="bg-green-600 px-6 py-3 flex items-center">
                             <div class="bg-white p-2 rounded-full mr-3">

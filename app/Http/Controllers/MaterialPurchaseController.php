@@ -83,28 +83,5 @@ class MaterialPurchaseController extends Controller
     }
     
 
-    // public function cart()
-    // {
-    //     $user = Auth::user();
-        
-    //     $cart = Cart::where('professional_id', $user->id)
-    //                ->where('is_active', true)
-    //                ->with('items.material.category')
-    //                ->first();
-        
-    //     if (!$cart) {
-    //         $cart = Cart::create([
-    //             'professional_id' => $user->id,
-    //             'is_active' => true
-    //         ]);
-    //     }
-        
-    //     $userPoints = $user->loyalty_points;
-    //     if($userPoints === null) {
-    //         $userPoints = LoyaltyPoint::where('professional_id', $user->id)->sum('points_earned') - 
-    //                      MaterialPurchase::where('professional_id', $user->id)->sum('points_used');
-    //     }
-        
-    //     return redirect()->back()->with(compact('cart', 'userPoints'));
-    // }
+
 } 

@@ -14,7 +14,6 @@
         </div>
     @endif
     
-    <!-- Status Filter -->
     <div class="flex space-x-4 mb-6">
         <button data-status="all" class="status-filter bg-yellow-400 text-black px-4 py-2 rounded-lg">
             All Requests
@@ -45,7 +44,6 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($requests as $request)
                 <div class="request-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group" data-status="{{ $request->status }}">
-                    <!-- Service Image -->
                     @if($request->service->image_path)
                         <div class="overflow-hidden">
                             <img src="/storage/{{ $request->service->image_path }}" 
@@ -59,7 +57,6 @@
                     @endif
                     
                     <div class="p-6">
-                        <!-- Header with service name and status badge -->
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-xl font-bold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->service->name }}</h3>
                             <span class="px-2 py-1 rounded-full text-xs font-semibold 
@@ -73,7 +70,6 @@
                             </span>
                         </div>
                         
-                        <!-- Client info -->
                         <div class="flex items-center mb-4">
                             <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
                                 @if($request->client->image)
@@ -93,13 +89,11 @@
                             </div>
                         </div>
                         
-                        <!-- Description -->
                         <div class="mb-4">
                             <h4 class="font-semibold mb-1">Description:</h4>
                             <p class="text-gray-700">{{ $request->description }}</p>
                         </div>
                         
-                        <!-- Final price -->
                         @if($request->status == 'pending')
                             <form action="{{ route('professional.requests.update-price', $request) }}" method="POST">
                                 @csrf
@@ -125,7 +119,6 @@
                             </div>
                         @endif
                         
-                        <!-- Action buttons -->
                         <div class="flex space-x-2 mt-4">
                             @if($request->status == 'accepted' || $request->status == 'completed')
                                 <a href="{{ route('messages.show', $request->client->id) }}" 

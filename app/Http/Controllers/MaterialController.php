@@ -16,10 +16,10 @@ class MaterialController extends Controller
         return view('admin.materials', compact('materials', 'categories'));
     }
     
-    public function show(Material $material)
-    {
-        return view('materials.show', compact('material'));
-    }
+    // public function show(Material $material)
+    // {
+    //     return view('materials.show', compact('material'));
+    // }
     
     public function store(Request $request)
     {

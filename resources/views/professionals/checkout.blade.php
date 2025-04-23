@@ -4,12 +4,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row gap-6">
-                <!-- Sidebar -->
                 <div class="md:w-1/4">
                     <x-marketplace.checkout-sidebar :cart="$cart" :userPoints="$userPoints" :pointsUsed="$pointsUsed" :priceToPay="$priceToPay" />
                 </div>
                 
-                <!-- Main Content -->
                 <div class="md:w-3/4">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                         <div class="p-6">
