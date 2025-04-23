@@ -5,9 +5,7 @@
 
     <div class="min-h-screen flex flex-col">
         <div class="flex-1 p-8 mt-16">
-            <!-- Stats Overview -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <!-- Total Users -->
                 <div class="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
                     <x-stats-card 
                         title="Total Users" 
@@ -17,7 +15,6 @@
                     />
                 </div>
 
-                <!-- Active Professionals -->
                 <div class="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
                     <x-stats-card 
                         title="Active Professionals" 
@@ -27,7 +24,6 @@
                     />
                 </div>
 
-                <!-- Total Services -->
                 <div class="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
                     <x-stats-card 
                         title="Completed Services" 
@@ -37,7 +33,6 @@
                     />
                 </div>
 
-                <!-- Revenue -->
                 <div class="transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
                     <x-stats-card 
                         title="Total Revenue" 
@@ -48,9 +43,7 @@
                 </div>
             </div>
 
-            <!-- Tables Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <!-- Services Table -->
                 <div class="transition duration-300 hover:shadow-lg">
                     <x-card title="Services Overview">
                         <div class="overflow-x-auto">
@@ -79,7 +72,6 @@
                     </x-card>
                 </div>
 
-                <!-- Revenue Table -->
                 <div class="transition duration-300 hover:shadow-lg">
                     <x-card title="Monthly Revenue">
                         <div class="overflow-x-auto">
@@ -109,9 +101,7 @@
                 </div>
             </div>
 
-            <!-- Recent Activity -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Recent Services -->
                 <div class="transition duration-300 hover:shadow-lg">
                     <x-card title="Recent Services">
                         <div class="space-y-4">
@@ -132,7 +122,6 @@
                     </x-card>
                 </div>
 
-                <!-- New Users -->
                 <div class="transition duration-300 hover:shadow-lg">
                     <x-card title="New Users">
                         <div class="space-y-4">

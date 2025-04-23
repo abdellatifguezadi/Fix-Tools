@@ -16,12 +16,10 @@
     {{ $styles ?? '' }}
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
     <div class="z-30 relative">
         <x-navbar/>
     </div>
 
-    <!-- Boutons toggle des sidebars (placés ici pour éviter les doublons) -->
     @auth
         @if(auth()->user()->isAdmin())
             <button id="toggleAdminSidebar" class="fixed top-20 left-4 bg-yellow-400 text-black p-2 rounded-lg shadow-lg md:hidden z-30">
@@ -34,7 +32,6 @@
         @endif
     @endauth
 
-    <!-- Sidebar pour admin et professionnel -->
     @auth
         <div class="z-20 relative">
             @if(auth()->user()->isAdmin())
@@ -45,21 +42,17 @@
         </div>
     @endauth
 
-    <!-- Toast Notifications -->
     <x-toast-notifications type="success" />
     <x-toast-notifications type="error" />
 
-    <!-- Main Content -->
     <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) md:ml-64 transition-all duration-300 @endif @endauth">
         {{ $slot }}
     </main>
 
-    <!-- Footer -->
     <x-footer/>
 
     @stack('scripts')
     
-    <!-- Scripts des sidebars -->
     @auth
         @if(auth()->user()->isAdmin())
             <script>

@@ -14,25 +14,19 @@ class Cart extends Model
         'is_active',
     ];
 
-    /**
-     * Récupère le professionnel propriétaire du panier
-     */
+
     public function professional()
     {
         return $this->belongsTo(User::class, 'professional_id');
     }
 
-    /**
-     * Récupère les éléments du panier
-     */
+
     public function items()
     {
         return $this->hasMany(CartItem::class);
     }
 
-    /**
-     * Récupère le panier actif d'un professionnel ou en crée un nouveau
-     */
+
     public static function getOrCreateCart($professionalId)
     {
         $cart = self::where('professional_id', $professionalId)
@@ -49,9 +43,7 @@ class Cart extends Model
         return $cart;
     }
 
-    /**
-     * Calcule le total du panier
-     */
+
     public function getTotal()
     {
         $total = 0;
@@ -61,9 +53,7 @@ class Cart extends Model
         return $total;
     }
 
-    /**
-     * Calcule le nombre total d'articles dans le panier
-     */
+
     public function getTotalItems()
     {
         return $this->items->sum('quantity');

@@ -140,8 +140,8 @@ class CartController extends Controller
 
         $userPoints = $user->loyalty_points;
         if($userPoints === null) {
-            $userPoints = \App\Models\LoyaltyPoint::where('professional_id', $user->id)->sum('points_earned') - 
-                         \App\Models\MaterialPurchase::where('professional_id', $user->id)->sum('points_used');
+            $userPoints = LoyaltyPoint::where('professional_id', $user->id)->sum('points_earned') - 
+                         MaterialPurchase::where('professional_id', $user->id)->sum('points_used');
         }
 
         $totalPrice = $cart->getTotal();

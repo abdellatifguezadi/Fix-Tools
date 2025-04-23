@@ -23,7 +23,6 @@ class Category extends Model
         'deleted_at' => 'datetime'
     ];
 
-    // Relations
     public function services()
     {
         return $this->hasMany(Service::class);

@@ -12,15 +12,12 @@
 
             <div class="flex-1 overflow-auto">
                 <div class="container mx-auto py-6 px-4">
-                    <!-- Welcome Section -->
-                    <div class="mb-8">
+                                                                                        <div class="mb-8">
                         <h1 class="text-3xl font-bold text-gray-900">Hello, {{ $user->name }}</h1>
                         <p class="mt-2 text-gray-600">Here's an overview of your activity</p>
                     </div>
 
-                    <!-- Statistics Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <!-- Services Card -->
                         <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group">
                             <div class="flex items-center">
                                 <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
@@ -35,7 +32,6 @@
                             </div>
                         </div>
 
-                        <!-- Materials Card -->
                         <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group">
                             <div class="flex items-center">
                                 <div class="p-3 rounded-full bg-green-100 text-green-500">
@@ -50,7 +46,6 @@
                             </div>
                         </div>
 
-                        <!-- Total Amount Card -->
                         <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group">
                             <div class="flex items-center">
                                 <div class="p-3 rounded-full bg-blue-100 text-blue-500">
@@ -66,9 +61,7 @@
                         </div>
                     </div>
 
-                    <!-- Recent Activity -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Recent Services -->
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 transition duration-300 hover:shadow-lg">
                             <div class="p-6">
                                 <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Services</h2>
@@ -92,7 +85,6 @@
                             </div>
                         </div>
 
-                        <!-- Recent Purchases -->
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 transition duration-300 hover:shadow-lg">
                             <div class="p-6">
                                 <h2 class="text-xl font-bold text-gray-900 mb-4">Recent Purchases</h2>

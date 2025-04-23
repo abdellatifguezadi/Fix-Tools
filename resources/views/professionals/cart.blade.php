@@ -4,7 +4,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row gap-6">
-                <!-- Sidebar -->
                 <div class="md:w-1/4">
                     <x-marketplace.cart-sidebar :cart="$cart" :userPoints="$userPoints" />
                 </div>

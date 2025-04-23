@@ -5,7 +5,6 @@ use Illuminate\Support\Str;
 
 <x-app-layout>
     <div class="container mx-auto px-4 py-8">
-        <!-- Header with Return Button -->
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold">My Service Requests</h1>
             <a href="{{ route('client.services.index') }}"
@@ -14,7 +13,7 @@ use Illuminate\Support\Str;
             </a>
         </div>
 
-        @if(session('success'))
+        <!-- @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span class="block sm:inline">{{ session('success') }}</span>
         </div>
@@ -24,7 +23,7 @@ use Illuminate\Support\Str;
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span class="block sm:inline">{{ session('error') }}</span>
         </div>
-        @endif
+        @endif -->
 
         <!-- Status Filter -->
         <div class="mb-6">
@@ -63,7 +62,6 @@ use Illuminate\Support\Str;
                 onmouseover="this.style.transform='translateZ(0) scale(1.05)'; this.querySelector('.card-title').style.color='#f59e0b'; this.querySelector('.prof-name').style.color='#f59e0b'; this.querySelector('.service-img').style.transform='scale(1.1)';" 
                 onmouseout="this.style.transform='translateZ(0) scale(1)'; this.querySelector('.card-title').style.color=''; this.querySelector('.prof-name').style.color=''; this.querySelector('.service-img').style.transform='scale(1)';"
                 data-status="{{ $request->status }}">
-                <!-- Service Image -->
                 <div class="relative h-48 overflow-hidden">
                     @if($request->service->image_path)
                     <img src="/storage/{{ $request->service->image_path }}"
@@ -91,17 +89,14 @@ use Illuminate\Support\Str;
                 </div>
 
                 <div class="p-6 transition-colors duration-300">
-                    <!-- Service Title and Date -->
                     <div class="mb-4">
                         <h2 class="text-xl font-bold card-title" style="transition: color 0.3s ease;">{{ $request->service->name }}</h2>
                         <p class="text-gray-600 text-sm">Requested on {{ $request->requested_date->format('M d, Y') }}</p>
                     </div>
 
-                    <!-- Professional Info -->
                     <div class="flex items-center space-x-4 mb-4">
                         <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-yellow-400 prof-img-container" style="transition: all 0.3s ease;">
                             @if(!empty($request->professional->image))
-                            <!-- Try with direct URL - might work if images are public -->
                             <img src="/storage/{{ $request->professional->image }}"
                                 alt="{{ $request->professional->name }}"
                                 class="w-full h-full object-cover">
@@ -124,7 +119,6 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
 
-                    <!-- Service Details -->
                     <div class="space-y-2 mb-4 details-container" style="transition: all 0.3s ease;">
                         <div class="flex items-center text-sm">
                             <i class="fas fa-tag text-yellow-400 mr-2 icon-animate" style="transition: transform 0.3s ease;"></i>
@@ -147,7 +141,6 @@ use Illuminate\Support\Str;
                     </div>
                     @endif
 
-                    <!-- Actions -->
                     <div class="flex space-x-2">
                         @if($request->status == 'pending')
                         <form action="{{ route('client.service-requests.cancel', ['serviceRequest' => $request->id]) }}" method="POST" class="flex-1">
@@ -224,27 +217,22 @@ use Illuminate\Support\Str;
                 });
             });
 
-            // Add mouseover events to each card
             document.querySelectorAll('.request-card').forEach(card => {
                 card.addEventListener('mouseover', function() {
-                    // Find and activate image overlay
                     const overlay = this.querySelector('.hover-overlay');
                     if (overlay) overlay.style.opacity = '0.5';
                     
-                    // Find and scale icons
                     const icons = this.querySelectorAll('.icon-animate');
                     icons.forEach(icon => {
                         icon.style.transform = 'scale(1.1)';
                     });
                     
-                    // Scale professional image
                     const profImg = this.querySelector('.prof-img-container');
                     if (profImg) {
                         profImg.style.transform = 'scale(1.1)';
                         profImg.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
                     }
                     
-                    // Add background to details container
                     const details = this.querySelector('.details-container');
                     if (details) {
                         details.style.backgroundColor = 'white';
@@ -253,7 +241,6 @@ use Illuminate\Support\Str;
                         details.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
                     }
                     
-                    // Enhance price container
                     const price = this.querySelector('.price-container');
                     if (price) {
                         price.style.borderColor = '#fde68a';
@@ -265,24 +252,20 @@ use Illuminate\Support\Str;
                 });
                 
                 card.addEventListener('mouseout', function() {
-                    // Reset image overlay
                     const overlay = this.querySelector('.hover-overlay');
                     if (overlay) overlay.style.opacity = '0';
                     
-                    // Reset icons
                     const icons = this.querySelectorAll('.icon-animate');
                     icons.forEach(icon => {
                         icon.style.transform = 'scale(1)';
                     });
                     
-                    // Reset professional image
                     const profImg = this.querySelector('.prof-img-container');
                     if (profImg) {
                         profImg.style.transform = 'scale(1)';
                         profImg.style.boxShadow = 'none';
                     }
                     
-                    // Reset details container
                     const details = this.querySelector('.details-container');
                     if (details) {
                         details.style.backgroundColor = '';
@@ -291,7 +274,6 @@ use Illuminate\Support\Str;
                         details.style.boxShadow = '';
                     }
                     
-                    // Reset price container
                     const price = this.querySelector('.price-container');
                     if (price) {
                         price.style.borderColor = '';
