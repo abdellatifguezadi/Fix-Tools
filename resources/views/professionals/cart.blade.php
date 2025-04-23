@@ -102,11 +102,13 @@
                                                     <td class="px-6 py-4 whitespace-nowrap">
                                                         <form action="{{ route('cart.update', $item->id) }}" method="POST" class="flex items-center space-x-2">
                                                             @csrf
-                                                            <button type="button" class="px-2 py-1 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300" onclick="decrementQuantity('quantity-{{ $item->id }}')">
+                                                            <button type="button" class="px-2 py-1 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 decrement-btn" 
+                                                                data-target="quantity-{{ $item->id }}">
                                                                 <i class="fas fa-minus text-xs"></i>
                                                             </button>
                                                             <input type="number" name="quantity" id="quantity-{{ $item->id }}" value="{{ $item->quantity }}" min="1" max="{{ $item->material->stock_quantity }}" class="w-12 text-center border border-gray-300 rounded-md">
-                                                            <button type="button" class="px-2 py-1 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300" onclick="incrementQuantity('quantity-{{ $item->id }}', {{ $item->material->stock_quantity }})">
+                                                            <button type="button" class="px-2 py-1 bg-gray-200 rounded-lg text-gray-700 hover:bg-gray-300 increment-btn" 
+                                                                data-target="quantity-{{ $item->id }}" data-max="{{ $item->material->stock_quantity }}">
                                                                 <i class="fas fa-plus text-xs"></i>
                                                             </button>
                                                             <button type="submit" class="px-2 py-1 bg-yellow-100 rounded-lg text-yellow-700 hover:bg-yellow-200">
@@ -153,18 +155,27 @@
     </div>
 
     <script>
-        function decrementQuantity(id) {
-            const input = document.getElementById(id);
-            if (input.value > 1) {
-                input.value = parseInt(input.value) - 1;
-            }
-        }
+        // Boutons pour diminuer la quantité
+        document.querySelectorAll('.decrement-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                if (input && input.value > 1) {
+                    input.value = parseInt(input.value) - 1;
+                }
+            });
+        });
         
-        function incrementQuantity(id, max) {
-            const input = document.getElementById(id);
-            if (parseInt(input.value) < max) {
-                input.value = parseInt(input.value) + 1;
-            }
-        }
+        // Boutons pour augmenter la quantité
+        document.querySelectorAll('.increment-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const max = parseInt(this.getAttribute('data-max'));
+                const input = document.getElementById(targetId);
+                if (input && parseInt(input.value) < max) {
+                    input.value = parseInt(input.value) + 1;
+                }
+            });
+        });
     </script>
 </x-app-layout> 

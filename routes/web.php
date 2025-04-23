@@ -20,11 +20,12 @@ use App\Http\Controllers\ClientServiceController;
 use App\Http\Controllers\CartController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 // Routes publiques
 Route::get('/', function () {
-    if (auth()->check()) {
-        $user = auth()->user();
+    if (Auth::check()) {
+        $user = Auth::user();
         switch ($user->role) {
             case 'admin':
                 return redirect()->route('admin.dashboard');
@@ -96,6 +97,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
         Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
         Route::post('/cart/complete-checkout', [CartController::class, 'completeCheckout'])->name('cart.complete-checkout');
+        Route::get('/cart/payment/success', [CartController::class, 'handlePaymentSuccess'])->name('cart.payment.success');
 
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
@@ -176,14 +178,4 @@ Route::middleware(['auth', 'client', 'verified'])->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
-// Route de test pour vérifier la configuration de l'email
-Route::get('/test-email', function () {
-    $details = [
-        'title' => 'Test Email de Fix&Tools',
-        'body' => 'Ceci est un test pour vérifier la configuration de l\'email avec Mailtrap'
-    ];
-    
-    \Mail::to('test@example.com')->send(new \App\Mail\TestMail($details));
-    
-    return 'Email de test envoyé, vérifiez votre boîte Mailtrap';
-});
+

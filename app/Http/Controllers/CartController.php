@@ -7,8 +7,10 @@ use App\Models\CartItem;
 use App\Models\LoyaltyPoint;
 use App\Models\Material;
 use App\Models\MaterialPurchase;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mollie\Laravel\Facades\Mollie;
 
 class CartController extends Controller
 {
@@ -128,7 +130,7 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
         $request->validate([
-            'payment_method' => 'required|in:card,points',
+            'payment_method' => 'required|in:cart,points',
         ]);
 
         $user = Auth::user();
@@ -176,7 +178,115 @@ class CartController extends Controller
     }
 
 
-    public function completeCheckout()
+    public function prepareMolliePayment($cart, $priceToPay, Request $request)
+    {
+        $user = Auth::user();
+        
+        if ($request) {
+            session()->put('delivery_info', [
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'city' => $request->city,
+                'postal_code' => $request->postal_code,
+            ]);
+        } else {
+            $deliveryInfo = session('delivery_info');
+            if (!$deliveryInfo) {
+                return redirect()->route('cart.index')->with('error', 'Missing delivery information. Please try again.');
+            }
+        }
+        
+        $formattedPrice = number_format($priceToPay, 2, '.', '');
+        
+        $payment = Mollie::api()->payments->create([
+            "amount" => [
+                "currency" => "EUR",
+                "value" => $formattedPrice 
+            ],
+            "description" => "Order #{$cart->id}",
+            "redirectUrl" => route('cart.payment.success'),
+            "metadata" => [
+                "cart_id" => $cart->id,
+                "user_id" => $user->id,
+            ],
+        ]);
+
+        session(['mollie_payment_id' => $payment->id]);
+
+        return redirect($payment->getCheckoutUrl(), 303);
+    }
+
+
+    public function handlePaymentSuccess(Request $request)
+    {
+        $paymentId = session('mollie_payment_id');
+        
+        if (!$paymentId) {
+            return redirect()->route('cart.index')->with('error', 'Payment session expired. Please try again.');
+        }
+        
+        $payment = Mollie::api()->payments->get($paymentId);
+        
+        if ($payment->isPaid()) {
+            $checkoutData = session('checkout_data');
+            $deliveryInfo = session('delivery_info');
+            
+            if (!$checkoutData || !$deliveryInfo) {
+                return redirect()->route('cart.index')->with('error', 'Payment session expired. Please try again.');
+            }
+            
+            $cart = Cart::findOrFail($checkoutData['cart_id']);
+            $user = Auth::user();
+            
+            if ($cart->professional_id != $user->id) {
+                return redirect()->route('cart.index')->with('error', 'Unauthorized action.');
+            }
+            
+            foreach ($cart->items as $item) {
+                $material = $item->material;
+                
+                if ($material->stock_quantity < $item->quantity) {
+                    return redirect()->route('cart.index')->with('error', 'The stock of product ' . $material->name . ' has changed. Quantity not available.');
+                }
+                
+                $purchase = MaterialPurchase::create([
+                    'professional_id' => $user->id,
+                    'material_id' => $material->id,
+                    'quantity' => $item->quantity,
+                    'price_paid' => $item->getSubtotal(),
+                    'points_used' => 0,
+                    'payment_method' => 'cart',
+                    'status' => 'completed',
+                    'transaction_id' => $paymentId,
+                    'delivery_address' => $deliveryInfo['address'],
+                    'delivery_phone' => $deliveryInfo['phone'],
+                    'delivery_city' => $deliveryInfo['city'],
+                    'delivery_postal_code' => $deliveryInfo['postal_code'],
+                ]);
+
+                $material->stock_quantity -= $item->quantity;
+                $materialToUpdate = \App\Models\Material::find($material->id);
+                if ($materialToUpdate) {
+                    $materialToUpdate->stock_quantity = $material->stock_quantity;
+                    $materialToUpdate->save();
+                }
+            }
+            
+            $cart->update(['is_active' => false]);
+            $newCart = Cart::create([
+                'professional_id' => $user->id,
+                'is_active' => true
+            ]);
+            
+            session()->forget(['checkout_data', 'mollie_payment_id', 'delivery_info']);
+            
+            return redirect()->route('material-purchases.index')->with('success', 'Payment successful! Your purchase has been completed.');
+        }
+        
+        return redirect()->route('cart.index')->with('error', 'Payment was not successful. Please try again.');
+    }
+
+    public function completeCheckout(Request $request)
     {
         $user = Auth::user();
         $checkoutData = session('checkout_data');
@@ -191,6 +301,48 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('error', 'Unauthorized action.');
         }
 
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'city' => 'required|string|max:100',
+            'postal_code' => 'required|string|max:20',
+            'save_info' => 'nullable|boolean',
+        ], [
+            'address.required' => 'L\'adresse de livraison est obligatoire',
+            'phone.required' => 'Le numéro de téléphone est obligatoire',
+            'city.required' => 'La ville est obligatoire',
+            'postal_code.required' => 'Le code postal est obligatoire',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('delivery_errors', $validator->errors()->all());
+        }
+
+        session()->put('delivery_info', [
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+        ]);
+
+        if ($request->has('save_info') && $request->save_info) {
+            $userToUpdate = User::find(Auth::id());
+            if ($userToUpdate) {
+                $userToUpdate->address = $request->address;
+                $userToUpdate->phone = $request->phone;
+                $userToUpdate->city = $request->city;
+                $userToUpdate->postal_code = $request->postal_code;
+                $userToUpdate->save();
+            }
+        }
+
+        if ($checkoutData['payment_method'] == 'cart') {
+            return $this->prepareMolliePayment($cart, $checkoutData['price_to_pay'], $request);
+        }
+
         foreach ($cart->items as $item) {
             $material = $item->material;
             
@@ -202,20 +354,30 @@ class CartController extends Controller
                 'professional_id' => $user->id,
                 'material_id' => $material->id,
                 'quantity' => $item->quantity,
-                'price_paid' => $checkoutData['payment_method'] == 'points' ? 0 : $item->getSubtotal(),
-                'points_used' => $checkoutData['payment_method'] == 'points' ? $item->getPointsCost() : 0,
-                'payment_method' => $checkoutData['payment_method'],
-                'status' => 'completed'
+                'price_paid' => 0, // Paiement par points, donc prix payé = 0
+                'points_used' => $item->getPointsCost(),
+                'payment_method' => 'points',
+                'status' => 'completed',
+                'delivery_address' => $request->address,
+                'delivery_phone' => $request->phone,
+                'delivery_city' => $request->city,
+                'delivery_postal_code' => $request->postal_code,
             ]);
 
             $material->stock_quantity -= $item->quantity;
-            $material->save();
+            $materialToUpdate = Material::find($material->id);
+            if ($materialToUpdate) {
+                $materialToUpdate->stock_quantity = $material->stock_quantity;
+                $materialToUpdate->save();
+            }
         }
 
-        if ($checkoutData['points_used'] > 0) {
-            if ($user->loyalty_points !== null) {
-                $user->loyalty_points -= $checkoutData['points_used'];
-                $user->save();
+        // Mettre à jour les points de fidélité de l'utilisateur
+        if ($user->loyalty_points !== null) {
+            $userToUpdate = User::find($user->id);
+            if ($userToUpdate) {
+                $userToUpdate->loyalty_points = $userToUpdate->loyalty_points - $checkoutData['points_used'];
+                $userToUpdate->save();
             }
         }
 
@@ -225,8 +387,8 @@ class CartController extends Controller
             'is_active' => true
         ]);
 
-        session()->forget('checkout_data');
+        session()->forget(['checkout_data', 'delivery_info']);
 
-        return redirect()->route('material-purchases.cart')->with('success', 'Purchase completed successfully!');
+        return redirect()->route('material-purchases.index')->with('success', 'Purchase completed successfully!');
     }
 } 

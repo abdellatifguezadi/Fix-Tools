@@ -65,9 +65,9 @@
                 @csrf
                 <div class="space-y-2">
                     <label class="flex items-center p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
-                        <input type="radio" name="payment_method" value="card" class="mr-2" checked>
+                        <input type="radio" name="payment_method" value="cart" class="mr-2" checked>
                         <i class="fas fa-credit-card text-blue-500 mr-2"></i>
-                        <span>Credit Card</span>
+                        <span>Credit Card (via Mollie)</span>
                     </label>
                     <label class="flex items-center p-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
                         <input type="radio" name="payment_method" value="points" class="mr-2" 
