@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="title">
-        Gestion des Matériels
+        Materials Management
     </x-slot>
 
     <div class="min-h-screen flex flex-col">
         <div class="flex-1 p-8 mt-16">
             <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-2xl font-bold">Gestion des Matériels</h2>
+                <h2 class="text-2xl font-bold">Materials Management</h2>
                 <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
                     onclick="document.getElementById('addMaterialModal').classList.remove('hidden')">
-                    <i class="fas fa-plus mr-2"></i>Ajouter un matériel
+                    <i class="fas fa-plus mr-2"></i>Add Material
                 </button>
             </div>
 
@@ -34,12 +34,12 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Image</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Nom</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Catégorie</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Prix</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Name</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Category</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Price</th>
                                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Points</th>
                                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Stock</th>
-                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Disponible</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Available</th>
                                 <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Actions</th>
                             </tr>
                         </thead>
@@ -62,7 +62,7 @@
                                 <td class="px-4 py-3">{{ $material->stock_quantity }}</td>
                                 <td class="px-4 py-3">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $material->is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                        {{ $material->is_available ? 'Oui' : 'Non' }}
+                                        {{ $material->is_available ? 'Yes' : 'No' }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-3">
@@ -88,7 +88,7 @@
                                             )">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="{{ route('materials.destroy', $material) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce matériel?')">
+                                        <form action="{{ route('materials.destroy', $material) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this material?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-800">
@@ -102,7 +102,7 @@
                         </tbody>
                     </table>
                     @else
-                    <p class="text-center py-4 text-gray-500">Aucun matériel disponible</p>
+                    <p class="text-center py-4 text-gray-500">No materials available</p>
                     @endif
                 </div>
             </div>
@@ -113,7 +113,7 @@
     <div id="addMaterialModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg w-full max-w-lg mx-4">
             <div class="flex justify-between items-center border-b px-6 py-4">
-                <h3 class="text-lg font-bold">Ajouter un matériel</h3>
+                <h3 class="text-lg font-bold">Add Material</h3>
                 <button onclick="document.getElementById('addMaterialModal').classList.add('hidden')">
                     <i class="fas fa-times"></i>
                 </button>
@@ -121,7 +121,7 @@
             <form action="{{ route('materials.store') }}" method="POST" enctype="multipart/form-data" class="p-6">
                 @csrf
                 <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
                     <input type="text" name="name" id="name" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4">
@@ -129,9 +129,9 @@
                     <textarea name="description" id="description" rows="3" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
                 <div class="mb-4">
-                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <select name="category_id" id="category_id" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Sélectionnez une catégorie</option>
+                        <option value="">Select a category</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -139,16 +139,16 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Prix ($)</label>
+                        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
                         <input type="number" name="price" id="price" step="0.01" min="0" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
-                        <label for="points_cost" class="block text-sm font-medium text-gray-700 mb-1">Coût en points</label>
+                        <label for="points_cost" class="block text-sm font-medium text-gray-700 mb-1">Points Cost</label>
                         <input type="number" name="points_cost" id="points_cost" min="0" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
                 <div class="mb-4">
-                    <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantité en stock</label>
+                    <label for="stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
                     <input type="number" name="stock_quantity" id="stock_quantity" min="0" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4">
@@ -157,14 +157,14 @@
                 </div>
                 <div class="mb-4 flex items-center">
                     <input type="checkbox" name="is_available" id="is_available" class="mr-2" checked>
-                    <label for="is_available" class="text-sm font-medium text-gray-700">Disponible</label>
+                    <label for="is_available" class="text-sm font-medium text-gray-700">Available</label>
                 </div>
                 <div class="flex justify-end">
                     <button type="button" onclick="document.getElementById('addMaterialModal').classList.add('hidden')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
-                        Annuler
+                        Cancel
                     </button>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Ajouter
+                        Add
                     </button>
                 </div>
             </form>
@@ -175,7 +175,7 @@
     <div id="editMaterialModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg w-full max-w-lg mx-4">
             <div class="flex justify-between items-center border-b px-6 py-4">
-                <h3 class="text-lg font-bold">Modifier un matériel</h3>
+                <h3 class="text-lg font-bold">Edit Material</h3>
                 <button onclick="document.getElementById('editMaterialModal').classList.add('hidden')">
                     <i class="fas fa-times"></i>
                 </button>
@@ -184,7 +184,7 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
-                    <label for="edit_name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                    <label for="edit_name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
                     <input type="text" name="name" id="edit_name" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4">
@@ -192,9 +192,9 @@
                     <textarea name="description" id="edit_description" rows="3" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
                 <div class="mb-4">
-                    <label for="edit_category_id" class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+                    <label for="edit_category_id" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                     <select name="category_id" id="edit_category_id" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Sélectionnez une catégorie</option>
+                        <option value="">Select a category</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -202,32 +202,32 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label for="edit_price" class="block text-sm font-medium text-gray-700 mb-1">Prix ($)</label>
+                        <label for="edit_price" class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
                         <input type="number" name="price" id="edit_price" step="0.01" min="0" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
-                        <label for="edit_points_cost" class="block text-sm font-medium text-gray-700 mb-1">Coût en points</label>
+                        <label for="edit_points_cost" class="block text-sm font-medium text-gray-700 mb-1">Points Cost</label>
                         <input type="number" name="points_cost" id="edit_points_cost" min="0" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
                 <div class="mb-4">
-                    <label for="edit_stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantité en stock</label>
+                    <label for="edit_stock_quantity" class="block text-sm font-medium text-gray-700 mb-1">Stock Quantity</label>
                     <input type="number" name="stock_quantity" id="edit_stock_quantity" min="0" required class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4">
-                    <label for="edit_image" class="block text-sm font-medium text-gray-700 mb-1">Image (laisser vide pour conserver l'image actuelle)</label>
+                    <label for="edit_image" class="block text-sm font-medium text-gray-700 mb-1">Image (leave empty to keep current image)</label>
                     <input type="file" name="image" id="edit_image" class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4 flex items-center">
                     <input type="checkbox" name="is_available" id="edit_is_available" class="mr-2">
-                    <label for="edit_is_available" class="text-sm font-medium text-gray-700">Disponible</label>
+                    <label for="edit_is_available" class="text-sm font-medium text-gray-700">Available</label>
                 </div>
                 <div class="flex justify-end">
                     <button type="button" onclick="document.getElementById('editMaterialModal').classList.add('hidden')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
-                        Annuler
+                        Cancel
                     </button>
                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Mettre à jour
+                        Update
                     </button>
                 </div>
             </form>

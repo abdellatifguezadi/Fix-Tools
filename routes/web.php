@@ -20,11 +20,12 @@ use App\Http\Controllers\ClientServiceController;
 use App\Http\Controllers\CartController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-// Routes publiques
+// Public routes
 Route::get('/', function () {
-    if (auth()->check()) {
-        $user = auth()->user();
+    if (Auth::check()) {
+        $user = Auth::user();
         switch ($user->role) {
             case 'admin':
                 return redirect()->route('admin.dashboard');
@@ -43,7 +44,7 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-// Routes d'authentification
+// Authentication routes
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
@@ -51,22 +52,22 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [RegisteredUserController::class, 'authenticate']);
 });
 
-// Routes pour la vérification d'email
+// Email verification routes
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return redirect()->route('dashboard')->with('success', 'Votre adresse email a été vérifiée avec succès!');
+    return redirect()->route('dashboard')->with('success', 'Your email address has been successfully verified!');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-    return back()->with('success', 'Un nouveau lien de vérification a été envoyé à votre adresse email.');
+    return back()->with('success', 'A new verification link has been sent to your email address.');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-// Routes protégées par authentification
+// Routes protected by authentication
 Route::middleware('auth')->group(function () {
     Route::post('logout', [RegisteredUserController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')->name('dashboard');
@@ -77,7 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/messages/{user}', [MessageController::class, 'show'])->middleware('verified')->name('messages.show');
     Route::post('/messages/{user}', [MessageController::class, 'store'])->middleware('verified')->name('messages.store');
     
-    // Routes pour les professionnels
+    // Routes for professionals
     Route::middleware(['professional', 'verified'])->group(function () {
         Route::get('/professional/dashboard', [ProfessionalController::class, 'index'])->name('professionals.dashboard');
         Route::get('/my-services', [ServiceController::class, 'myServices'])->name('services.my-services');
@@ -95,7 +96,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/cart/remove/{itemId}', [CartController::class, 'removeItem'])->name('cart.remove');
         Route::post('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
         Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+        Route::get('/cart/checkout', function() {
+            return redirect()->route('cart.index')->with('error', 'Please complete your cart and use the checkout button.');
+        });
         Route::post('/cart/complete-checkout', [CartController::class, 'completeCheckout'])->name('cart.complete-checkout');
+        Route::get('/cart/payment/success', [CartController::class, 'handlePaymentSuccess'])->name('cart.payment.success');
 
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
@@ -107,13 +112,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/service-requests/{serviceRequest}/complete', [\App\Http\Controllers\Professional\ServiceRequestController::class, 'complete'])->name('professional.requests.complete');
     });
     
-    // Routes pour les clients
+    // Routes for clients
     // Route::middleware('client')->group(function () {
     //     Route::post('/service-requests', [ServiceRequestController::class, 'store'])->name('service-requests.store');
     //     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     // });
     
-    // Routes pour l'admin
+    // Routes for admin
     Route::middleware(['admin', 'verified'])->group(function () {
         Route::get('/admin', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
         
@@ -176,14 +181,4 @@ Route::middleware(['auth', 'client', 'verified'])->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
-// Route de test pour vérifier la configuration de l'email
-Route::get('/test-email', function () {
-    $details = [
-        'title' => 'Test Email de Fix&Tools',
-        'body' => 'Ceci est un test pour vérifier la configuration de l\'email avec Mailtrap'
-    ];
-    
-    \Mail::to('test@example.com')->send(new \App\Mail\TestMail($details));
-    
-    return 'Email de test envoyé, vérifiez votre boîte Mailtrap';
-});
+

@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="title">
-        Gestion des Avis
+        Reviews Management
     </x-slot>
 
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 mt-16">
         <div class="max-w-7xl mx-auto">
-            <h1 class="text-3xl font-semibold text-gray-900 mb-6">Gestion des Avis et Témoignages</h1>
+            <h1 class="text-3xl font-semibold text-gray-900 mb-6">Reviews and Testimonials Management</h1>
             
             @if(session('success'))
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
@@ -23,7 +23,7 @@
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-6 bg-gray-50 border-b border-gray-200">
                     <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-                        <i class="fas fa-star text-yellow-400 mr-2"></i> Liste des Témoignages
+                        <i class="fas fa-star text-yellow-400 mr-2"></i> Testimonials List
                     </h2>
                 </div>
                 
@@ -32,9 +32,9 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Professionnel</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Professional</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
@@ -93,7 +93,7 @@
                                         
                                         <a href="{{ route('admin.reviews.delete', $review->id) }}" 
                                             class="text-red-600 hover:text-red-900"
-                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet avis ?');">
+                                            onclick="return confirm('Are you sure you want to delete this review?');">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -102,7 +102,7 @@
                                 <div id="reviewModal-{{ $review->id }}" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
                                     <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
                                         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                                            <h3 class="text-lg font-semibold text-gray-900">Détails de l'avis</h3>
+                                            <h3 class="text-lg font-semibold text-gray-900">Review Details</h3>
                                             <button onclick="closeReviewModal('{{ $review->id }}')" class="text-gray-400 hover:text-gray-500">
                                                 <i class="fas fa-times"></i>
                                             </button>
@@ -114,7 +114,7 @@
                                                     <p class="text-base font-medium">{{ $review->client->name }}</p>
                                                 </div>
                                                 <div>
-                                                    <h4 class="text-sm font-medium text-gray-500">Professionnel</h4>
+                                                    <h4 class="text-sm font-medium text-gray-500">Professional</h4>
                                                     <p class="text-base font-medium">{{ $review->professional->name }}</p>
                                                 </div>
                                                 <div>
@@ -124,7 +124,7 @@
                                             </div>
                                             
                                             <div class="mb-6">
-                                                <h4 class="text-sm font-medium text-gray-500 mb-2">Note</h4>
+                                                <h4 class="text-sm font-medium text-gray-500 mb-2">Rating</h4>
                                                 <div class="flex text-yellow-400 text-xl">
                                                     @for($i = 1; $i <= 5; $i++)
                                                         @if($i <= $review->rating)
@@ -137,25 +137,25 @@
                                             </div>
                                             
                                             <div class="mb-6">
-                                                <h4 class="text-sm font-medium text-gray-500 mb-2">Commentaire</h4>
+                                                <h4 class="text-sm font-medium text-gray-500 mb-2">Comment</h4>
                                                 <div class="bg-gray-50 p-4 rounded-lg">
                                                     <p class="text-gray-800">{{ $review->comment }}</p>
                                                 </div>
                                             </div>
                                             
                                             <div class="flex justify-between text-sm text-gray-500">
-                                                <span>Créé le: {{ $review->created_at->format('d/m/Y à H:i') }}</span>
+                                                <span>Created on: {{ $review->created_at->format('d/m/Y at H:i') }}</span>
                                             </div>
                                         </div>
                                         <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
                                             <a href="{{ route('admin.reviews.delete', $review->id) }}" 
-                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet avis ?');" 
+                                                onclick="return confirm('Are you sure you want to delete this review?');" 
                                                 class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                                Supprimer
+                                                Delete
                                             </a>
                                             <button onclick="closeReviewModal('{{ $review->id }}')" 
                                                 class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
-                                                Fermer
+                                                Close
                                             </button>
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
                                     <td colspan="7" class="px-6 py-10 text-center text-gray-500">
                                         <div class="flex flex-col items-center justify-center">
                                             <i class="fas fa-comment-slash text-4xl text-gray-300 mb-3"></i>
-                                            <p>Aucun avis trouvé</p>
+                                            <p>No reviews found</p>
                                         </div>
                                     </td>
                                 </tr>

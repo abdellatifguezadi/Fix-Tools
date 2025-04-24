@@ -15,9 +15,15 @@
     </div>
     <div class="p-6 relative z-10">
         <div class="flex items-center space-x-4 mb-4">
+            @if(!empty($service['professional']['image']))
             <img src="{{ $service['professional']['image'] }}"
                 alt="{{ $service['professional']['name'] }}"
                 class="w-12 h-12 rounded-full object-cover border-2 border-transparent group-hover:border-yellow-400 transition-all duration-300">
+            @else
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-yellow-400 text-black font-bold text-xl border-2 border-transparent group-hover:border-yellow-400 transition-all duration-300">
+                {{ strtoupper(substr($service['professional']['name'], 0, 1)) }}
+            </div>
+            @endif
             <div>
                 <h3 class="font-bold group-hover:text-yellow-500 transition-colors duration-300">{{ $service['professional']['name'] }}</h3>
                 <div class="flex items-center text-sm text-gray-600">

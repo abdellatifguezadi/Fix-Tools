@@ -49,19 +49,21 @@ class MaterialPurchaseController extends Controller
         }
 
         if ($request->filled('price_range')) {
-            list($min, $max) = explode('-', $request->price_range);
-            if ($max === '+') {
+            if (strpos($request->price_range, '+') !== false) {
+                $min = (int) str_replace('+', '', $request->price_range);
                 $query->where('price', '>=', $min);
             } else {
+                list($min, $max) = explode('-', $request->price_range);
                 $query->whereBetween('price', [$min, $max]);
             }
         }
 
         if ($request->filled('points_range')) {
-            list($min, $max) = explode('-', $request->points_range);
-            if ($max === '+') {
+            if (strpos($request->points_range, '+') !== false) {
+                $min = (int) str_replace('+', '', $request->points_range);
                 $query->where('points_cost', '>=', $min);
             } else {
+                list($min, $max) = explode('-', $request->points_range);
                 $query->whereBetween('points_cost', [$min, $max]);
             }
         }

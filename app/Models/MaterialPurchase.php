@@ -17,7 +17,12 @@ class MaterialPurchase extends Model
         'price_paid',
         'points_used',
         'payment_method',
-        'status'
+        'status',
+        'transaction_id',
+        'delivery_address',
+        'delivery_phone',
+        'delivery_city',
+        'delivery_postal_code'
     ];
 
     protected $casts = [

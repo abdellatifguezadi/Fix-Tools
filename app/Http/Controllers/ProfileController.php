@@ -27,7 +27,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         return $this->getProfileView($user);
     }
-    
+
     private function getProfileView($user)
     {
         switch ($user->role) {
@@ -57,7 +57,7 @@ class ProfileController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:100',
-            'profile_photo' => 'nullable|image|max:2048',
+            'profile_photo' => 'nullable|image|max:5000',
             'specialty' => 'nullable|string|max:255',
             'experience' => 'nullable|integer|min:0',
             'is_available' => 'boolean',
@@ -90,7 +90,7 @@ class ProfileController extends Controller
             if ($user->image) {
                 Storage::delete($user->image);
             }
-            
+
             $image = $request->file('profile_photo');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('profile', $imageName);

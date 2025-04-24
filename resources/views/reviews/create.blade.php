@@ -91,9 +91,9 @@
                                          alt="{{ $serviceRequest->professional->name }}" 
                                          class="w-full h-full object-cover">
                                 @else
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($serviceRequest->professional->name) }}&background=4F46E5&color=ffffff" 
-                                         alt="{{ $serviceRequest->professional->name }}" 
-                                         class="w-full h-full object-cover">
+                                    <div class="w-full h-full flex items-center justify-center bg-yellow-400 text-black font-bold text-2xl">
+                                        {{ strtoupper(substr($serviceRequest->professional->name, 0, 1)) }}
+                                    </div>
                                 @endif
                             </div>
                             <div class="absolute -bottom-1 -right-1 bg-green-500 text-white rounded-full p-1 w-6 h-6 flex items-center justify-center border-2 border-white">

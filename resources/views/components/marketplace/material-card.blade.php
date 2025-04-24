@@ -4,7 +4,7 @@
     <img src="{{ $material->image_path ? Storage::url($material->image_path) : 'https://via.placeholder.com/300x200?text=Tool' }}"
         alt="{{ $material->name }}"
         class="w-full h-32 object-cover rounded-md mb-2 cursor-pointer hover:opacity-75 transition-opacity"
-        onclick="openImageModal('{{ $material->image_path ? Storage::url($material->image_path) : 'https://via.placeholder.com/800x600?text=Tool' }}')">
+        onclick="openImageModal(`{{ $material->image_path ? Storage::url($material->image_path) : 'https://via.placeholder.com/800x600?text=Tool' }}`)">
 
     <h3 class="font-bold">{{ $material->name }}</h3>
     <p class="text-gray-600">{{ Str::limit($material->description, 100) }}</p>

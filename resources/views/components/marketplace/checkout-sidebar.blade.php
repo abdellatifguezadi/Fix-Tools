@@ -28,10 +28,10 @@
         <div class="border-t pt-3 mb-4">
             <h3 class="font-medium text-gray-700 mb-2">Selected payment method</h3>
             <div class="bg-gray-50 p-3 rounded-lg">
-                @if(session('checkout_data.payment_method') == 'card')
+                @if(session('checkout_data.payment_method') == 'cart')
                     <div class="flex items-center">
                         <i class="fas fa-credit-card text-blue-500 mr-2"></i>
-                        <span>Credit Card</span>
+                        <span>Credit Card (via Mollie)</span>
                     </div>
                 @elseif(session('checkout_data.payment_method') == 'points')
                     <div class="flex items-center">
@@ -70,21 +70,25 @@
                 <div class="bg-yellow-50 p-3 rounded-lg">
                     <p class="text-sm text-yellow-800">Your purchase will be fully paid with your loyalty points.</p>
                 </div>
-            @else
+            @elseif(session('checkout_data.payment_method') == 'cart')
                 <div class="bg-blue-50 p-3 rounded-lg">
-                    <p class="text-sm text-blue-800">Prepare your credit card to pay {{ number_format($priceToPay, 2) }} DH.</p>
+                    <p class="text-sm text-blue-800">You will be redirected to Mollie secure payment page to complete your payment of {{ number_format($priceToPay, 2) }} DH.</p>
                 </div>
             @endif
         </div>
 
         <div class="border-t pt-4">
-            <form action="{{ route('cart.complete-checkout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-3 rounded-lg flex items-center justify-center">
+            @if(session('checkout_data.payment_method') == 'cart')
+                <div class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-credit-card mr-2"></i>
+                    Proceed to Payment
+                </div>
+            @else
+                <div class="w-full bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-3 rounded-lg flex items-center justify-center">
                     <i class="fas fa-check-circle mr-2"></i>
                     Confirm and pay
-                </button>
-            </form>
+                </div>
+            @endif
             
             <a href="{{ route('cart.index') }}" class="w-full mt-3 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-center block">
                 Back to cart

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
-   
+
 
     public function index()
     {
@@ -35,7 +35,7 @@ class ServiceController extends Controller
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'base_price' => 'required|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5000'
         ]);
 
         $validated['professional_id'] = Auth::id();
@@ -60,21 +60,21 @@ class ServiceController extends Controller
 
     public function edit(Service $service)
     {
-        
+
         $categories = Category::where('type', 'service')->get();
         return view('services.edit', compact('service', 'categories'));
     }
 
     public function update(Request $request, Service $service)
     {
-       
-        
+
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'base_price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5000'
         ]);
 
         $validated['is_available'] = $request->has('is_available');
@@ -96,7 +96,7 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
-       
+
 
         if ($service->serviceRequests()->where('status', 'pending')->exists()) {
             return redirect()->route('services.my-services')
@@ -136,7 +136,7 @@ class ServiceController extends Controller
                     'category_id' => $service->category_id,
                     'description' => $service->description,
                     'base_price' => $service->base_price,
-                    'image_path' => $service->image_path 
+                    'image_path' => $service->image_path
                         ? Storage::url($service->image_path)
                         : 'https://via.placeholder.com/400x300?text=No+Image',
                     'is_available' => $service->is_available
@@ -146,4 +146,4 @@ class ServiceController extends Controller
         $categories = Category::where('type', 'service')->get();
         return view('professionals.myservices', compact('services', 'categories'));
     }
-} 
+}

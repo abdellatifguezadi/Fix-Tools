@@ -36,18 +36,28 @@
     </div>
     
     @if($requests->isEmpty())
-        <div class="text-center py-12">
+        <div id="no-requests-message" class="text-center py-12 bg-white rounded-lg shadow-md p-6 mt-6">
             <i class="fas fa-inbox text-5xl text-gray-300 mb-4"></i>
-            <p class="text-xl text-gray-500">You don't have any service requests yet.</p>
+            <p class="text-xl text-gray-500 font-semibold mb-2">No Service Requests Yet</p>
+            <p class="text-gray-500 mb-4">When clients request your services, they will appear here.</p>
         </div>
     @else
+        <div id="no-filter-results" class="text-center py-12 bg-white rounded-lg shadow-md p-6 mt-6" style="display: none;">
+            <i class="fas fa-filter text-5xl text-gray-300 mb-4"></i>
+            <p class="text-xl text-gray-500 font-semibold mb-2">No <span class="status-name">accepted</span> requests found</p>
+            <p class="text-gray-500 mb-4">There are no service requests with this status.</p>
+            <button onclick="resetFilter()" class="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-6 rounded-lg transition duration-200">
+                <i class="fas fa-undo mr-2"></i>Show All Requests
+            </button>
+        </div>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($requests as $request)
                 <div class="request-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl group" data-status="{{ $request->status }}">
-                    @if($request->service->image_path)
+                    @if($request->service && $request->service->image_path)
                         <div class="overflow-hidden">
                             <img src="/storage/{{ $request->service->image_path }}" 
-                                 alt="{{ $request->service->name }}" 
+                                 alt="{{ $request->service->name ?? 'Service Image' }}" 
                                  class="w-full h-36 object-cover transition-transform duration-500 ease-in-out hover:scale-110">
                         </div>
                     @else
@@ -58,7 +68,7 @@
                     
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->service->name }}</h3>
+                            <h3 class="text-xl font-bold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->service ? $request->service->name : 'Service Unavailable' }}</h3>
                             <span class="px-2 py-1 rounded-full text-xs font-semibold 
                                 @if($request->status == 'pending') bg-blue-100 text-blue-800
                                 @elseif($request->status == 'priced') bg-yellow-100 text-yellow-800
@@ -72,20 +82,19 @@
                         
                         <div class="flex items-center mb-4">
                             <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
-                                @if($request->client->image)
-                                
-                                    <img src="{{ asset('storage/' . $request->client->profile_image) }}" 
-                                         alt="{{ $request->client->name }}" 
+                                @if($request->client && $request->client->image)
+                                    <img src="{{ asset('storage/' . $request->client->image) }}" 
+                                         alt="{{ $request->client->name ?? 'Client' }}" 
                                          class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center bg-yellow-400 text-white text-xl">
-                                        {{ substr($request->client->name, 0, 1) }}
+                                        {{ $request->client ? substr($request->client->name, 0, 1) : '?' }}
                                     </div>
                                 @endif
                             </div>
                             <div>
-                                <h4 class="font-semibold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->client->name }}</h4>
-                                <p class="text-sm text-gray-500">{{ $request->requested_date->format('M d, Y') }}</p>
+                                <h4 class="font-semibold transition-colors duration-300 group-hover:text-yellow-500">{{ $request->client->name ?? 'Unknown Client' }}</h4>
+                                <p class="text-sm text-gray-500">{{ $request->requested_date ? $request->requested_date->format('M d, Y') : 'Date not specified' }}</p>
                             </div>
                         </div>
                         
@@ -121,10 +130,12 @@
                         
                         <div class="flex space-x-2 mt-4">
                             @if($request->status == 'accepted' || $request->status == 'completed')
+                                @if($request->client)
                                 <a href="{{ route('messages.show', $request->client->id) }}" 
                                    class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-yellow-500 text-center transition duration-200">
                                     <i class="fas fa-envelope mr-2"></i>Message Client
                                 </a>
+                                @endif
                                 
                                 @if($request->status == 'accepted')
                                     <form action="{{ route('professional.requests.complete', $request) }}" method="POST" class="flex-1">
@@ -150,7 +161,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         const statusFilters = document.querySelectorAll('.status-filter');
         const requestCards = document.querySelectorAll('.request-card');
-
+        const noRequestsMessage = document.getElementById('no-requests-message');
+        const noFilterResultsMessage = document.getElementById('no-filter-results');
+        
         statusFilters.forEach(filter => {
             filter.addEventListener('click', function() {
                 // Update active filter button
@@ -160,17 +173,40 @@
                 this.classList.add('bg-yellow-400', 'text-black');
 
                 const status = this.dataset.status;
+                let visibleCount = 0;
+                
+                // Hide no requests message when filtering
+                if (noRequestsMessage) {
+                    noRequestsMessage.style.display = 'none';
+                }
                 
                 requestCards.forEach(card => {
                     if (status === 'all' || card.dataset.status === status) {
                         card.style.display = 'block';
+                        visibleCount++;
                     } else {
                         card.style.display = 'none';
                     }
                 });
+                
+                // Show no results message if no cards are visible
+                if (visibleCount === 0 && noFilterResultsMessage) {
+                    noFilterResultsMessage.style.display = 'block';
+                    noFilterResultsMessage.querySelector('.status-name').textContent = status === 'all' ? 'matching your criteria' : status;
+                } else if (noFilterResultsMessage) {
+                    noFilterResultsMessage.style.display = 'none';
+                }
             });
         });
     });
+    
+    // Function to reset filter to "All Requests"
+    function resetFilter() {
+        const allRequestsButton = document.querySelector('[data-status="all"]');
+        if (allRequestsButton) {
+            allRequestsButton.click();
+        }
+    }
 </script>
 @endpush
 </x-app-layout> 
