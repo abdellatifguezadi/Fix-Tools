@@ -308,10 +308,10 @@ class CartController extends Controller
             'postal_code' => 'required|string|max:20',
             'save_info' => 'nullable|boolean',
         ], [
-            'address.required' => 'L\'adresse de livraison est obligatoire',
-            'phone.required' => 'Le numéro de téléphone est obligatoire',
-            'city.required' => 'La ville est obligatoire',
-            'postal_code.required' => 'Le code postal est obligatoire',
+            'address.required' => 'Delivery address is required',
+            'phone.required' => 'Phone number is required',
+            'city.required' => 'City is required',
+            'postal_code.required' => 'Postal code is required',
         ]);
 
         if ($validator->fails()) {

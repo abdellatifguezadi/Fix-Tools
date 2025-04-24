@@ -13,7 +13,7 @@ class ClientMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check() || Auth::user()->role !== 'client') {
-            return redirect()->route('home')->with('error', 'Accès non autorisé - Zone Clients uniquement');
+            return redirect()->route('home')->with('error', 'Unauthorized access - Clients area only');
         }
 
         return $next($request);

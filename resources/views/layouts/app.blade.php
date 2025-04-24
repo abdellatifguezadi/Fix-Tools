@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +12,18 @@
             font-family: 'Brush Script MT', 'Dancing Script', cursive;
             letter-spacing: 0.05em;
         }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
     </style>
     {{ $styles ?? '' }}
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 flex flex-col min-h-screen">
     <div class="z-30 relative">
         <x-navbar/>
     </div>
@@ -45,11 +53,13 @@
     <x-toast-notifications type="success" />
     <x-toast-notifications type="error" />
 
-    <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) md:ml-64 transition-all duration-300 @endif @endauth">
+    <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) md:ml-64 transition-all duration-300 @endif @endauth flex-grow">
         {{ $slot }}
     </main>
 
-    <x-footer/>
+    <footer class="mt-auto">
+        <x-footer/>
+    </footer>
 
     @stack('scripts')
     

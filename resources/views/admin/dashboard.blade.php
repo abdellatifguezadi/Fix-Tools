@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="title">
-        Tableau de bord Admin
+        Admin Dashboard
     </x-slot>
 
     <div class="min-h-screen flex flex-col">
@@ -66,7 +66,7 @@
                                 @endforeach
                             </x-table>
                             @else
-                            <p class="text-center py-4 text-gray-500">Aucun service disponible</p>
+                            <p class="text-center py-4 text-gray-500">No services available</p>
                             @endif
                         </div>
                     </x-card>
@@ -94,7 +94,7 @@
                                 @endforeach
                             </x-table>
                             @else
-                            <p class="text-center py-4 text-gray-500">Aucun revenu enregistré</p>
+                            <p class="text-center py-4 text-gray-500">No revenue recorded</p>
                             @endif
                         </div>
                     </x-card>
@@ -116,7 +116,7 @@
                                     />
                                 @endforeach
                             @else
-                                <p class="text-center py-4 text-gray-500">Aucun service récent</p>
+                                <p class="text-center py-4 text-gray-500">No recent services</p>
                             @endif
                         </div>
                     </x-card>
@@ -140,7 +140,7 @@
                                 </div>
                                 @endforeach
                             @else
-                                <p class="text-center py-4 text-gray-500">Aucun nouvel utilisateur</p>
+                                <p class="text-center py-4 text-gray-500">No new users</p>
                             @endif
                         </div>
                     </x-card>

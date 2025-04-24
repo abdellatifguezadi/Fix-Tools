@@ -97,17 +97,11 @@ use Illuminate\Support\Str;
                     <div class="flex items-center space-x-4 mb-4">
                         <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-yellow-400 prof-img-container" style="transition: all 0.3s ease;">
                             @if(!empty($request->professional->image))
-                            <img src="/storage/{{ $request->professional->image }}"
-                                alt="{{ $request->professional->name }}"
-                                class="w-full h-full object-cover">
-                            @elseif(!empty($request->professional->profile_image))
-                            <img src="/storage/{{ $request->professional->profile_image }}"
-                                alt="{{ $request->professional->name }}"
-                                class="w-full h-full object-cover">
+                                <img src="/storage/{{ $request->professional->image }}" alt="{{ $request->professional->name }}" class="w-full h-full object-cover">
                             @else
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($request->professional->name) }}&background=4F46E5&color=ffffff"
-                                alt="{{ $request->professional->name }}"
-                                class="w-full h-full object-cover">
+                                <div class="w-full h-full flex items-center justify-center bg-yellow-400 text-black font-bold text-xl">
+                                    {{ strtoupper(substr($request->professional->name, 0, 1)) }}
+                                </div>
                             @endif
                         </div>
                         <div>

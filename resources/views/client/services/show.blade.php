@@ -120,9 +120,15 @@
                         <div class="p-6">
                             <div class="flex items-center">
                                 <div class="w-16 h-16 rounded-full border-2 border-yellow-400 overflow-hidden mr-4">
+                                    @if(!empty($formattedService['professional']['image']))
                                     <img src="{{ $formattedService['professional']['image'] }}"
                                         alt="{{ $formattedService['professional']['name'] }}"
                                         class="w-full h-full object-cover">
+                                    @else
+                                    <div class="w-full h-full flex items-center justify-center bg-yellow-400 text-black font-bold text-2xl">
+                                        {{ strtoupper(substr($formattedService['professional']['name'], 0, 1)) }}
+                                    </div>
+                                    @endif
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-bold">{{ $formattedService['professional']['name'] }}</h3>

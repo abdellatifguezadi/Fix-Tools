@@ -82,7 +82,7 @@ class RegisteredUserController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Les informations de connexion ne correspondent pas à nos enregistrements.',
+            'email' => 'These credentials do not match our records.',
         ])->onlyInput('email');
     }
 
