@@ -74,6 +74,11 @@
                                 class="block w-full bg-yellow-400 text-center text-black px-4 py-3 rounded-lg hover:bg-yellow-300 transition-colors font-semibold mt-4">
                                 {{ __('View Services') }}
                             </a>
+
+                            <a href="{{ route('messages.show', $professional->user_id ?? $professional->id) }}"
+                                class="block w-full bg-black text-center text-yellow-400 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold mt-3">
+                                <i class="fas fa-envelope mr-2"></i> {{ __('Send Message') }}
+                            </a>
                         </div>
                     </div>
                 </div>

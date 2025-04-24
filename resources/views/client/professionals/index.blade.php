@@ -90,10 +90,16 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <a href="{{ route('client.professionals.show', $professional) }}" 
-                                class="block w-full mt-6 bg-yellow-400 text-center text-black px-4 py-3 rounded-lg hover:bg-yellow-300 transition-colors font-semibold">
-                                {{ __('View Profile') }}
-                            </a>
+                            <div class="flex gap-2 mt-6">
+                                <a href="{{ route('client.professionals.show', $professional) }}" 
+                                    class="flex-1 block bg-yellow-400 text-center text-black px-4 py-3 rounded-lg hover:bg-yellow-300 transition-colors font-semibold">
+                                    {{ __('View Profile') }}
+                                </a>
+                                <a href="{{ route('messages.show', $professional->user_id ?? $professional->id) }}" 
+                                    class="flex-none block bg-black text-center text-yellow-400 px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors font-semibold w-12">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 @empty
