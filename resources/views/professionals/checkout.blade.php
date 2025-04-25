@@ -161,27 +161,7 @@
                                         </div>
                                     </div>
 
-                                    @if(session('checkout_data.payment_method') != 'points')
-                                        <div class="mb-6">
-                                            <h2 class="text-xl font-bold mb-4">Payment Information</h2>
-                                            
-                                            <div class="bg-blue-50 p-4 rounded-lg">
-                                                <h3 class="font-bold text-blue-800 mb-2">Credit Card Payment via Mollie</h3>
-                                                <p class="text-blue-700 mb-3">
-                                                    <i class="fas fa-info-circle mr-1"></i> You will be redirected to Mollie's secure payment page after confirming your order.
-                                                </p>
-                                                <div class="flex items-center mb-3">
-                                                    <img src="https://www.mollie.com/images/payscreen/methods/ideal.png" alt="iDEAL" class="h-8 mr-2">
-                                                    <img src="https://www.mollie.com/images/payscreen/methods/creditcard.png" alt="Credit Card" class="h-8 mr-2">
-                                                    <img src="https://www.mollie.com/images/payscreen/methods/paypal.png" alt="PayPal" class="h-8 mr-2">
-                                                    <img src="https://www.mollie.com/images/payscreen/methods/sofort.png" alt="SOFORT Banking" class="h-8">
-                                                </div>
-                                                <p class="text-sm text-blue-700">
-                                                    <i class="fas fa-lock mr-1"></i> 100% secure payment via Mollie platform.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    @endif
+
 
                                     <div class="bg-gray-50 p-4 rounded-lg">
                                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center">

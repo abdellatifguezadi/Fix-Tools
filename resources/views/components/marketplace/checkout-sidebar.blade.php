@@ -31,7 +31,7 @@
                 @if(session('checkout_data.payment_method') == 'cart')
                     <div class="flex items-center">
                         <i class="fas fa-credit-card text-blue-500 mr-2"></i>
-                        <span>Credit Card (via Mollie)</span>
+                        <span>Credit Card</span>
                     </div>
                 @elseif(session('checkout_data.payment_method') == 'points')
                     <div class="flex items-center">
