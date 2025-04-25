@@ -30,9 +30,7 @@ class CartController extends Controller
         return view('professionals.cart', compact('cart', 'user', 'userPoints'));
     }
 
-    /**
-     * Add a product to the cart
-     */
+
     public function addToCart(Request $request)
     {
         $request->validate([
@@ -354,7 +352,7 @@ class CartController extends Controller
                 'professional_id' => $user->id,
                 'material_id' => $material->id,
                 'quantity' => $item->quantity,
-                'price_paid' => 0, // Paiement par points, donc prix payé = 0
+                'price_paid' => 0, 
                 'points_used' => $item->getPointsCost(),
                 'payment_method' => 'points',
                 'status' => 'completed',
@@ -372,7 +370,6 @@ class CartController extends Controller
             }
         }
 
-        // Mettre à jour les points de fidélité de l'utilisateur
         if ($user->loyalty_points !== null) {
             $userToUpdate = User::find($user->id);
             if ($userToUpdate) {

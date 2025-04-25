@@ -102,7 +102,6 @@ class ServiceSeeder extends Seeder
 
     private function getServiceImage($category)
     {
-        // You can replace these with actual image URLs
         $images = [
             'Plomberie' => 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189',
             'Électricité' => 'https://images.unsplash.com/photo-1621905251918-48416bd8575a',

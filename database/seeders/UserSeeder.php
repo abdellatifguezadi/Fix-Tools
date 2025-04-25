@@ -10,7 +10,6 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // Create admin user if doesn't exist
         if (!User::where('email', 'admin@admin.com')->exists()) {
             User::create([
                 'name' => 'Admin',
@@ -20,12 +19,10 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        // Create 5 professional users
         User::factory()->count(5)->create([
             'role' => 'professional',
         ]);
 
-        // Create 5 regular users
         User::factory()->count(5)->create([
             'role' => 'client',
         ]);

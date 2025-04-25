@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ServiceRequest::class, 'professional_id');
     }
 
-    // Méthode permettant d'accéder aux demandes de service en fonction du rôle de l'utilisateur
+    
     public function serviceRequests()
     {
         if ($this->role === 'client') {
@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return $this->providedServices();
         }
         
-        return $this->requestedServices(); // Par défaut, retourne les demandes du client
+        return $this->requestedServices(); 
     }
 
     public function sentMessages()

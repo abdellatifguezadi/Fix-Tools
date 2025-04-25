@@ -335,7 +335,6 @@
             
             updateCarousel();
             
-            // Auto-advance every 5 seconds
             setInterval(function() {
                 currentIndex = (currentIndex + 1) % totalSlides;
                 updateCarousel();

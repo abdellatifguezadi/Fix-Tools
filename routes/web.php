@@ -21,6 +21,32 @@ use App\Http\Controllers\CartController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
+
+Route::post('/broadcasting/auth', function (Request $request) {
+    if (Auth::check()) {
+        $channelName = $request->input('channel_name');
+        $socketId = $request->input('socket_id');
+        
+        if (strpos($channelName, 'private-chat.') === 0) {
+            $id = str_replace('private-chat.', '', $channelName);
+            
+            if ((int)$id === (int)Auth::id()) {
+                $pusherKey = config('broadcasting.connections.pusher.key');
+                $pusherSecret = config('broadcasting.connections.pusher.secret');
+                $pusherAppId = config('broadcasting.connections.pusher.app_id');
+                
+                $signature = hash_hmac('sha256', $socketId . ':' . $channelName, $pusherSecret);
+                
+                return response()->json([
+                    'auth' => $pusherKey . ':' . $signature
+                ]);
+            }
+        }
+    }
+    
+    return response('Unauthorized', 403);
+});
 
 // Public routes
 Route::get('/', function () {
@@ -77,6 +103,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/messages', [MessageController::class, 'index'])->middleware('verified')->name('messages.index');
     Route::get('/messages/{user}', [MessageController::class, 'show'])->middleware('verified')->name('messages.show');
     Route::post('/messages/{user}', [MessageController::class, 'store'])->middleware('verified')->name('messages.store');
+    Route::post('/messages/{user}/read', [MessageController::class, 'markAsRead'])->middleware('verified')->name('messages.read');
+    
+    // Message API routes for real-time updates
+    Route::get('/api/messages/unread-count', [MessageController::class, 'getUnreadCount'])->name('api.messages.unread-count');
     
     // Routes for professionals
     Route::middleware(['professional', 'verified'])->group(function () {

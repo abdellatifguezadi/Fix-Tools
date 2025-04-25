@@ -1,59 +1,50 @@
 <x-app-layout>
-    <x-slot name="title">Messages</x-slot>
-    
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
-            <div class="bg-yellow-500 text-black px-6 py-4 border-b border-gray-200">
-                <h1 class="text-xl font-semibold">{{ __('Messages') }}</h1>
-            </div>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Conversations') }}
+        </h2>
+    </x-slot>
 
-            <div class="p-6">
-                @if (session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <h2 class="text-lg font-medium text-gray-800 mb-4">{{ __('Your Conversations') }}</h2>
-                
-                @if($users->count() > 0)
-                    <div class="space-y-2">
-                        @foreach($users as $user)
-                            <a href="{{ route('messages.show', $user) }}" class="flex items-center justify-between p-4 bg-gray-50 hover:bg-yellow-100 rounded-lg transition">
-                                <div class="flex items-center">
-                                    @if($user->image)
-                                        <img src="{{ asset('storage/' . $user->image) }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full">
-                                    @else
-                                        <div class="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center">
-                                            <span class="text-black font-bold">{{ substr($user->name, 0, 1) }}</span>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Vos conversations') }}</h3>
+                    
+                    @if($users->count() > 0)
+                        <div class="space-y-4">
+                            @foreach($users as $user)
+                                <a href="{{ route('messages.show', $user) }}" class="block border border-gray-200 hover:bg-gray-50 rounded-lg p-4 transition duration-150 ease-in-out">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0">
+                                            <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-semibold">
+                                                {{ substr($user->name, 0, 1) }}
+                                            </div>
                                         </div>
-                                    @endif
-                                    <div class="ml-3">
-                                        <p class="font-medium text-gray-800">{{ $user->name }}</p>
-                                        <p class="text-sm text-gray-500">{{ $user->email }}</p>
+                                        <div class="ml-4">
+                                            <h4 class="text-lg font-semibold text-gray-900">{{ $user->name }}</h4>
+                                            @php
+                                                $unreadCount = \App\Models\Message::where('sender_id', $user->id)
+                                                    ->where('receiver_id', auth()->id())
+                                                    ->where('is_read', false)
+                                                    ->count();
+                                            @endphp
+                                            @if($unreadCount > 0)
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    {{ $unreadCount }} {{ __('nouveaux messages') }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                @php
-                                    $unreadCount = $user->sentMessages()
-                                        ->where('receiver_id', auth()->id())
-                                        ->where('is_read', false)
-                                        ->count();
-                                @endphp
-                                
-                                @if($unreadCount > 0)
-                                    <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-black bg-yellow-500 rounded-full">
-                                        {{ $unreadCount }}
-                                    </span>
-                                @endif
-                            </a>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
-                        <p class="text-gray-800">{{ __('You have no conversations yet.') }}</p>
-                    </div>
-                @endif
+                                </a>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                            <p class="text-gray-800">{{ __('Vous n\'avez pas encore de conversations actives.') }}</p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
