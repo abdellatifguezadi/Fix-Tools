@@ -14,7 +14,6 @@ import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
 
-// Simple Pusher configuration
 if (typeof window.pusherKey !== 'undefined') {
     window.Echo = new Echo({
         broadcaster: 'pusher',
