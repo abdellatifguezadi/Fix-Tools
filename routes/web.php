@@ -18,6 +18,7 @@ use App\Http\Controllers\ServiceTrackingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientServiceController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -157,12 +158,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/users/{user}/suspend', [UserController::class, 'suspend'])->name('admin.users.suspend');
         Route::post('/admin/users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
         
-        Route::get('/admin/services', [ServiceController::class, 'index'])->name('admin.services.index');
-        Route::get('/admin/services/create', [ServiceController::class, 'create'])->name('admin.services.create');
-        Route::post('/admin/services', [ServiceController::class, 'store'])->name('admin.services.store');
-        Route::get('/admin/services/{service}/edit', [ServiceController::class, 'edit'])->name('admin.services.edit');
-        Route::put('/admin/services/{service}', [ServiceController::class, 'update'])->name('admin.services.update');
-        Route::delete('/admin/services/{service}', [ServiceController::class, 'destroy'])->name('admin.services.destroy');
+        Route::get('/admin/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
+        Route::get('/admin/services/create', [AdminServiceController::class, 'create'])->name('admin.services.create');
+        Route::post('/admin/services', [AdminServiceController::class, 'store'])->name('admin.services.store');
+        Route::get('/admin/services/{service}/edit', [AdminServiceController::class, 'edit'])->name('admin.services.edit');
+        Route::put('/admin/services/{service}', [AdminServiceController::class, 'update'])->name('admin.services.update');
+        Route::delete('/admin/services/{service}', [AdminServiceController::class, 'destroy'])->name('admin.services.destroy');
+        Route::patch('/admin/services/{service}/toggle-status', [AdminServiceController::class, 'toggleStatus'])->name('admin.services.toggle-status');
         
         Route::get('/admin/reviews', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews.index');
         Route::get('/admin/reviews/{review}/delete', [\App\Http\Controllers\Admin\ReviewController::class, 'delete'])->name('admin.reviews.delete');
