@@ -19,7 +19,7 @@ class ClientProfessionalController extends Controller
     {
         $query = User::where('role', 'professional')
             ->withCount(['providedServices as completed_services_count' => function($query) {
-                $query->where('status', 'completed');
+                $query->completed();
             }])
             ->withAvg('receivedReviews as average_rating', 'rating');
         
@@ -82,7 +82,7 @@ class ClientProfessionalController extends Controller
     {
         $professional = User::where('role', 'professional')
             ->withCount(['providedServices as completed_services_count' => function($query) {
-                $query->where('status', 'completed');
+                $query->completed();
             }])
             ->withAvg('receivedReviews as average_rating', 'rating')
             ->findOrFail($id);

@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         .logo-text {
             font-family: 'Brush Script MT', 'Dancing Script', cursive;
@@ -21,6 +22,7 @@
         main {
             flex: 1;
         }
+        [x-cloak] { display: none !important; }
     </style>
     {{ $styles ?? '' }}
 </head>

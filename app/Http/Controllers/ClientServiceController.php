@@ -22,7 +22,7 @@ class ClientServiceController extends Controller
                 return $this->formatService($service);
             })->filter();
 
-        $categories = Category::where('type', 'service')->get();
+        $categories = Category::serviceCategories()->get();
         
         $pendingRequestsCount = 0;
         if (Auth::check()) {
@@ -75,7 +75,7 @@ class ClientServiceController extends Controller
             return response()->json($services);
         }
         
-        $categories = Category::where('type', 'service')->get();
+        $categories = Category::serviceCategories()->get();
         $pendingRequestsCount = 0;
         if (Auth::check()) {
             $pendingRequestsCount = ServiceRequest::where('client_id', Auth::id())
@@ -138,7 +138,7 @@ class ClientServiceController extends Controller
                 return $this->formatService($service);
             });
             
-        $categories = Category::where('type', 'service')->get();
+        $categories = Category::serviceCategories()->get();
         
         $pendingRequestsCount = 0;
         if (Auth::check()) {

@@ -64,4 +64,29 @@ class ServiceRequest extends Model
     {
         return $query->where('status', 'completed');
     }
+
+    public function scopePriced($query)
+    {
+        return $query->where('status', 'priced');
+    }
+
+    public function scopeAccepted($query)
+    {
+        return $query->where('status', 'accepted');
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->where('status', 'cancelled');
+    }
+
+    public function scopeInProgress($query)
+    {
+        return $query->where('status', 'in_progress');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereIn('status', ['pending', 'priced', 'accepted', 'in_progress']);
+    }
 }

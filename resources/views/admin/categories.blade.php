@@ -54,21 +54,28 @@
                                         <button class="text-blue-600 hover:text-blue-800" 
                                             data-id="{{ $category->id }}"
                                             data-name="{{ $category->name }}"
-                                            data-type="{{ $category->type }}"
-                                            onclick="openEditModal(
-                                                this.dataset.id,
-                                                this.dataset.name,
-                                                this.dataset.type
-                                            )">
+                                            data-description="{{ $category->description }}"
+                                            onclick="openEditModal(this.dataset.id, this.dataset.name, this.dataset.description)">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <form action="{{ route('categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-800">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        
+                                        <x-delete-confirmation-modal 
+                                            :title="'Delete Category'"
+                                            :message="'Are you sure you want to delete ' . $category->name . '? This will also affect all related materials and services.'">
+                                            <i class="fas fa-trash"></i>
+                                            <x-slot name="actions">
+                                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                                        Delete Category
+                                                    </button>
+                                                    <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                                        Cancel
+                                                    </button>
+                                                </form>
+                                            </x-slot>
+                                        </x-delete-confirmation-modal>
                                     </div>
                                 </td>
                             </tr>
@@ -154,10 +161,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            window.openEditModal = function(id, name, type) {
+            window.openEditModal = function(id, name, description) {
                 document.getElementById('editCategoryForm').action = "{{ url('/categories') }}/" + id;
                 document.getElementById('edit_name').value = name;
-                document.getElementById('edit_type').value = type;
+                document.getElementById('edit_type').value = description.type;
                 document.getElementById('editCategoryModal').classList.remove('hidden');
             };
         });

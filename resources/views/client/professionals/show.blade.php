@@ -136,33 +136,35 @@
                         </div>
 
                         <div class="space-y-4">
-                            @forelse($reviews as $review)
-                            <div class="border-b pb-4 last:border-0">
-                                <div class="flex items-center mb-2">
-                                    <div class="flex text-yellow-400">
-                                        @for($i = 1; $i <= 5; $i++)
-                                            @if($i <=$review->rating)
-                                            <i class="fas fa-star"></i>
-                                            @else
-                                            <i class="far fa-star"></i>
-                                            @endif
-                                            @endfor
+                            @if($professional->reviews->where('is_approved', true)->count() > 0)
+                                @foreach($professional->reviews->where('is_approved', true) as $review)
+                                    <div class="border-b pb-4 last:border-0">
+                                        <div class="flex items-center mb-2">
+                                            <div class="flex text-yellow-400">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <=$review->rating)
+                                                    <i class="fas fa-star"></i>
+                                                    @else
+                                                    <i class="far fa-star"></i>
+                                                    @endif
+                                                    @endfor
+                                            </div>
+                                            <span class="ml-2 text-sm text-gray-600">{{ $review->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <p class="text-gray-700 mb-2">{{ $review->comment }}</p>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-user-circle text-gray-400 mr-2"></i>
+                                            <span class="text-sm font-medium">{{ $review->client->name }}</span>
+                                            <span class="mx-2 text-sm text-gray-500">•</span>
+                                            <span class="text-sm text-gray-500">{{ $review->serviceRequest->service->name ?? 'Service' }}</span>
+                                        </div>
                                     </div>
-                                    <span class="ml-2 text-sm text-gray-600">{{ $review->created_at->diffForHumans() }}</span>
+                                @endforeach
+                            @else
+                                <div class="text-center py-4 text-gray-500">
+                                    {{ __('No reviews yet for this professional.') }}
                                 </div>
-                                <p class="text-gray-700 mb-2">{{ $review->comment }}</p>
-                                <div class="flex items-center">
-                                    <i class="fas fa-user-circle text-gray-400 mr-2"></i>
-                                    <span class="text-sm font-medium">{{ $review->client->name }}</span>
-                                    <span class="mx-2 text-sm text-gray-500">•</span>
-                                    <span class="text-sm text-gray-500">{{ $review->serviceRequest->service->name ?? 'Service' }}</span>
-                                </div>
-                            </div>
-                            @empty
-                            <div class="text-center py-4 text-gray-500">
-                                {{ __('No reviews yet for this professional.') }}
-                            </div>
-                            @endforelse
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -29,12 +29,18 @@ class Review extends Model
 
     public function client()
     {
-        return $this->belongsTo(User::class, 'client_id');
+        return $this->belongsTo(User::class, 'client_id')->withDefault([
+            'name' => 'Deleted User',
+            'id' => null
+        ]);
     }
 
     public function professional()
     {
-        return $this->belongsTo(User::class, 'professional_id');
+        return $this->belongsTo(User::class, 'professional_id')->withDefault([
+            'name' => 'Deleted User',
+            'id' => null
+        ]);
     }
 
     public function serviceRequest()
@@ -42,8 +48,5 @@ class Review extends Model
         return $this->belongsTo(ServiceRequest::class);
     }
 
-    public function scopeApproved($query)
-    {
-        return $query->where('is_approved', true);
-    }
+ 
 }

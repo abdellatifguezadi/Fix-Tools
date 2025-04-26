@@ -12,7 +12,7 @@ class MaterialController extends Controller
     public function index()
     {
         $materials = Material::with('category')->latest()->get();
-        $categories = Category::where('type', 'material')->get();
+        $categories = Category::materialCategories()->get();
         return view('admin.materials', compact('materials', 'categories'));
     }
 
@@ -26,7 +26,7 @@ class MaterialController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'price' => 'required|numeric|min:1',
             'points_cost' => 'required|integer|min:1',
             'stock_quantity' => 'required|integer|min:1',
@@ -52,8 +52,8 @@ class MaterialController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
+            'category_id' => 'nullable|exists:categories,id',
+            'price' => 'required|numeric|min:1',
             'points_cost' => 'required|integer|min:0',
             'stock_quantity' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5000'

@@ -22,6 +22,7 @@ class Service extends Model
     protected $casts = [
         'base_price' => 'decimal:2',
         'is_available' => 'boolean',
+        'category_id' => 'integer|nullable',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];

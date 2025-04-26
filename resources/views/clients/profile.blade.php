@@ -130,7 +130,7 @@
                                         </div>
                                         <div class="ml-6">
                                             <h3 class="text-lg font-semibold text-gray-900">Completed</h3>
-                                            <p class="text-gray-700 mt-1">{{ $user->serviceRequests()->where('status', 'completed')->count() ?? 0 }}</p>
+                                            <p class="text-gray-700 mt-1">{{ $user->serviceRequests()->completed()->count() ?? 0 }}</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
@@ -141,7 +141,7 @@
                                         </div>
                                         <div class="ml-6">
                                             <h3 class="text-lg font-semibold text-gray-900">Pending</h3>
-                                            <p class="text-gray-700 mt-1">{{ $user->serviceRequests()->whereIn('status', ['pending', 'accepted', 'in_progress'])->count() ?? 0 }}</p>
+                                            <p class="text-gray-700 mt-1">{{ $user->serviceRequests()->active()->count() ?? 0 }}</p>
                                         </div>
                                     </div>
                                 </div>

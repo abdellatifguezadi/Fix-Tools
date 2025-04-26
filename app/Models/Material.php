@@ -26,6 +26,7 @@ class Material extends Model
         'points_cost' => 'integer',
         'stock_quantity' => 'integer',
         'is_available' => 'boolean',
+        'category_id' => 'integer|nullable',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'

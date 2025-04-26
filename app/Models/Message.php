@@ -20,18 +20,24 @@ class Message extends Model
     protected $casts = [
         'is_read' => 'boolean',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        // 'updated_at' => 'datetime',
+        // 'deleted_at' => 'datetime'
     ];
 
     public function sender()
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return $this->belongsTo(User::class, 'sender_id')->withDefault([
+            'name' => 'Deleted User',
+            'id' => null
+        ]);
     }
 
     public function receiver()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(User::class, 'receiver_id')->withDefault([
+            'name' => 'Deleted User',
+            'id' => null
+        ]);
     }
 
     public function scopeUnread($query)

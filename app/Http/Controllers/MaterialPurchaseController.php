@@ -15,8 +15,8 @@ class MaterialPurchaseController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $materials = Material::where('is_available', true)->paginate(9);
-        $categories = Category::where('type', 'material')->get();
+        $materials = Material::available()->paginate(9);
+        $categories = Category::materialCategories()->get();
 
         $userPoints = $user->loyalty_points;
         if($userPoints === null) {
@@ -68,7 +68,7 @@ class MaterialPurchaseController extends Controller
             }
         }
 
-        $materials = $query->where('is_available', true)->paginate(9);
+        $materials = $query->available()->paginate(9);
 
         $userPoints = $user->loyalty_points;
         if($userPoints === null) {
@@ -80,7 +80,7 @@ class MaterialPurchaseController extends Controller
             return view('components.marketplace.materials-grid', compact('materials'))->render();
         }
 
-        $categories = Category::where('type', 'material')->get();
+        $categories = Category::materialCategories()->get();
         return view('professionals.marketplace', compact('materials', 'categories', 'user', 'userPoints'));
     }
     

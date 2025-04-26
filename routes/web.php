@@ -157,6 +157,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
         Route::post('/admin/users/{user}/suspend', [UserController::class, 'suspend'])->name('admin.users.suspend');
         Route::post('/admin/users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
+        Route::delete('/admin/users/{user}/delete', [UserController::class, 'delete'])->name('admin.users.delete');
         
         Route::get('/admin/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
         Route::get('/admin/services/create', [AdminServiceController::class, 'create'])->name('admin.services.create');

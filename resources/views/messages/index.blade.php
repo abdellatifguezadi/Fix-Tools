@@ -23,15 +23,9 @@
                                         </div>
                                         <div class="ml-4">
                                             <h4 class="text-lg font-semibold text-gray-900">{{ $user->name }}</h4>
-                                            @php
-                                                $unreadCount = \App\Models\Message::where('sender_id', $user->id)
-                                                    ->where('receiver_id', auth()->id())
-                                                    ->where('is_read', false)
-                                                    ->count();
-                                            @endphp
-                                            @if($unreadCount > 0)
+                                            @if($user->unread_count > 0)
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                    {{ $unreadCount }} {{ __('nouveaux messages') }}
+                                                    {{ $user->unread_count }} {{ __('nouveaux messages') }}
                                                 </span>
                                             @endif
                                         </div>

@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
- 
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -29,7 +27,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_available',
         'total_points'
     ];
-
 
     protected $hidden = [
         'password',
@@ -66,7 +63,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ServiceRequest::class, 'professional_id');
     }
 
-    
     public function serviceRequests()
     {
         if ($this->role === 'client') {
