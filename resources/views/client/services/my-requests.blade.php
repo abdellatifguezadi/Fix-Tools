@@ -137,71 +137,35 @@ use Illuminate\Support\Str;
 
                     <div class="flex space-x-2">
                         @if($request->status == 'pending')
-                            <x-delete-confirmation-modal 
-                                :title="'Cancel Service Request'"
-                                :message="'Are you sure you want to cancel this service request? This action cannot be undone.'"
+                            <button type="button" 
+                                onclick="event.stopPropagation(); document.getElementById('cancelModal{{ $request->id }}').style.display='flex';"
                                 class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-yellow-500 transition-all duration-300 transform hover:scale-105 hover:shadow">
                                 <i class="fas fa-times mr-2"></i>Cancel
-                                <x-slot name="actions">
-                                    <form action="{{ route('client.service-requests.cancel', ['serviceRequest' => $request->id]) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Cancel Request
-                                        </button>
-                                        <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Keep Request
-                                        </button>
-                                    </form>
-                                </x-slot>
-                            </x-delete-confirmation-modal>
+                            </button>
                         @endif
 
                         @if($request->status == 'priced')
-                            <x-delete-confirmation-modal 
-                                :title="'Accept Price'"
-                                :message="'Are you sure you want to accept the price for this service?'"
+                            <button type="button" 
+                                onclick="event.stopPropagation(); document.getElementById('acceptModal{{ $request->id }}').style.display='flex';"
                                 class="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-yellow-500 transition-all duration-300 transform hover:scale-105 hover:shadow">
                                 <i class="fas fa-check mr-2"></i>Accept
-                                <x-slot name="actions">
-                                    <form action="{{ route('client.service-requests.accept-price', $request->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Accept Price
-                                        </button>
-                                        <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Cancel
-                                        </button>
-                                    </form>
-                                </x-slot>
-                            </x-delete-confirmation-modal>
+                            </button>
 
-                            <x-delete-confirmation-modal 
-                                :title="'Decline Price'"
-                                :message="'Are you sure you want to decline this price and cancel the request?'"
+                            <button type="button" 
+                                onclick="event.stopPropagation(); document.getElementById('declineModal{{ $request->id }}').style.display='flex';"
                                 class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-yellow-500 transition-all duration-300 transform hover:scale-105 hover:shadow">
                                 <i class="fas fa-times mr-2"></i>Decline
-                                <x-slot name="actions">
-                                    <form action="{{ route('client.service-requests.cancel', ['serviceRequest' => $request->id]) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Decline and Cancel
-                                        </button>
-                                        <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                            Keep Request
-                                        </button>
-                                    </form>
-                                </x-slot>
-                            </x-delete-confirmation-modal>
+                            </button>
                         @endif
 
                         @if($request->status == 'completed' && !$request->review)
-                            <a href="{{ route('reviews.create', $request->id) }}"
+                            <a href="{{ route('reviews.create', $request->id) }}" onclick="event.stopPropagation();"
                                 class="flex-1 px-4 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500 text-center transition-all duration-300 transform hover:scale-105 hover:shadow">
                                 <i class="fas fa-star mr-2"></i>Review
                             </a>
                         @endif
 
-                        <a href="{{ route('messages.show', $request->professional->id) }}"
+                        <a href="{{ route('messages.show', $request->professional->id) }}" onclick="event.stopPropagation();"
                             class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-yellow-500 text-center transition-all duration-300 transform hover:scale-105 hover:shadow">
                             <i class="fas fa-envelope mr-2"></i>Message
                         </a>
@@ -212,6 +176,94 @@ use Illuminate\Support\Str;
         </div>
         @endif
     </div>
+
+    <!-- Modals -->
+    @foreach($requests as $request)
+        @if($request->status == 'pending')
+            <div id="cancelModal{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" style="display: none;">
+                <div class="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto" onclick="event.stopPropagation();">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-100 rounded-full p-2 mr-3">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Cancel Service Request</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6">Are you sure you want to cancel this service request? This action cannot be undone.</p>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" 
+                            onclick="document.getElementById('cancelModal{{ $request->id }}').style.display='none'"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                            Keep Request
+                        </button>
+                        <form action="{{ route('client.service-requests.cancel', ['serviceRequest' => $request->id]) }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                                Cancel Request
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if($request->status == 'priced')
+            <div id="acceptModal{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" style="display: none;">
+                <div class="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto" onclick="event.stopPropagation();">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 rounded-full p-2 mr-3">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Accept Price</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6">Are you sure you want to accept the price for this service?</p>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" 
+                            onclick="document.getElementById('acceptModal{{ $request->id }}').style.display='none'"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                            Cancel
+                        </button>
+                        <form action="{{ route('client.service-requests.accept-price', $request->id) }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                Accept Price
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="declineModal{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" style="display: none;">
+                <div class="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto" onclick="event.stopPropagation();">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-100 rounded-full p-2 mr-3">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Decline Price</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6">Are you sure you want to decline this price and cancel the request?</p>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" 
+                            onclick="document.getElementById('declineModal{{ $request->id }}').style.display='none'"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                            Keep Request
+                        </button>
+                        <form action="{{ route('client.service-requests.cancel', ['serviceRequest' => $request->id]) }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                                Decline and Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endforeach
 
     @push('scripts')
     <script>

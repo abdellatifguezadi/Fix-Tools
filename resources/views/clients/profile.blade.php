@@ -184,14 +184,14 @@
                     @method('PUT')
 
                     <!-- Success messages -->
-                    @if(session('success'))
+                    <!-- @if(session('success'))
                         <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
                             {{ session('success') }}
                         </div>
-                    @endif
+                    @endif -->
 
                     <!-- Error messages -->
-                    @if($errors->any())
+                    <!-- @if($errors->any())
                         <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
                             <ul class="list-disc list-inside">
                                 @foreach($errors->all() as $error)
@@ -199,7 +199,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                    @endif -->
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>

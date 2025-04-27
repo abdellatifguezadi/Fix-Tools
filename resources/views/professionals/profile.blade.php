@@ -40,9 +40,6 @@
                                     <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                                         <div class="flex items-center justify-between mb-6">
                                             <h2 class="text-xl font-bold text-gray-800">Personal Information</h2>
-                                            <span class="px-3 py-1 rounded-full text-sm {{ $user->is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                {{ $user->is_available ? 'Available' : 'Not Available' }}
-                                            </span>
                                         </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div class="flex items-center p-4 bg-gray-50 rounded-lg">
@@ -180,14 +177,14 @@
                     @method('PUT')
 
                     <!-- Success messages -->
-                    @if(session('success'))
+                    <!-- @if(session('success'))
                         <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
                             {{ session('success') }}
                         </div>
-                    @endif
+                    @endif -->
 
                     <!-- Error messages -->
-                    @if($errors->any())
+                    <!-- @if($errors->any())
                         <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
                             <ul class="list-disc list-inside">
                                 @foreach($errors->all() as $error)
@@ -195,7 +192,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                    @endif -->
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -265,14 +262,6 @@
                             @error('password_confirmation')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
-                        </div>
-                        <div>
-                            <label for="is_available" class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
-                            <div class="flex items-center">
-                                <input type="checkbox" name="is_available" id="is_available" value="1" {{ $user->is_available ? 'checked' : '' }}
-                                    class="h-4 w-4 text-yellow-400 focus:ring-yellow-400 border-gray-300 rounded">
-                                <label for="is_available" class="ml-2 text-sm text-gray-700">I am available for services</label>
-                            </div>
                         </div>
                     </div>
                     <div class="flex justify-end mt-8 space-x-4">

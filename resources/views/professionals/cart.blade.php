@@ -22,7 +22,7 @@
                                 </div>
                             </div>
 
-                            @if (session('success'))
+                            <!-- @if (session('success'))
                                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                                     <span class="font-bold">Success!</span>
                                     <span>{{ session('success') }}</span>
@@ -34,7 +34,7 @@
                                     <span class="font-bold">Error!</span>
                                     <span>{{ session('error') }}</span>
                                 </div>
-                            @endif
+                            @endif -->
 
                             @if(!$cart || $cart->items->isEmpty())
                                 <div class="text-center py-8">

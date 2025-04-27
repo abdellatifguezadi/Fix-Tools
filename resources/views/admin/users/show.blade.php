@@ -101,21 +101,41 @@
                     <!-- Action Buttons -->
                     <div class="mt-6 flex justify-end space-x-4">
                         @if($user->is_available)
-                            <form action="{{ route('admin.users.suspend', $user) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" 
-                                        onclick="return confirm('Are you sure you want to suspend this user?')">
-                                    Suspend User
-                                </button>
-                            </form>
+                            <x-delete-confirmation-modal 
+                                :title="'Suspend User'"
+                                :message="'Are you sure you want to suspend ' . $user->name . '? They will not be able to log in or use any services until reactivated.'"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Suspend User
+                                <x-slot name="actions">
+                                    <form action="{{ route('admin.users.suspend', $user) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                            Suspend User
+                                        </button>
+                                        <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </x-slot>
+                            </x-delete-confirmation-modal>
                         @else
-                            <form action="{{ route('admin.users.activate', $user) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                                        onclick="return confirm('Are you sure you want to activate this user?')">
-                                    Activate User
-                                </button>
-                            </form>
+                            <x-delete-confirmation-modal 
+                                :title="'Activate User'"
+                                :message="'Are you sure you want to activate ' . $user->name . '? They will regain access to all platform features.'"
+                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                Activate User
+                                <x-slot name="actions">
+                                    <form action="{{ route('admin.users.activate', $user) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                            Activate User
+                                        </button>
+                                        <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </x-slot>
+                            </x-delete-confirmation-modal>
                         @endif
 
                         <x-delete-confirmation-modal 

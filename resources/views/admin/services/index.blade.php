@@ -10,7 +10,7 @@
             </div>
 
             <!-- Flash Messages -->
-            @if (session('success'))
+            <!-- @if (session('success'))
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
                     {{ session('success') }}
                 </div>
@@ -20,7 +20,7 @@
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
                     {{ session('error') }}
                 </div>
-            @endif
+            @endif -->
 
             <!-- Services Table -->
             <div class="bg-white shadow rounded-lg p-6">
@@ -58,11 +58,17 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <div class="text-sm text-gray-900">{{ $service->category->name }}</div>
+                                    <div class="text-sm text-gray-900">
+                                        {{ $service->category ? $service->category->name : 'No Category' }}
+                                    </div>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <div class="text-sm text-gray-900">{{ $service->professional->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ $service->professional->email }}</div>
+                                    <div class="text-sm text-gray-900">
+                                        {{ $service->professional ? $service->professional->name : 'No Professional' }}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{ $service->professional ? $service->professional->email : 'N/A' }}
+                                    </div>
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="text-sm text-gray-900">${{ number_format($service->base_price, 2) }}</div>

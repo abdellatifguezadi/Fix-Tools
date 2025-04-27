@@ -17,11 +17,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    @if (session('success'))
+                    <!-- @if (session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                             {{ session('success') }}
                         </div>
-                    @endif
+                    @endif -->
 
                     <div id="messages-container" class="messages-container space-y-4 mb-6 overflow-y-auto" style="max-height: 400px;">
                         @if($messages->count() > 0)

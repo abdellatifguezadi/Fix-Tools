@@ -2,7 +2,7 @@
 <div class="container mx-auto py-8 px-4">
     <h1 class="text-3xl font-bold mb-8">Service Requests</h1>
     
-    @if(session('success'))
+    <!-- @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span class="block sm:inline">{{ session('success') }}</span>
         </div>
@@ -12,7 +12,7 @@
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span class="block sm:inline">{{ session('error') }}</span>
         </div>
-    @endif
+    @endif -->
     
     <div class="flex space-x-4 mb-6">
         <button data-status="all" class="status-filter bg-yellow-400 text-black px-4 py-2 rounded-lg">
@@ -104,23 +104,9 @@
                         </div>
                         
                         @if($request->status == 'pending')
-                            <form action="{{ route('professional.requests.update-price', $request) }}" method="POST">
-                                @csrf
-                                <div class="mb-4">
-                                    <label for="final_price" class="block text-sm font-medium text-gray-700 mb-1">Propose Final Price:</label>
-                                    <div class="flex">
-                                        <span class="inline-flex items-center px-3 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md text-gray-500">
-                                            DH
-                                        </span>
-                                        <input type="number" name="final_price" id="final_price" 
-                                               class="flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-                                               min="0" step="0.01" required>
-                                    </div>
-                                </div>
-                                <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition duration-200">
-                                    Submit Price
-                                </button>
-                            </form>
+                            <button onclick="showPriceModal({{ $request->id }})" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition duration-200">
+                                Submit Price
+                            </button>
                         @elseif($request->final_price)
                             <div class="mb-4">
                                 <h4 class="font-semibold mb-1">Final Price:</h4>
@@ -138,23 +124,9 @@
                                 @endif
                                 
                                 @if($request->status == 'accepted')
-                                    <x-delete-confirmation-modal 
-                                        :title="'Complete Service Request'"
-                                        :message="'Are you sure you want to mark this service request as completed? This action cannot be undone.'"
-                                        class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-yellow-500 transition duration-200">
+                                    <button onclick="showCompleteModal({{ $request->id }})" class="flex-1 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-yellow-500 transition duration-200">
                                         <i class="fas fa-check mr-2"></i>Complete
-                                        <x-slot name="actions">
-                                            <form action="{{ route('professional.requests.complete', $request) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                                    Complete Request
-                                                </button>
-                                                <button type="button" @click="open = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                    Cancel
-                                                </button>
-                                            </form>
-                                        </x-slot>
-                                    </x-delete-confirmation-modal>
+                                    </button>
                                 @endif
                             @endif
                         </div>
@@ -164,6 +136,80 @@
         </div>
     @endif
 </div>
+
+<!-- Price Modal -->
+@foreach($requests as $request)
+    @if($request->status == 'pending')
+        <div id="price-modal-{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden" style="display: none;">
+            <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 relative" onclick="event.stopPropagation();">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-dollar-sign text-2xl text-yellow-500"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-2">Submit Price</h3>
+                <p class="text-gray-600 text-center mb-6">Please enter the final price for this service request.</p>
+                
+                <form action="{{ route('professional.requests.update-price', $request) }}" method="POST">
+                    @csrf
+                    <div class="mb-6">
+                        <label for="final_price_{{ $request->id }}" class="block text-sm font-medium text-gray-700 mb-2">Final Price (DH):</label>
+                        <div class="flex">
+                            <span class="inline-flex items-center px-3 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md text-gray-500">
+                                DH
+                            </span>
+                            <input type="number" name="final_price" id="final_price_{{ $request->id }}" 
+                                   class="flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
+                                   min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="hidePriceModal({{ $request->id }})" 
+                                class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                            Submit Price
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+@endforeach
+
+<!-- Complete Modal -->
+@foreach($requests as $request)
+    @if($request->status == 'accepted')
+        <div id="complete-modal-{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden" style="display: none;">
+            <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 relative" onclick="event.stopPropagation();">
+                <div class="flex items-center justify-center mb-6">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-2xl text-green-500"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-2">Complete Service Request</h3>
+                <p class="text-gray-600 text-center mb-6">Are you sure you want to mark this service request as completed? This action cannot be undone.</p>
+                
+                <form action="{{ route('professional.requests.complete', $request) }}" method="POST">
+                    @csrf
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="hideCompleteModal({{ $request->id }})" 
+                                class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            Complete Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
+@endforeach
 
 @push('scripts')
 <script>
@@ -216,6 +262,45 @@
             allRequestsButton.click();
         }
     }
+
+    // Modal functions
+    function showPriceModal(requestId) {
+        const modal = document.getElementById(`price-modal-${requestId}`);
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function hidePriceModal(requestId) {
+        const modal = document.getElementById(`price-modal-${requestId}`);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    function showCompleteModal(requestId) {
+        const modal = document.getElementById(`complete-modal-${requestId}`);
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function hideCompleteModal(requestId) {
+        const modal = document.getElementById(`complete-modal-${requestId}`);
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        const modals = document.querySelectorAll('[id^="price-modal-"], [id^="complete-modal-"]');
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
 </script>
 @endpush
 </x-app-layout> 

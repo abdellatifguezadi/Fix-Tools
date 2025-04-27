@@ -132,7 +132,7 @@ class ServiceController extends Controller
                 return [
                     'id' => $service->id,
                     'name' => $service->name,
-                    'category' => $service->category->name,
+                    'category' => $service->category ? $service->category->name : 'No Category',
                     'category_id' => $service->category_id,
                     'description' => $service->description,
                     'base_price' => $service->base_price,
