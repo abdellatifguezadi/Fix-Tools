@@ -13,22 +13,32 @@ class MessageController extends Controller
 
     public function index()
     {
-        $users = User::whereHas('receivedMessages', function($query) {
-                $query->where('sender_id', Auth::id());
+        $authUser = Auth::id();
+        
+
+        $hasMessages = Message::where(function($query) use ($authUser) {
+                $query->where('sender_id', $authUser)
+                    ->orWhere('receiver_id', $authUser);
             })
-            ->orWhereHas('sentMessages', function($query) {
-                $query->where('receiver_id', Auth::id());
+            ->exists();
+
+        $users = User::whereHas('receivedMessages', function($query) use ($authUser) {
+                $query->where('sender_id', $authUser);
             })
+            ->orWhereHas('sentMessages', function($query) use ($authUser) {
+                $query->where('receiver_id', $authUser);
+            })
+            ->withTrashed() 
             ->get();
             
         foreach ($users as $user) {
             $user->unread_count = Message::where('sender_id', $user->id)
-                ->where('receiver_id', Auth::id())
+                ->where('receiver_id', $authUser)
                 ->unread()
                 ->count();
         }
             
-        return view('messages.index', compact('users'));
+        return view('messages.index', compact('users', 'hasMessages'));
     }
 
     public function show(User $user)

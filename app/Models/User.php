@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -33,6 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $dates = ['deleted_at'];
+
     protected function casts(): array
     {
         return [
@@ -40,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'is_available' => 'boolean',
             'total_points' => 'integer',
+            'deleted_at' => 'datetime',
         ];
     }
 

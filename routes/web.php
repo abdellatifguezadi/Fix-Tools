@@ -214,4 +214,18 @@ Route::middleware(['auth', 'client', 'verified'])->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
+// // Routes pour les messages
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])
+        ->name('messages.show')
+        ->withTrashed();  // Permettre l'accès aux utilisateurs supprimés
+    // Route::post('/messages/{user}', [MessageController::class, 'store'])
+    //     ->name('messages.store')
+    //     ->withTrashed();  // Permettre l'envoi aux utilisateurs supprimés
+    // Route::post('/messages/{user}/read', [MessageController::class, 'markAsRead'])
+    //     ->name('messages.read')
+    //     ->withTrashed();  // Permettre le marquage comme lu pour les utilisateurs supprimés
+});
+
 

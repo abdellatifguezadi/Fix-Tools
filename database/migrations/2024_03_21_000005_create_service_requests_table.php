@@ -6,24 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('service_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('professional_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
-            $table->text('description');
-            $table->string('status')->default('pending'); 
-            $table->dateTime('requested_date');
-            $table->dateTime('completion_date')->nullable();
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('client_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('professional_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->text('description')->nullable();
             $table->decimal('final_price', 10, 2)->nullable();
+            $table->enum('status', ['pending', 'priced', 'accepted', 'completed', 'cancelled'])->default('pending');
+            $table->timestamp('requested_date')->nullable();
+            $table->timestamp('completed_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('service_requests');
     }
