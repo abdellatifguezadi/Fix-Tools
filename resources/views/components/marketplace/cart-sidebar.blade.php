@@ -107,6 +107,5 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // No mixed payment options to handle anymore
     });
 </script> 

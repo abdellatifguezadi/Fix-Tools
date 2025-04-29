@@ -1,60 +1,35 @@
 <x-app-layout>
-
-    <div class="bg-gray-100 h-screen flex overflow-hidden">
-
-        <aside class="fixed inset-y-0 left-0 w-64 bg-black z-20 transform -translate-x-full sm:translate-x-0 transition-transform duration-200 ease-in-out">
-            <x-sidebars.professional />
-        </aside>
-
-        <div class="w-full flex-1 flex flex-col transition-all duration-200 ease-in-out">
-
-            <div class="h-16"></div>
-
-            <div class="flex-1 overflow-auto">
-                <div class="container mx-auto py-6 px-4">
-
-                    <div class="mb-6 bg-white shadow-sm rounded-lg p-4">
-                        <div class="flex justify-between items-center">
-                            <h1 class="text-2xl font-bold">My Services</h1>
-                            @if(auth()->check() && auth()->user()->isProfessional())
-                                <button onclick="openAddModal()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg flex items-center">
-                                    <i class="fas fa-plus mr-2"></i>
-                                    Add a service
-                                </button>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            @forelse($services as $service)
-                                <x-professional-service-card 
-                                    :id="$service['id']"
-                                    :name="$service['name']"
-                                    :category="$service['category']"
-                                    :categoryId="$service['category_id']"
-                                    :description="$service['description']"
-                                    :price="number_format($service['base_price'], 2)"
-                                    :image="$service['image_path']"
-                                    :isAvailable="$service['is_available']"
-                                />
-                            @empty
-                                <div class="col-span-full text-center py-8">
-                                    <p class="text-gray-500">You don't have any services yet. Add one by clicking the button above.</p>
-                                </div>
-                            @endforelse
-                    </div>
-
-                    <!-- Debug section (commented out) -->
-                    <!-- <div class="mb-4">
-                        @foreach($services as $service)
-                            <div class="text-sm text-gray-600">
-                                Image URL: {{ $service['image_path'] }}<br>
-                                Storage URL: {{ Storage::url($service['image_path']) }}<br>
-                                Asset URL: {{ asset('storage/' . $service['image_path']) }}
-                            </div>
-                        @endforeach
-                    </div> -->
+    <div class="bg-gray-100 min-h-screen">
+        <div class="container mx-auto py-6 px-4">
+            <div class="mb-6 bg-white shadow-sm rounded-lg p-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold">My Services</h1>
+                    @if(auth()->check() && auth()->user()->isProfessional())
+                        <button onclick="openAddModal()" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add a service
+                        </button>
+                    @endif
                 </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @forelse($services as $service)
+                    <x-professional-service-card 
+                        :id="$service['id']"
+                        :name="$service['name']"
+                        :category="$service['category']"
+                        :categoryId="$service['category_id']"
+                        :description="$service['description']"
+                        :price="number_format($service['base_price'], 2)"
+                        :image="$service['image_path']"
+                        :isAvailable="$service['is_available']"
+                    />
+                @empty
+                    <div class="col-span-full text-center py-8">
+                        <p class="text-gray-500">You don't have any services yet. Add one by clicking the button above.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -78,11 +53,9 @@
             const editModal = document.getElementById('editModal');
             const editForm = editModal.querySelector('form');
             
-            // Construire l'URL de base pour le formulaire
             const baseUrl = '{{ route("services.update", ":service_id") }}';
             editForm.action = baseUrl.replace(':service_id', id);
 
-            // Mettre à jour les champs du formulaire
             editForm.querySelector('[name="service_id"]').value = id;
             editForm.querySelector('[name="name"]').value = name;
             editForm.querySelector('[name="description"]').value = description;
@@ -90,7 +63,6 @@
             editForm.querySelector('[name="base_price"]').value = price;
             editForm.querySelector('[name="is_available"]').checked = isAvailable;
             
-            // Afficher le modal
             editModal.classList.remove('hidden');
             editModal.classList.add('flex');
         }

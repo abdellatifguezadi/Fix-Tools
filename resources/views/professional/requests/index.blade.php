@@ -2,17 +2,7 @@
 <div class="container mx-auto py-8 px-4">
     <h1 class="text-3xl font-bold mb-8">Service Requests</h1>
     
-    <!-- @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
-    
-    @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ session('error') }}</span>
-        </div>
-    @endif -->
+
     
     <div class="flex space-x-4 mb-6">
         <button data-status="all" class="status-filter bg-yellow-400 text-black px-4 py-2 rounded-lg">
@@ -103,11 +93,12 @@
                             <p class="text-gray-700">{{ $request->description }}</p>
                         </div>
                         
-                        @if($request->status == 'pending')
+                        @if($request->status == 'pending' || $request->status == 'priced')
                             <button onclick="showPriceModal({{ $request->id }})" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-2 px-4 rounded transition duration-200">
-                                Submit Price
+                                {{ $request->status == 'pending' ? 'Submit Price' : 'Edit Price' }}
                             </button>
-                        @elseif($request->final_price)
+                        @endif
+                        @if($request->final_price)
                             <div class="mb-4">
                                 <h4 class="font-semibold mb-1">Final Price:</h4>
                                 <p class="text-xl font-bold text-yellow-600 transition-colors duration-300 group-hover:text-yellow-500">{{ number_format($request->final_price, 2) }} DH</p>
@@ -137,9 +128,8 @@
     @endif
 </div>
 
-<!-- Price Modal -->
 @foreach($requests as $request)
-    @if($request->status == 'pending')
+    @if($request->status == 'pending' || $request->status == 'priced')
         <div id="price-modal-{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden" style="display: none;">
             <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4 relative" onclick="event.stopPropagation();">
                 <div class="flex items-center justify-center mb-6">
@@ -147,9 +137,8 @@
                         <i class="fas fa-dollar-sign text-2xl text-yellow-500"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-center mb-2">Submit Price</h3>
+                <h3 class="text-2xl font-bold text-center mb-2">{{ $request->status == 'pending' ? 'Submit Price' : 'Edit Price' }}</h3>
                 <p class="text-gray-600 text-center mb-6">Please enter the final price for this service request.</p>
-                
                 <form action="{{ route('professional.requests.update-price', $request) }}" method="POST">
                     @csrf
                     <div class="mb-6">
@@ -160,10 +149,9 @@
                             </span>
                             <input type="number" name="final_price" id="final_price_{{ $request->id }}" 
                                    class="flex-1 min-w-0 block w-full px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
-                                   min="0" step="0.01" required>
+                                   min="0" step="0.01" required value="{{ $request->final_price }}">
                         </div>
                     </div>
-                    
                     <div class="flex justify-end space-x-3">
                         <button type="button" onclick="hidePriceModal({{ $request->id }})" 
                                 class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
@@ -171,7 +159,7 @@
                         </button>
                         <button type="submit" 
                                 class="px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
-                            Submit Price
+                            {{ $request->status == 'pending' ? 'Submit Price' : 'Update Price' }}
                         </button>
                     </div>
                 </form>
@@ -180,7 +168,6 @@
     @endif
 @endforeach
 
-<!-- Complete Modal -->
 @foreach($requests as $request)
     @if($request->status == 'accepted')
         <div id="complete-modal-{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden" style="display: none;">
@@ -221,7 +208,6 @@
         
         statusFilters.forEach(filter => {
             filter.addEventListener('click', function() {
-                // Update active filter button
                 statusFilters.forEach(f => f.classList.remove('bg-yellow-400', 'text-black'));
                 statusFilters.forEach(f => f.classList.add('bg-gray-200', 'text-gray-700'));
                 this.classList.remove('bg-gray-200', 'text-gray-700');
@@ -230,7 +216,6 @@
                 const status = this.dataset.status;
                 let visibleCount = 0;
                 
-                // Hide no requests message when filtering
                 if (noRequestsMessage) {
                     noRequestsMessage.style.display = 'none';
                 }
@@ -244,7 +229,6 @@
                     }
                 });
                 
-                // Show no results message if no cards are visible
                 if (visibleCount === 0 && noFilterResultsMessage) {
                     noFilterResultsMessage.style.display = 'block';
                     noFilterResultsMessage.querySelector('.status-name').textContent = status === 'all' ? 'matching your criteria' : status;
@@ -255,7 +239,6 @@
         });
     });
     
-    // Function to reset filter to "All Requests"
     function resetFilter() {
         const allRequestsButton = document.querySelector('[data-status="all"]');
         if (allRequestsButton) {
@@ -263,7 +246,6 @@
         }
     }
 
-    // Modal functions
     function showPriceModal(requestId) {
         const modal = document.getElementById(`price-modal-${requestId}`);
         if (modal) {
@@ -292,7 +274,6 @@
         }
     }
 
-    // Close modals when clicking outside
     window.addEventListener('click', function(event) {
         const modals = document.querySelectorAll('[id^="price-modal-"], [id^="complete-modal-"]');
         modals.forEach(modal => {

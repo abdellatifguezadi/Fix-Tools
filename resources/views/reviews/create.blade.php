@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="container mx-auto px-4 py-8">
-        <!-- Header with Return Button -->
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800">
                 <i class="fas fa-star text-yellow-400 mr-2"></i>Leave a Review
@@ -29,9 +28,7 @@
             </div>
         @endif
 
-        <!-- Main Content - Using Grid Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Service Info Card -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition duration-300 transform hover:scale-102">
                 <div class="bg-yellow-400 text-white px-4 py-3 flex items-center">
                     <i class="fas fa-tools mr-2"></i>
@@ -71,7 +68,6 @@
                 </div>
             </div>
             
-            <!-- Professional Info Card -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition duration-300 transform hover:scale-102">
                 <div class="bg-blue-500 text-white px-4 py-3 flex items-center">
                     <i class="fas fa-user-tie mr-2"></i>
@@ -126,7 +122,6 @@
                 </div>
             </div>
             
-            <!-- Review Form Card -->
             <form action="{{ route('reviews.store') }}" method="POST" class="lg:col-span-1">
                 @csrf
                 <input type="hidden" name="service_request_id" value="{{ $serviceRequest->id }}">
@@ -138,7 +133,6 @@
                     </div>
                     
                     <div class="p-4 flex-grow">
-                        <!-- Rating -->
                         <div class="mb-6">
                             <label for="rating" class="block text-gray-700 font-semibold mb-3 flex items-center">
                                 <i class="fas fa-star text-yellow-400 mr-2"></i>Rating
@@ -160,7 +154,6 @@
                             @enderror
                         </div>
                         
-                        <!-- Comment -->
                         <div class="mb-4 flex-grow">
                             <label for="comment" class="block text-gray-700 font-semibold mb-3 flex items-center">
                                 <i class="fas fa-pencil-alt text-yellow-400 mr-2"></i>Your Comments
@@ -186,7 +179,6 @@
                         </div>
                     </div>
                     
-                    <!-- Submit Button -->
                     <div class="bg-gray-50 p-4 border-t border-gray-100">
                         <button type="submit" class="w-full px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-500 transition duration-300 transform hover:scale-105 shadow-sm hover:shadow-md flex items-center justify-center">
                             <i class="fas fa-paper-plane mr-2"></i>
@@ -207,7 +199,6 @@
             const ratingLabels = ['Very Poor', 'Poor', 'Average', 'Good', 'Excellent'];
             const ratingColors = ['#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e'];
             
-            // Check if there's an existing rating to restore
             if (ratingInput.value) {
                 highlightStars(parseInt(ratingInput.value));
                 updateRatingText(parseInt(ratingInput.value));
@@ -220,7 +211,6 @@
                     ratingInput.value = value;
                     updateRatingText(value);
                     
-                    // Add animation effect
                     this.classList.add('animate-pulse');
                     setTimeout(() => {
                         this.classList.remove('animate-pulse');
@@ -244,11 +234,9 @@
                 });
                 
                 star.addEventListener('mouseleave', function() {
-                    // Restore the selected rating
                     if (ratingInput.value) {
                         highlightStars(parseInt(ratingInput.value));
                     } else {
-                        // No rating selected, reset all stars
                         stars.forEach(s => {
                             s.classList.add('text-gray-300');
                             s.classList.remove('text-yellow-400');

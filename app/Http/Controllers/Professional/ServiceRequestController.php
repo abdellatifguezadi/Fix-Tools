@@ -60,12 +60,6 @@ class ServiceRequestController extends Controller
         $points = 5;
         $description = "Service complété: {$serviceRequest->service->name}";
         
-        if ($serviceRequest->review) {
-            $reviewPoints = $serviceRequest->review->rating;
-            $points += $reviewPoints;
-            $description .= " + {$reviewPoints} points pour un avis {$serviceRequest->review->rating} étoiles";
-        }
-        
         LoyaltyPoint::create([
             'professional_id' => Auth::id(),
             'service_request_id' => $serviceRequest->id,

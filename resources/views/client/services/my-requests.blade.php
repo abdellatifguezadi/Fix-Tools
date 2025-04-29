@@ -13,19 +13,8 @@ use Illuminate\Support\Str;
             </a>
         </div>
 
-        <!-- @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-        @endif
 
-        @if(session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ session('error') }}</span>
-        </div>
-        @endif -->
 
-        <!-- Status Filter -->
         <div class="mb-6">
             <div class="flex space-x-4">
                 <button class="status-filter px-4 py-2 rounded-lg bg-yellow-400 text-black font-semibold" data-status="all">
@@ -127,7 +116,6 @@ use Illuminate\Support\Str;
                         </p>
                     </div>
 
-                    <!-- Final Price (if set) -->
                     @if($request->final_price)
                     <div class="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-100 price-container" style="transition: all 0.3s ease;">
                         <h4 class="font-semibold mb-1">Final Price Quote:</h4>
@@ -177,7 +165,6 @@ use Illuminate\Support\Str;
         @endif
     </div>
 
-    <!-- Modals -->
     @foreach($requests as $request)
         @if($request->status == 'pending')
             <div id="cancelModal{{ $request->id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" style="display: none;">

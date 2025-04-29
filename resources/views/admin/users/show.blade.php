@@ -17,7 +17,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Basic Information -->
                         <div class="bg-white p-6 rounded-lg shadow">
                             <h2 class="text-lg font-semibold mb-4">Basic Information</h2>
                             <div class="space-y-4">
@@ -49,7 +48,6 @@
                             </div>
                         </div>
 
-                        <!-- Additional Information -->
                         <div class="bg-white p-6 rounded-lg shadow">
                             <h2 class="text-lg font-semibold mb-4">Additional Information</h2>
                             <div class="space-y-4">
@@ -72,7 +70,6 @@
                             </div>
                         </div>
 
-                        <!-- Professional Information (if applicable) -->
                         @if($user->role === 'professional')
                         <div class="bg-white p-6 rounded-lg shadow md:col-span-2">
                             <h2 class="text-lg font-semibold mb-4">Professional Information</h2>
@@ -85,10 +82,7 @@
                                     <label class="block text-sm font-medium text-gray-700">Experience (years)</label>
                                     <p class="mt-1 text-sm text-gray-900">{{ $user->experience ?? 'Not specified' }}</p>
                                 </div>
-                                <!-- <div>
-                                    <label class="block text-sm font-medium text-gray-700">Hourly Rate</label>
-                                    <p class="mt-1 text-sm text-gray-900">{{ $user->hourly_rate ? '$' . $user->hourly_rate : 'Not specified' }}</p>
-                                </div> -->
+
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Description</label>
                                     <p class="mt-1 text-sm text-gray-900">{{ $user->description ?? 'No description provided' }}</p>
@@ -97,8 +91,6 @@
                         </div>
                         @endif
                     </div>
-
-                    <!-- Action Buttons -->
                     <div class="mt-6 flex justify-end space-x-4">
                         @if($user->is_available)
                             <x-delete-confirmation-modal 

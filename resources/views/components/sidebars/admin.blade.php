@@ -1,7 +1,7 @@
-<div id="adminSidebar" class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg overflow-hidden transform transition-transform duration-300 md:translate-x-0 -translate-x-full z-20 flex flex-col">
+<div id="adminSidebar" class="fixed left-0 top-0 w-64 h-full bg-black shadow-lg overflow-hidden transform transition-transform duration-300 lg:translate-x-0 -translate-x-full z-20 flex flex-col">
     <div class="h-16 bg-black"></div>
     <div class="px-4 pt-4 overflow-y-auto flex-1">
-        <button id="closeAdminSidebar" class="sm:block md:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
+        <button id="closeAdminSidebar" class="block lg:hidden absolute top-4 right-4 text-gray-400 hover:text-white">
             <i class="fas fa-times"></i>
         </button>
         
@@ -54,7 +54,6 @@
         </div>
     </div>
     
-    <!-- Logout Button -->
     <div class="px-4 py-4 border-t border-gray-800">
         <form method="POST" action="{{ route('logout') }}">
             @csrf

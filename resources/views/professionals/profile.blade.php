@@ -2,10 +2,6 @@
 
     <div class="bg-gray-50 h-screen flex overflow-hidden">
 
-        <aside class="fixed inset-y-0 left-0 w-64 bg-gray-900 z-20 transform -translate-x-full sm:translate-x-0 transition-transform duration-200 ease-in-out">
-            <x-sidebars.professional />
-        </aside>
-
         <div class="w-full flex-1 flex flex-col transition-all duration-200 ease-in-out">
 
             <div class="h-16"></div>
@@ -14,7 +10,6 @@
                 <div class="container mx-auto py-6 px-4">
                     <div class="max-w-4xl mx-auto">
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                            <!-- Profile Header -->
                             <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-8">
                                 <div class="flex items-center">
                                     <div class="w-24 h-24 rounded-full bg-white overflow-hidden ring-4 ring-white shadow-lg">
@@ -33,10 +28,8 @@
                                 </div>
                             </div>
 
-                            <!-- Profile Content -->
                             <div class="p-6">
                                 <div class="space-y-6">
-                                    <!-- Personal Information -->
                                     <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                                         <div class="flex items-center justify-between mb-6">
                                             <h2 class="text-xl font-bold text-gray-800">Personal Information</h2>
@@ -101,7 +94,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Professional Information -->
                                     <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                                         <div class="flex items-center justify-between mb-6">
                                             <h2 class="text-xl font-bold text-gray-800">Professional Information</h2>
@@ -133,7 +125,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Action Buttons -->
                                 <div class="mt-8 flex justify-center space-x-4">
                                     <a href="{{ route('services.my-services') }}" class="inline-flex items-center px-6 py-3 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-300 transition-colors duration-200 shadow-md hover:shadow-lg font-bold">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,7 +153,6 @@
         </button>
     </div>
 
-    <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 {{ $errors->any() ? 'block' : 'hidden' }}">
         <div class="bg-white rounded-lg w-full max-w-2xl mx-4 my-8">
             <div class="flex justify-between items-center border-b px-6 py-4">
@@ -176,23 +166,7 @@
                     @csrf
                     @method('PUT')
 
-                    <!-- Success messages -->
-                    <!-- @if(session('success'))
-                        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-                            {{ session('success') }}
-                        </div>
-                    @endif -->
-
-                    <!-- Error messages -->
-                    <!-- @if($errors->any())
-                        <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                            <ul class="list-disc list-inside">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif -->
+                    
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>

@@ -9,7 +9,6 @@ class CategorySeeder extends Seeder
 {
     public function run()
     {
-        // Service Categories
         $serviceCategories = [
             'Plomberie',
             'Électricité',
@@ -30,7 +29,6 @@ class CategorySeeder extends Seeder
             ]);
         }
 
-        // Material Categories
         $materialCategories = [
             'Outils de plomberie',
             'Outils électriques',

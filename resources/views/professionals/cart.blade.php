@@ -8,7 +8,6 @@
                     <x-marketplace.cart-sidebar :cart="$cart" :userPoints="$userPoints" />
                 </div>
                 
-                <!-- Main Content -->
                 <div class="md:w-3/4">
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                         <div class="p-6">
@@ -22,19 +21,7 @@
                                 </div>
                             </div>
 
-                            <!-- @if (session('success'))
-                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                                    <span class="font-bold">Success!</span>
-                                    <span>{{ session('success') }}</span>
-                                </div>
-                            @endif
-
-                            @if (session('error'))
-                                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                    <span class="font-bold">Error!</span>
-                                    <span>{{ session('error') }}</span>
-                                </div>
-                            @endif -->
+                    
 
                             @if(!$cart || $cart->items->isEmpty())
                                 <div class="text-center py-8">
@@ -155,7 +142,6 @@
     </div>
 
     <script>
-        // Buttons to decrease quantity
         document.querySelectorAll('.decrement-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
@@ -166,7 +152,6 @@
             });
         });
         
-        // Buttons to increase quantity
         document.querySelectorAll('.increment-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');

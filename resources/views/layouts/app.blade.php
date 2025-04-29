@@ -31,17 +31,6 @@
         <x-navbar/>
     </div>
 
-    @auth
-        @if(auth()->user()->isAdmin())
-            <button id="toggleAdminSidebar" class="fixed top-20 left-4 bg-yellow-400 text-black p-2 rounded-lg shadow-lg md:hidden z-30">
-                <i class="fas fa-bars"></i>
-            </button>
-        @elseif(auth()->user()->isProfessional()) 
-            <button id="toggleSidebar" class="fixed top-20 left-4 bg-yellow-400 text-black p-2 rounded-lg shadow-lg md:hidden z-30">
-                <i class="fas fa-bars"></i>
-            </button>
-        @endif
-    @endauth
 
     @auth
         <div class="z-20 relative">
@@ -56,7 +45,7 @@
     <x-toast-notifications type="success" />
     <x-toast-notifications type="error" />
 
-    <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) md:ml-64 transition-all duration-300 @endif @endauth flex-grow">
+    <main class="@auth @if(auth()->user()->isAdmin() || auth()->user()->isProfessional()) lg:ml-64 transition-all duration-300 @endif @endauth flex-grow">
         {{ $slot }}
     </main>
 
@@ -78,6 +67,32 @@
                     const toggleBtn = document.getElementById('toggleAdminSidebar');
                     const closeBtn = document.getElementById('closeAdminSidebar');
                     
+                    function updateSidebarState() {
+                        if (window.innerWidth >= 1024) {
+                            sidebar.style.transition = 'none';
+                            sidebar.classList.remove('-translate-x-full');
+                            document.body.classList.add('admin-sidebar-visible');
+                        } else {
+                            if (!sidebar.classList.contains('-translate-x-full')) {
+                                sidebar.classList.add('-translate-x-full');
+                            }
+                            document.body.classList.remove('admin-sidebar-visible');
+                        }
+                        
+                        setTimeout(() => {
+                            sidebar.style.transition = '';
+                        }, 50);
+                    }
+
+                    if (sidebar) {
+                        if (window.innerWidth >= 1024) {
+                            sidebar.style.transition = 'none';
+                            sidebar.classList.remove('-translate-x-full');
+                        }
+                        
+                        setTimeout(updateSidebarState, 50);
+                    }
+                    
                     if (toggleBtn && sidebar && closeBtn) {
                         toggleBtn.addEventListener('click', function() {
                             sidebar.classList.toggle('-translate-x-full');
@@ -85,6 +100,12 @@
                         
                         closeBtn.addEventListener('click', function() {
                             sidebar.classList.add('-translate-x-full');
+                        });
+                        
+                        let resizeTimer;
+                        window.addEventListener('resize', function() {
+                            clearTimeout(resizeTimer);
+                            resizeTimer = setTimeout(updateSidebarState, 100);
                         });
                     }
                 });
@@ -96,6 +117,32 @@
                     const toggleBtn = document.getElementById('toggleSidebar');
                     const closeBtn = document.getElementById('closeSidebar');
                     
+                    function updateSidebarState() {
+                        if (window.innerWidth >= 1024) {
+                            sidebar.style.transition = 'none';
+                            sidebar.classList.remove('-translate-x-full');
+                            document.body.classList.add('sidebar-visible');
+                        } else {
+                            if (!sidebar.classList.contains('-translate-x-full')) {
+                                sidebar.classList.add('-translate-x-full');
+                            }
+                            document.body.classList.remove('sidebar-visible');
+                        }
+                        
+                        setTimeout(() => {
+                            sidebar.style.transition = '';
+                        }, 50);
+                    }
+
+                    if (sidebar) {
+                        if (window.innerWidth >= 1024) {
+                            sidebar.style.transition = 'none';
+                            sidebar.classList.remove('-translate-x-full');
+                        }
+                        
+                        setTimeout(updateSidebarState, 50);
+                    }
+
                     if (toggleBtn && sidebar && closeBtn) {
                         toggleBtn.addEventListener('click', function() {
                             sidebar.classList.toggle('-translate-x-full');
@@ -103,6 +150,12 @@
                         
                         closeBtn.addEventListener('click', function() {
                             sidebar.classList.add('-translate-x-full');
+                        });
+
+                        let resizeTimer;
+                        window.addEventListener('resize', function() {
+                            clearTimeout(resizeTimer);
+                            resizeTimer = setTimeout(updateSidebarState, 100);
                         });
                     }
                 });

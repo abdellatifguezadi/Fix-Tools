@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Auth;
                             </div>
                         </div>
 
-                        <!-- Summary Section -->
                         <div class="bg-white p-6 rounded-lg shadow-md mt-4">
                             <h2 class="text-lg font-bold mb-4">Points Summary</h2>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -55,7 +54,6 @@ use Illuminate\Support\Facades\Auth;
                                         @else text-purple-500 @endif">
                                         {{ $level }}
                                     </p>
-                                    <!-- <p class="text-sm text-gray-600">{{ $allTimePoints }} total points</p> -->
                                 </div>
                             </div>
 
@@ -68,7 +66,6 @@ use Illuminate\Support\Facades\Auth;
                             </div>
                         </div>
 
-                        <!-- Completed Services -->
                         <h2 class="text-xl font-bold mt-8">Completed Services</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                             @forelse($completedServices ?? [] as $serviceRequest)
@@ -90,7 +87,6 @@ use Illuminate\Support\Facades\Auth;
                                     <p class="text-sm text-gray-500">{{ $serviceRequest->final_price ? number_format($serviceRequest->final_price, 2) . ' DH' : 'Price not defined' }}</p>
                                 </div>
 
-                                <!-- Points breakdown -->
                                 <div class="bg-yellow-50 p-2 rounded-lg border border-yellow-100 mt-2">
                                     <div class="flex justify-between items-center text-sm">
                                         <span class="font-medium text-yellow-800">Points earned:</span>
@@ -108,7 +104,6 @@ use Illuminate\Support\Facades\Auth;
                                     </div>
                                 </div>
 
-                                <!-- Review -->
                                 @if($serviceRequest->review)
                                 <div class="mt-3 p-2 bg-gray-50 rounded-lg border border-gray-200">
                                     <div class="flex items-center mb-1">

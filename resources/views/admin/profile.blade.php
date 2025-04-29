@@ -14,7 +14,6 @@
                 <div class="container mx-auto py-6 px-4">
                     <div class="max-w-4xl mx-auto">
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                            <!-- Profile Header -->
                             <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 px-6 py-8">
                                 <div class="flex items-center">
                                     <div class="w-24 h-24 rounded-full bg-white overflow-hidden ring-4 ring-white shadow-lg">
@@ -39,7 +38,6 @@
                             <!-- Profile Content -->
                             <div class="p-6">
                                 <div class="space-y-6">
-                                    <!-- Personal Information -->
                                     <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
                                         <div class="flex items-center justify-between mb-6">
                                             <h2 class="text-xl font-bold text-gray-800">Personal Information</h2>
@@ -135,7 +133,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Action Buttons -->
                                 <div class="mt-8 flex justify-center space-x-4">
                                     <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center px-6 py-3 bg-yellow-400 text-gray-900 rounded-lg hover:bg-yellow-300 transition-colors duration-200 shadow-md hover:shadow-lg font-bold">
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,23 +176,7 @@
                     @csrf
                     @method('PUT')
 
-                    <!-- Success messages -->
-                    @if(session('success'))
-                        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <!-- Error messages -->
-                    @if($errors->any())
-                        <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                            <ul class="list-disc list-inside">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>

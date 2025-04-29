@@ -23,19 +23,7 @@
                                     </div>
                                 </div>
 
-                                <!-- @if (session('success'))
-                                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                                        <span class="font-bold">Success!</span>
-                                        <span>{{ session('success') }}</span>
-                                    </div>
-                                @endif
-
-                                @if (session('error'))
-                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                        <span class="font-bold">Error!</span>
-                                        <span>{{ session('error') }}</span>
-                                    </div>
-                                @endif -->
+                                
 
                                 <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded mb-6">
                                     <div class="flex">
@@ -104,7 +92,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Delivery Information Section -->
                                     <div class="mb-6">
                                         <h2 class="text-xl font-bold mb-4">Delivery Information</h2>
                                         <div class="bg-white p-4 rounded-lg border">
@@ -180,7 +167,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Buttons section -->
                                     <div class="mt-6 flex justify-end">
                                         <a href="{{ route('cart.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold px-6 py-3 rounded-lg mr-4">
                                             Back to cart

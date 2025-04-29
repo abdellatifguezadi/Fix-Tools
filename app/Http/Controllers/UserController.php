@@ -55,7 +55,6 @@ class UserController extends Controller
         DB::beginTransaction();
         
         try {
-            // Anonymize messages
             $user->sentMessages()->update([
                 'sender_id' => null
             ]);
@@ -64,7 +63,6 @@ class UserController extends Controller
                 'receiver_id' => null
             ]);
             
-            // Anonymize reviews
             $user->givenReviews()->update([
                 'client_id' => null
             ]);
@@ -73,7 +71,6 @@ class UserController extends Controller
                 'professional_id' => null
             ]);
 
-            // Cancel pending service requests
             $user->requestedServices()->where('status', 'pending')->update([
                 'status' => 'cancelled',
                 'client_id' => null
@@ -84,12 +81,10 @@ class UserController extends Controller
                 'professional_id' => null
             ]);
 
-            // Delete related data
             $user->services()->delete();
             $user->materialPurchases()->delete();
             $user->loyaltyPoints()->delete();
 
-            // Finally delete the user
             $user->delete();
             
             DB::commit();
