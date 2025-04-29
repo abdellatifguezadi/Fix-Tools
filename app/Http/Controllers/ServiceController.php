@@ -18,7 +18,7 @@ class ServiceController extends Controller
             ->where('is_available', true)
             ->latest()
             ->paginate(10);
-        $categories = Category::where('type', 'service')->get();
+        $categories = Category::serviceCategories()->get();
         return view('services.index', compact('services', 'categories'));
     }
 
@@ -33,7 +33,7 @@ class ServiceController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'base_price' => 'required|numeric|min:0',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5000'
         ]);
@@ -72,7 +72,7 @@ class ServiceController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'base_price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5000'
         ]);
@@ -98,7 +98,7 @@ class ServiceController extends Controller
     {
 
 
-        if ($service->serviceRequests()->where('status', 'pending')->exists()) {
+        if ($service->serviceRequests()->pending()->exists()) {
             return redirect()->route('services.my-services')
                 ->with('error', 'Impossible de supprimer ce service car il a des demandes en cours');
         }
@@ -132,7 +132,7 @@ class ServiceController extends Controller
                 return [
                     'id' => $service->id,
                     'name' => $service->name,
-                    'category' => $service->category->name,
+                    'category' => $service->category ? $service->category->name : 'No Category',
                     'category_id' => $service->category_id,
                     'description' => $service->description,
                     'base_price' => $service->base_price,

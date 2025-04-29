@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
- 
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-
 
     protected $fillable = [
         'name',
@@ -30,11 +29,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'total_points'
     ];
 
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    protected $dates = ['deleted_at'];
 
     protected function casts(): array
     {
@@ -43,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'is_available' => 'boolean',
             'total_points' => 'integer',
+            'deleted_at' => 'datetime',
         ];
     }
 
@@ -66,7 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ServiceRequest::class, 'professional_id');
     }
 
-    
     public function serviceRequests()
     {
         if ($this->role === 'client') {
@@ -106,6 +106,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function materialPurchases()
     {
         return $this->hasMany(MaterialPurchase::class, 'professional_id');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'professional_id');
     }
 
     public function isAdmin()

@@ -15,6 +15,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             ServiceSeeder::class,
+            MaterialSeeder::class,
+            ServiceRequestsTableSeeder::class,
+            ReviewSeeder::class,
+            LoyaltyPointSeeder::class,
+            MaterialPurchaseSeeder::class,
         ]);
     }
 }

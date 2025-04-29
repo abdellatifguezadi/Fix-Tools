@@ -60,7 +60,6 @@ class ProfileController extends Controller
             'profile_photo' => 'nullable|image|max:5000',
             'specialty' => 'nullable|string|max:255',
             'experience' => 'nullable|integer|min:0',
-            'is_available' => 'boolean',
         ]);
 
         $user->name = $request->name;
@@ -69,7 +68,6 @@ class ProfileController extends Controller
         $user->city = $request->city;
         $user->specialty = $request->specialty;
         $user->experience = $request->experience;
-        $user->is_available = $request->boolean('is_available');
 
         if ($request->filled('current_password')) {
             if (!Hash::check($request->current_password, $user->password)) {

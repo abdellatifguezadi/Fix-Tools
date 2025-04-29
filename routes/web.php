@@ -157,6 +157,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
         Route::post('/admin/users/{user}/suspend', [UserController::class, 'suspend'])->name('admin.users.suspend');
         Route::post('/admin/users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
+        Route::delete('/admin/users/{user}/delete', [UserController::class, 'delete'])->name('admin.users.delete');
         
         Route::get('/admin/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
         Route::get('/admin/services/create', [AdminServiceController::class, 'create'])->name('admin.services.create');
@@ -211,6 +212,20 @@ Route::middleware(['auth', 'client', 'verified'])->group(function () {
 
     Route::get('/reviews/create/{serviceRequest}', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+});
+
+// // Routes pour les messages
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [MessageController::class, 'show'])
+        ->name('messages.show')
+        ->withTrashed();  // Permettre l'accès aux utilisateurs supprimés
+    // Route::post('/messages/{user}', [MessageController::class, 'store'])
+    //     ->name('messages.store')
+    //     ->withTrashed();  // Permettre l'envoi aux utilisateurs supprimés
+    // Route::post('/messages/{user}/read', [MessageController::class, 'markAsRead'])
+    //     ->name('messages.read')
+    //     ->withTrashed();  // Permettre le marquage comme lu pour les utilisateurs supprimés
 });
 
 

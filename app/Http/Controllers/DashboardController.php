@@ -37,11 +37,11 @@ class DashboardController extends Controller
     {
         $totalUsers = User::count();
         $activeProfessionals = User::where('role', 'professional')->where('is_available', true)->count();
-        $completedServices = ServiceRequest::where('status', 'completed')->count();
-        $totalRevenue = ServiceRequest::where('status', 'completed')->sum('final_price');
+        $completedServices = ServiceRequest::completed()->count();
+        $totalRevenue = ServiceRequest::completed()->sum('final_price');
         
         
-        $servicesOverview = Category::where('type', 'service')
+        $servicesOverview = Category::serviceCategories()
             ->withCount(['services as total_services'])
             ->withCount(['services as active_services' => function($query) {
                 $query->where('is_available', true);
@@ -71,7 +71,7 @@ class DashboardController extends Controller
             $startOfMonth = $month->copy()->startOfMonth();
             $endOfMonth = $month->copy()->endOfMonth();
             
-            $currentMonthRevenue = ServiceRequest::where('status', 'completed')
+            $currentMonthRevenue = ServiceRequest::completed()
                                 ->whereBetween('updated_at', [$startOfMonth, $endOfMonth])
                                 ->sum('final_price');
             

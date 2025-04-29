@@ -17,7 +17,7 @@ class ServiceTrackingController extends Controller
         $completedServices = ServiceRequest::where('professional_id', $user->id)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
-            ->where('status', 'completed')
+            ->completed()
             ->with(['service', 'loyaltyPoints', 'review' => function($query) {
                 $query->with('client');
             }])

@@ -3,7 +3,6 @@
 @section('content')
 <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Page Header -->
         <div class="mb-6">
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-semibold text-gray-900">Edit Service</h1>
@@ -22,9 +21,7 @@
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Left Column -->
                     <div class="space-y-6">
-                        <!-- Service Name -->
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700">Service Name</label>
                             <input type="text" name="name" id="name" value="{{ old('name', $service->name) }}" required 
@@ -34,7 +31,6 @@
                             @enderror
                         </div>
 
-                        <!-- Category -->
                         <div>
                             <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
                             <select name="category_id" id="category_id" required 
@@ -50,8 +46,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-
-                        <!-- Professional -->
                         <div>
                             <label for="professional_id" class="block text-sm font-medium text-gray-700">Professional</label>
                             <select name="professional_id" id="professional_id" required 
@@ -67,8 +61,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-
-                        <!-- Base Price -->
                         <div>
                             <label for="base_price" class="block text-sm font-medium text-gray-700">Base Price ($)</label>
                             <div class="mt-1 relative rounded-md shadow-sm">
@@ -83,8 +75,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-
-                        <!-- Status -->
                         <div class="flex items-start">
                             <div class="flex items-center h-5">
                                 <input id="is_available" name="is_available" type="checkbox" {{ old('is_available', $service->is_available) ? 'checked' : '' }}
@@ -97,9 +87,7 @@
                         </div>
                     </div>
 
-                    <!-- Right Column -->
                     <div class="space-y-6">
-                        <!-- Description -->
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <textarea name="description" id="description" rows="5" required
@@ -109,7 +97,6 @@
                             @enderror
                         </div>
 
-                        <!-- Current Image -->
                         @if($service->image_path)
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Current Image</label>
@@ -119,7 +106,6 @@
                             </div>
                         @endif
 
-                        <!-- Service Image -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700">{{ $service->image_path ? 'Update Image' : 'Service Image' }}</label>
                             <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
@@ -146,7 +132,6 @@
                     </div>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="mt-6 flex justify-end space-x-3">
                     <a href="{{ route('admin.services.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:border-gray-400 focus:ring focus:ring-gray-200 disabled:opacity-25 transition">
                         Cancel

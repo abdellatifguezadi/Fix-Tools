@@ -45,4 +45,57 @@ class UserController extends Controller
 
         return back()->with('success', 'User has been activated successfully.');
     }
-} 
+
+    public function delete(User $user)
+    {
+        if ($user->role === 'admin') {
+            return back()->with('error', 'Cannot delete admin users.');
+        }
+
+        DB::beginTransaction();
+        
+        try {
+            $user->sentMessages()->update([
+                'sender_id' => null
+            ]);
+            
+            $user->receivedMessages()->update([
+                'receiver_id' => null
+            ]);
+            
+            $user->givenReviews()->update([
+                'client_id' => null
+            ]);
+            
+            $user->receivedReviews()->update([
+                'professional_id' => null
+            ]);
+
+            $user->requestedServices()->where('status', 'pending')->update([
+                'status' => 'cancelled',
+                'client_id' => null
+            ]);
+
+            $user->providedServices()->where('status', 'pending')->update([
+                'status' => 'cancelled',
+                'professional_id' => null
+            ]);
+
+            $user->services()->delete();
+            $user->materialPurchases()->delete();
+            $user->loyaltyPoints()->delete();
+
+            $user->delete();
+            
+            DB::commit();
+            
+            return redirect()->route('admin.users.index')
+                ->with('success', 'User has been permanently deleted. Their messages and reviews have been anonymized.');
+                
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin.users.index')
+                ->with('error', 'An error occurred while deleting the user: ' . $e->getMessage());
+        }
+    }
+}

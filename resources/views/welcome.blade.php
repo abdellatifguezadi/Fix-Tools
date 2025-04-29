@@ -15,9 +15,11 @@
                 Find qualified professionals for all your maintenance, installation and repair work
             </p>
             @auth
-            <button class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
-                Find a Professional
-            </button>
+            <a href="{{ route('client.professionals.index') }}" class="inline-block">
+                <button class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300">
+                    Find a Professional
+                </button>
+            </a>
             @endauth
         </div>
     </header>
@@ -147,8 +149,7 @@
                     <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="4"></button>
                     <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="5"></button>
                     <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="6"></button>
-                    <!-- <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="7"></button>
-                    <button class="w-3 h-3 rounded-full bg-gray-300" data-slide="8"></button> -->
+
                 </div>
             </div>
         </div>
@@ -247,13 +248,10 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold text-white mb-6">Ready to Start?</h2>
             <p class="text-yellow-400 text-xl mb-8">Join our community of professionals and satisfied clients</p>
-            <div class="space-x-4">
-                <button class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
-                    I am a Client
-                </button>
-                <button class="border-2 border-yellow-400 text-yellow-400 px-8 py-3 rounded-lg font-bold hover:bg-yellow-400 hover:text-black inline-block">
-                    I am a Professional
-                </button>
+            <div>
+                <a href="{{ route('register') }}" class="bg-yellow-400 text-black px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 inline-block">
+                    Get Started
+                </a>
             </div>
         </div>
     </section>

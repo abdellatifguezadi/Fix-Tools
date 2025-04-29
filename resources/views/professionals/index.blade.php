@@ -2,10 +2,6 @@
 
     <div class="bg-gray-50 h-screen flex overflow-hidden">
 
-        <aside class="fixed inset-y-0 left-0 w-64 bg-gray-900 z-20 transform -translate-x-full sm:translate-x-0 transition-transform duration-200 ease-in-out">
-            <x-sidebars.professional />
-        </aside>
-
         <div class="w-full flex-1 flex flex-col transition-all duration-200 ease-in-out">
 
             <div class="h-16"></div>

@@ -8,7 +8,6 @@
         </div>
     </header>
 
-    <!-- Filter Section -->
     <div class="bg-white shadow-md py-6">
         <div class="container mx-auto px-4">
             <div class="flex flex-wrap gap-4 items-center justify-center">
@@ -40,7 +39,6 @@
         </div>
     </div>
 
-    <!-- Professionals List -->
     <section class="py-12">
         <div class="container mx-auto px-4">
             <div id="professionals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -111,7 +109,6 @@
                 @endforelse
             </div>
 
-            <!-- Pagination -->
             <div class="mt-12">
                 {{ $professionals->links() }}
             </div>

@@ -13,15 +13,32 @@ class MessageController extends Controller
 
     public function index()
     {
-        $users = User::whereHas('receivedMessages', function($query) {
-                $query->where('sender_id', Auth::id());
+        $authUser = Auth::id();
+        
+
+        $hasMessages = Message::where(function($query) use ($authUser) {
+                $query->where('sender_id', $authUser)
+                    ->orWhere('receiver_id', $authUser);
             })
-            ->orWhereHas('sentMessages', function($query) {
-                $query->where('receiver_id', Auth::id());
+            ->exists();
+
+        $users = User::whereHas('receivedMessages', function($query) use ($authUser) {
+                $query->where('sender_id', $authUser);
             })
+            ->orWhereHas('sentMessages', function($query) use ($authUser) {
+                $query->where('receiver_id', $authUser);
+            })
+            ->withTrashed() 
             ->get();
             
-        return view('messages.index', compact('users'));
+        foreach ($users as $user) {
+            $user->unread_count = Message::where('sender_id', $user->id)
+                ->where('receiver_id', $authUser)
+                ->unread()
+                ->count();
+        }
+            
+        return view('messages.index', compact('users', 'hasMessages'));
     }
 
     public function show(User $user)
@@ -70,41 +87,41 @@ class MessageController extends Controller
     }
     
 
-    public function getUnreadCount()
-    {
-        $unreadCount = Message::where('receiver_id', Auth::id())
-            ->where('is_read', false)
-            ->count();
+    // public function getUnreadCount()
+    // {
+    //     $unreadCount = Message::where('receiver_id', Auth::id())
+    //         ->unread()
+    //         ->count();
             
-        return response()->json(['unread_count' => $unreadCount]);
-    }
+    //     return response()->json(['unread_count' => $unreadCount]);
+    // }
     
 
-    public function markAsRead(User $user)
-    {
-        Message::where('sender_id', $user->id)
-            ->where('receiver_id', Auth::id())
-            ->where('is_read', false)
-            ->update(['is_read' => true]);
+    // public function markAsRead(User $user)
+    // {
+    //     Message::where('sender_id', $user->id)
+    //         ->where('receiver_id', Auth::id())
+    //         ->where('is_read', false)
+    //         ->update(['is_read' => true]);
             
-        return response()->json(['success' => true]);
-    }
+    //     return response()->json(['success' => true]);
+    // }
     
 
-    public function getMessages(User $user)
-    {
-        $messages = Message::where(function($query) use ($user) {
-                $query->where('sender_id', Auth::id())
-                    ->where('receiver_id', $user->id);
-            })
-            ->orWhere(function($query) use ($user) {
-                $query->where('sender_id', $user->id)
-                    ->where('receiver_id', Auth::id());
-            })
-            ->with(['sender'])
-            ->orderBy('created_at', 'asc')
-            ->get();
+    // public function getMessages(User $user)
+    // {
+    //     $messages = Message::where(function($query) use ($user) {
+    //             $query->where('sender_id', Auth::id())
+    //                 ->where('receiver_id', $user->id);
+    //         })
+    //         ->orWhere(function($query) use ($user) {
+    //             $query->where('sender_id', $user->id)
+    //                 ->where('receiver_id', Auth::id());
+    //         })
+    //         ->with(['sender'])
+    //         ->orderBy('created_at', 'asc')
+    //         ->get();
             
-        return response()->json(['messages' => $messages]);
-    }
+    //     return response()->json(['messages' => $messages]);
+    // }
 } 

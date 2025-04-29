@@ -32,10 +32,7 @@
                 </button>
             </form>
 
-            <!-- <button onclick="openPurchaseModal('{{ $material->id }}')" 
-                    class="bg-yellow-400 text-black px-3 py-2 rounded-lg hover:bg-yellow-300 transition-colors duration-200">
-                    Buy
-                </button> -->
+
             @endif
         </div>
     </div>

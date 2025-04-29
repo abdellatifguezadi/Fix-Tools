@@ -10,7 +10,7 @@
             <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                 <div class="p-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        <!-- Contact Information -->
+                       
                         <div>
                             <h2 class="text-2xl font-bold mb-4">Our Contact Details</h2>
                             <div class="space-y-4">
@@ -38,7 +38,6 @@
                             </div>
                         </div>
 
-                        <!-- Hours -->
                         <div>
                             <h2 class="text-2xl font-bold mb-4">Opening Hours</h2>
                             <div class="space-y-2">
@@ -58,7 +57,6 @@
                         </div>
                     </div>
 
-                    <!-- Contact Form -->
                     <form action="#" method="POST" class="space-y-6">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

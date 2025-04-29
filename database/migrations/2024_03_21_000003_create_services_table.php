@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->decimal('base_price', 10, 2)->nullable();
             $table->foreignId('professional_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_available')->default(true);

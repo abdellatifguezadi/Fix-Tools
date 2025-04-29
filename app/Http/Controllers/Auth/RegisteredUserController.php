@@ -43,8 +43,6 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        $user->sendEmailVerificationNotification();
-
         Auth::login($user);
 
         return redirect()->route('verification.notice');
@@ -63,9 +61,18 @@ class RegisteredUserController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            
+            if (!$user->is_available) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Your account has been suspended. Please contact the administrator.',
+                ])->onlyInput('email');
+            }
+
             $request->session()->regenerate();
 
-            if (Auth::user()->hasVerifiedEmail()) {
+            if ($user->hasVerifiedEmail()) {
                 return redirect()->intended(route('dashboard'));
             } else {
                 return redirect()->route('verification.notice');

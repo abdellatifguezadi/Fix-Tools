@@ -71,7 +71,6 @@
     </div>
 
     <script>
-        // Fonction pour fermer une notification
         function closeToast(toastId) {
             const toast = document.getElementById(toastId);
             if (toast) {
@@ -79,7 +78,6 @@
             }
         }
 
-        // Fermer automatiquement après 8 secondes (plus de temps pour lire les erreurs)
         setTimeout(() => {
             const toast = document.getElementById('toast-error');
             if (toast) {
