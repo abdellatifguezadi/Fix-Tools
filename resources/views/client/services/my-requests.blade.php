@@ -85,20 +85,27 @@ use Illuminate\Support\Str;
 
                     <div class="flex items-center space-x-4 mb-4">
                         <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-yellow-400 prof-img-container" style="transition: all 0.3s ease;">
-                            @if(!empty($request->professional->image))
-                                <img src="/storage/{{ $request->professional->image }}" alt="{{ $request->professional->name }}" class="w-full h-full object-cover">
+                            @if($request->professional && !empty($request->professional->image))
+                                <img src="/storage/{{ $request->professional->image }}" alt="{{ $request->professional ? $request->professional->name : 'Professionnel supprimé' }}" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full flex items-center justify-center bg-yellow-400 text-black font-bold text-xl">
-                                    {{ strtoupper(substr($request->professional->name, 0, 1)) }}
+                                    {{ $request->professional ? strtoupper(substr($request->professional->name, 0, 1)) : 'X' }}
                                 </div>
                             @endif
                         </div>
                         <div>
-                            <p class="font-medium prof-name" style="transition: color 0.3s ease;">{{ $request->professional->name }}</p>
+                            <p class="font-medium prof-name" style="transition: color 0.3s ease;">{{ $request->professional ? $request->professional->name : 'Professionnel non disponible' }}</p>
+                            @if($request->professional)
                             <div class="flex items-center text-sm text-gray-600">
                                 <i class="fas fa-star text-yellow-400 mr-1"></i>
                                 <span>{{ number_format($request->professional->receivedReviews()->avg('rating') ?? 0, 1) }} ({{ $request->professional->receivedReviews()->count() }} reviews)</span>
                             </div>
+                            @else
+                            <div class="text-sm text-red-500">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                <span>Compte professionnel supprimé</span>
+                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -153,10 +160,12 @@ use Illuminate\Support\Str;
                             </a>
                         @endif
 
+                        @if($request->professional)
                         <a href="{{ route('messages.show', $request->professional->id) }}" onclick="event.stopPropagation();"
                             class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-yellow-500 text-center transition-all duration-300 transform hover:scale-105 hover:shadow">
                             <i class="fas fa-envelope mr-2"></i>Message
                         </a>
+                        @endif
                     </div>
                 </div>
             </div>

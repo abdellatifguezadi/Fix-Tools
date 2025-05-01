@@ -118,7 +118,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
         Route::get('/material-purchases', [MaterialPurchaseController::class, 'index'])->name('material-purchases.index');
         Route::post('/material-purchases', [MaterialPurchaseController::class, 'store'])->name('material-purchases.store');
-        // Route::get('/material-purchases/cart', [MaterialPurchaseController::class, 'cart'])->name('material-purchases.cart');
         Route::get('/material-purchases/checkout/{purchase}', [MaterialPurchaseController::class, 'checkout'])->name('material-purchases.checkout');
 
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -168,7 +167,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/admin/services/{service}/toggle-status', [AdminServiceController::class, 'toggleStatus'])->name('admin.services.toggle-status');
         
         Route::get('/admin/reviews', [\App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews.index');
-        Route::get('/admin/reviews/{review}/delete', [\App\Http\Controllers\Admin\ReviewController::class, 'delete'])->name('admin.reviews.delete');
+        Route::delete('/admin/reviews/{review}/delete', [\App\Http\Controllers\Admin\ReviewController::class, 'delete'])->name('admin.reviews.delete');
         
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
@@ -185,17 +184,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // // Routes publiques pour consultation
-// Route::get('/professionals/{professional}', [ProfessionalController::class, 'show'])->name('professionals.show');
 Route::get('/materials', [MaterialController::class, 'index'])->name('materials.index');
-// Route::get('/materials/{material}', [MaterialController::class, 'show'])->name('materials.show');
 
-// Routes des avis (accessibles aux clients authentifiés)
-// Route::middleware(['auth', 'client'])->group(function () {
-//     Route::get('/reviews/create/{serviceRequest}', [ReviewController::class, 'create'])->name('reviews.create');
-//     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-// });
 
-// Routes des services (accès client uniquement)
+// Routes des services 
 Route::middleware(['auth', 'client', 'verified'])->group(function () {
     Route::get('/services/search', [ClientServiceController::class, 'search'])->name('client.services.search');
     Route::get('/services/category/{category}', [ClientServiceController::class, 'byCategory'])->name('client.services.by-category');
@@ -219,13 +211,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{user}', [MessageController::class, 'show'])
         ->name('messages.show')
-        ->withTrashed();  // Permettre l'accès aux utilisateurs supprimés
-    // Route::post('/messages/{user}', [MessageController::class, 'store'])
-    //     ->name('messages.store')
-    //     ->withTrashed();  // Permettre l'envoi aux utilisateurs supprimés
-    // Route::post('/messages/{user}/read', [MessageController::class, 'markAsRead'])
-    //     ->name('messages.read')
-    //     ->withTrashed();  // Permettre le marquage comme lu pour les utilisateurs supprimés
+        ->withTrashed();  
 });
 
 

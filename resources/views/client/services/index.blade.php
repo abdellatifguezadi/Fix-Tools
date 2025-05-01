@@ -1,8 +1,13 @@
 <x-app-layout>
     <header class="bg-black text-white py-12">
         <div class="container mx-auto px-4 text-center">
+            @if(isset($professionalName))
+            <h1 class="text-4xl font-bold mb-4">Services by {{ $professionalName }}</h1>
+            <p class="text-xl text-gray-300 mb-6">Browse all services offered by this professional</p>
+            @else
             <h1 class="text-4xl font-bold mb-4">Our Services</h1>
             <p class="text-xl text-gray-300 mb-6">Find the right service for your needs</p>
+            @endif
             <a href="{{ route('client.my-requests') }}" class="inline-flex items-center bg-yellow-400 hover:bg-yellow-300 text-black font-semibold py-3 px-6 rounded-lg transition-colors">
                 <i class="fas fa-clipboard-list mr-2"></i>
                 My Service Requests
@@ -102,8 +107,10 @@
                 const search = searchInput.value;
                 const category = categoryFilter.value;
                 const priceRange = priceFilter.value;
+                
+                const professionalId = new URLSearchParams(window.location.search).get('professional_id') || '';
 
-                const url = `{{ route('client.services.search') }}?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&price_range=${encodeURIComponent(priceRange)}`;
+                const url = `{{ route('client.services.search') }}?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&price_range=${encodeURIComponent(priceRange)}${professionalId ? `&professional_id=${professionalId}` : ''}`;
 
                 fetch(url, {
                         headers: {

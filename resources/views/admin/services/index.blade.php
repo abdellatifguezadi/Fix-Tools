@@ -77,13 +77,19 @@
                                         <form action="{{ route('admin.services.toggle-status', $service) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="{{ $service->is_available ? 'text-yellow-600 hover:text-yellow-800' : 'text-green-600 hover:text-green-800' }}" title="{{ $service->is_available ? 'Disable' : 'Enable' }}">
-                                                @if($service->is_available)
-                                                    <i class="fas fa-ban"></i>
-                                                @else
+                                            @if(!$service->is_available && !$service->professional_id)
+                                                <button type="button" class="text-gray-400 cursor-not-allowed" title="Impossible d'activer - Pas de professionnel associé" disabled>
                                                     <i class="fas fa-check"></i>
-                                                @endif
-                                            </button>
+                                                </button>
+                                            @else
+                                                <button type="submit" class="{{ $service->is_available ? 'text-yellow-600 hover:text-yellow-800' : 'text-green-600 hover:text-green-800' }}" title="{{ $service->is_available ? 'Disable' : 'Enable' }}">
+                                                    @if($service->is_available)
+                                                        <i class="fas fa-ban"></i>
+                                                    @else
+                                                        <i class="fas fa-check"></i>
+                                                    @endif
+                                                </button>
+                                            @endif
                                         </form>
                                     </div>
                                 </td>

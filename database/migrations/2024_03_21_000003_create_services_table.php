@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->decimal('base_price', 10, 2)->nullable();
-            $table->foreignId('professional_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('professional_id')->nullable()->constrained('users')->nullOnDelete();
             $table->boolean('is_available')->default(true);
             $table->string('image_path')->nullable();
             $table->timestamps();

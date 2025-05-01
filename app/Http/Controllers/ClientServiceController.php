@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\ServiceRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +14,15 @@ class ClientServiceController extends Controller
 {
     
 
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::with(['category', 'professional'])
-            ->latest()
+        $query = Service::with(['category', 'professional']);
+        
+        if ($request->has('professional_id') && !empty($request->professional_id)) {
+            $query->where('professional_id', $request->professional_id);
+        }
+        
+        $services = $query->latest()
             ->get()
             ->map(function ($service) {
                 return $this->formatService($service);
@@ -31,7 +37,13 @@ class ClientServiceController extends Controller
                 ->count();
         }
 
-        return view('client.services.index', compact('services', 'categories', 'pendingRequestsCount'));
+        $professionalName = null;
+        if ($request->has('professional_id') && !empty($request->professional_id)) {
+            $professional = \App\Models\User::find($request->professional_id);
+            $professionalName = $professional ? $professional->name : null;
+        }
+
+        return view('client.services.index', compact('services', 'categories', 'pendingRequestsCount', 'professionalName'));
     }
 
     public function search(Request $request)
@@ -66,6 +78,10 @@ class ClientServiceController extends Controller
                     break;
             }
         }
+        
+        if ($request->has('professional_id') && !empty($request->professional_id)) {
+            $query->where('professional_id', $request->professional_id);
+        }
 
         $services = $query->latest()->get()->map(function ($service) {
             return $this->formatService($service);
@@ -83,11 +99,21 @@ class ClientServiceController extends Controller
                 ->count();
         }
         
-        return view('client.services.index', compact('services', 'categories', 'pendingRequestsCount'));
+        $professionalName = null;
+        if ($request->has('professional_id') && !empty($request->professional_id)) {
+            $professional = User::find($request->professional_id);
+            $professionalName = $professional ? $professional->name : null;
+        }
+        
+        return view('client.services.index', compact('services', 'categories', 'pendingRequestsCount', 'professionalName'));
     }
 
     private function formatService($service)
     {
+        if (!$service->professional_id) {
+            return null;
+        }
+        
         $alreadyBooked = false;
         if (Auth::check()) {
             $alreadyBooked = ServiceRequest::where('client_id', Auth::id())
