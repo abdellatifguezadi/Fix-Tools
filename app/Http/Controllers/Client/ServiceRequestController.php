@@ -35,8 +35,14 @@ class ServiceRequestController extends Controller
     {
         $requests = ServiceRequest::where('client_id', Auth::id())
             ->with(['service.category', 'professional', 'professional.receivedReviews'])
-            ->orderBy('created_at', 'desc')
+            ->latest('created_at')
             ->get();
+            
+        foreach ($requests as $request) {
+            if (is_null($request->professional_id) && $request->status != 'cancelled') {
+                $request->update(['status' => 'cancelled']);
+            }
+        }
             
         return view('client.services.my-requests', compact('requests'));
     }

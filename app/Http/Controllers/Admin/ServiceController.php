@@ -20,6 +20,11 @@ class ServiceController extends Controller
 
     public function toggleStatus(Service $service)
     {
+        if (!$service->is_available && !$service->professional_id) {
+            return redirect()->route('admin.services.index')
+                ->with('error', "Ce service ne peut pas être activé car il n'a pas de professionnel associé.");
+        }
+        
         $service->is_available = !$service->is_available;
         $service->save();
         

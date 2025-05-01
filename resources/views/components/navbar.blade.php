@@ -64,7 +64,7 @@
                         <span>{{ auth()->user()->name }}</span>
                     </button>
                     
-                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-black border border-gray-700 rounded-md shadow-lg py-1 z-50 overflow-hidden">
+                    <div x-show="open" x-cloak @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-black border border-gray-700 rounded-md shadow-lg py-1 z-50 overflow-hidden">
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-yellow-400 hover:bg-gray-800">
                             <i class="fas fa-user-edit mr-2"></i> Profile
                         </a>
@@ -157,6 +157,16 @@
                         </button>
                     </form>
                 @endif
+            @else
+                <a href="{{ route('home') }}" class="block py-2 text-yellow-400 hover:text-yellow-300">Home</a>
+                <div class="flex items-center space-x-4 mt-2 pt-2 border-t border-gray-800">
+                    <a href="{{ route('login') }}" class="block py-2 text-yellow-400 hover:text-yellow-300">
+                        <i class="fas fa-sign-in-alt mr-1"></i> Login
+                    </a>
+                    <a href="{{ route('register') }}" class="block py-2 bg-yellow-400 text-black px-4 rounded-lg hover:bg-yellow-300">
+                        <i class="fas fa-user-plus mr-1"></i> Register
+                    </a>
+                </div>
             @endauth
         </div>
     </div>
@@ -164,6 +174,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         

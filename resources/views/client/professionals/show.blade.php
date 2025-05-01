@@ -136,7 +136,7 @@
                         </div>
 
                         <div class="space-y-4">
-                            @if($professional->reviews->where('is_approved', true)->count() > 0)
+                            @if($professional->reviews && $professional->reviews->where('is_approved', true)->count() > 0)
                                 @foreach($professional->reviews->where('is_approved', true) as $review)
                                     <div class="border-b pb-4 last:border-0">
                                         <div class="flex items-center mb-2">

@@ -7,7 +7,7 @@
         <div class="max-w-7xl mx-auto">
             <h1 class="text-3xl font-semibold text-gray-900 mb-6">Reviews and Testimonials Management</h1>
             
-            @if(session('success'))
+            <!-- @if(session('success'))
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
                     <div class="flex items-center">
                         <div class="py-1">
@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </div>
-            @endif
+            @endif -->
             
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
                 <div class="p-6 bg-gray-50 border-b border-gray-200">
@@ -180,11 +180,15 @@
                                             </div>
                                         </div>
                                         <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
-                                            <a href="{{ route('admin.reviews.delete', $review->id) }}" 
-                                                onclick="return confirm('Are you sure you want to delete this review?');" 
-                                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                                Delete
-                                            </a>
+                                            <form action="{{ route('admin.reviews.delete', $review->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                    onclick="return confirm('Are you sure you want to delete this review?');"
+                                                    class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                                    Delete
+                                                </button>
+                                            </form>
                                             <button onclick="closeReviewModal('{{ $review->id }}')" 
                                                 class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
                                                 Close

@@ -27,8 +27,8 @@ class MaterialController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
-            'price' => 'required|numeric|min:1',
-            'points_cost' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:1|max:99999999.99',
+            'points_cost' => 'required|integer|min:1|max:2147483647',
             'stock_quantity' => 'required|integer|min:1',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:5000'
         ]);
@@ -53,8 +53,8 @@ class MaterialController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
-            'price' => 'required|numeric|min:1',
-            'points_cost' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:1|max:99999999.99',
+            'points_cost' => 'required|integer|min:0|max:2147483647',
             'stock_quantity' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5000'
         ]);

@@ -87,41 +87,4 @@ class MessageController extends Controller
     }
     
 
-    // public function getUnreadCount()
-    // {
-    //     $unreadCount = Message::where('receiver_id', Auth::id())
-    //         ->unread()
-    //         ->count();
-            
-    //     return response()->json(['unread_count' => $unreadCount]);
-    // }
-    
-
-    // public function markAsRead(User $user)
-    // {
-    //     Message::where('sender_id', $user->id)
-    //         ->where('receiver_id', Auth::id())
-    //         ->where('is_read', false)
-    //         ->update(['is_read' => true]);
-            
-    //     return response()->json(['success' => true]);
-    // }
-    
-
-    // public function getMessages(User $user)
-    // {
-    //     $messages = Message::where(function($query) use ($user) {
-    //             $query->where('sender_id', Auth::id())
-    //                 ->where('receiver_id', $user->id);
-    //         })
-    //         ->orWhere(function($query) use ($user) {
-    //             $query->where('sender_id', $user->id)
-    //                 ->where('receiver_id', Auth::id());
-    //         })
-    //         ->with(['sender'])
-    //         ->orderBy('created_at', 'asc')
-    //         ->get();
-            
-    //     return response()->json(['messages' => $messages]);
-    // }
 } 
