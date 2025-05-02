@@ -39,7 +39,7 @@ class ClientServiceController extends Controller
 
         $professionalName = null;
         if ($request->has('professional_id') && !empty($request->professional_id)) {
-            $professional = \App\Models\User::find($request->professional_id);
+            $professional = User::find($request->professional_id);
             $professionalName = $professional ? $professional->name : null;
         }
 

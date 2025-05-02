@@ -17,13 +17,13 @@ class ServiceRequest extends Model
         'description',
         'status',
         'requested_date',
-        'completion_date',
+        'completed_date',
         'final_price'
     ];
 
     protected $casts = [
         'requested_date' => 'datetime',
-        'completion_date' => 'datetime',
+        'completed_date' => 'datetime',
         'final_price' => 'decimal:2',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

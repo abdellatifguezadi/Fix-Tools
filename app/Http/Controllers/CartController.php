@@ -263,7 +263,7 @@ class CartController extends Controller
                 ]);
 
                 $material->stock_quantity -= $item->quantity;
-                $materialToUpdate = \App\Models\Material::find($material->id);
+                $materialToUpdate = Material::find($material->id);
                 if ($materialToUpdate) {
                     $materialToUpdate->stock_quantity = $material->stock_quantity;
                     $materialToUpdate->save();

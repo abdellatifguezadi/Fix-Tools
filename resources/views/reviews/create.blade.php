@@ -57,7 +57,7 @@
                             <span class="bg-gray-100 rounded-full p-2 mr-3">
                                 <i class="far fa-calendar-check text-green-500"></i>
                             </span>
-                            <p class="text-gray-700">Completed on {{ $serviceRequest->completion_date ? $serviceRequest->completion_date->format('M d, Y') : 'N/A' }}</p>
+                            <p class="text-gray-700">Completed on {{ $serviceRequest->completed_date ? $serviceRequest->completed_date->format('M d, Y') : 'N/A' }}</p>
                         </div>
                         
                         <div class="flex items-center bg-yellow-50 p-3 rounded-lg mt-4 border-l-4 border-yellow-400">

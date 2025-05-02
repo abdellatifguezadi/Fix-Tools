@@ -85,5 +85,31 @@ class MaterialPurchaseController extends Controller
     }
     
 
-
+    public function myPurchases()
+    {
+        $user = Auth::user();
+        
+        if (!$user || $user->role !== 'professional') {
+            return redirect()->route('home')->with('error', 'You must be a professional to access this page.');
+        }
+        
+        $purchases = MaterialPurchase::where('professional_id', $user->id)
+            ->with('material')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $pendingPurchases = $purchases->where('status', 'pending');
+        $completedPurchases = $purchases->where('status', 'completed');
+        
+        $totalPointsUsed = $purchases->sum('points_used');
+        $totalAmountSpent = $purchases->sum('price_paid');
+        
+        return view('professionals.my-purchases', compact(
+            'purchases',
+            'pendingPurchases',
+            'completedPurchases',
+            'totalPointsUsed',
+            'totalAmountSpent'
+        ));
+    }
 } 

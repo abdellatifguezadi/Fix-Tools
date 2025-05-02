@@ -29,11 +29,22 @@ class ServiceTrackingController extends Controller
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', Carbon::now()->year)
             ->sum('points_earned');
+            
+        $allTimePoints = LoyaltyPoint::where('professional_id', $user->id)
+            ->sum('points_earned');
+            
+        $level = 'Bronze';
+        if ($allTimePoints >= 100) $level = 'Silver';
+        if ($allTimePoints >= 250) $level = 'Gold';
+        if ($allTimePoints >= 500) $level = 'Platinum';
+        if ($allTimePoints >= 1000) $level = 'Diamond';
 
         return view('professionals.service-tracking', compact(
             'completedServices',
             'completedServicesCount',
-            'totalPoints'
+            'totalPoints',
+            'allTimePoints',
+            'level'
         ));
     }
 } 

@@ -54,7 +54,7 @@ class ServiceRequestController extends Controller
         
         $serviceRequest->update([
             'status' => 'completed',
-            'completion_date' => now()
+            'completed_date' => now()
         ]);
         
         $points = 5;

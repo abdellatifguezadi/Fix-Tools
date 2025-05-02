@@ -135,6 +135,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/professionals', [ProfessionalController::class, 'index'])->name('professionals.index');
         Route::get('/professionals/marketplace', [MaterialPurchaseController::class, 'index'])->name('professionals.marketplace');
         Route::get('/professionals/marketplace/filter', [MaterialPurchaseController::class, 'filter'])->name('professionals.marketplace.filter');
+        Route::get('/my-purchases', [MaterialPurchaseController::class, 'myPurchases'])->name('my-purchases');
         Route::get('/service-tracking', [ServiceTrackingController::class, 'index'])->name('service-tracking.index');
         
         Route::get('/service-requests', [\App\Http\Controllers\Professional\ServiceRequestController::class, 'index'])->name('professional.requests.index');
