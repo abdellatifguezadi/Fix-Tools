@@ -15,6 +15,7 @@ use Mollie\Laravel\Facades\Mollie;
 class CartController extends Controller
 {
 
+
     public function index()
     {
         $user = Auth::user();
