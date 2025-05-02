@@ -30,9 +30,15 @@ class ProfileController extends Controller
 
     private function getProfileView($user)
     {
+        if ($user->role === 'admin') {
+            $userCount = User::count();
+            $serviceCount = \App\Models\Service::count();
+            $categoryCount = \App\Models\Category::count();
+            
+            return view('admin.profile', compact('user', 'userCount', 'serviceCount', 'categoryCount'));
+        }
+
         switch ($user->role) {
-            case 'admin':
-                return view('admin.profile', compact('user'));
             case 'professional':
                 return view('professionals.profile', compact('user'));
             case 'client':

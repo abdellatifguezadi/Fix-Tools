@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="ml-6">
                                         <h3 class="text-lg font-semibold text-gray-900">Total Users</h3>
-                                        <p class="text-gray-700 mt-1">{{ \App\Models\User::count() }}</p>
+                                        <p class="text-gray-700 mt-1">{{ $userCount }}</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="ml-6">
                                         <h3 class="text-lg font-semibold text-gray-900">Services</h3>
-                                        <p class="text-gray-700 mt-1">{{ \App\Models\Service::count() }}</p>
+                                        <p class="text-gray-700 mt-1">{{ $serviceCount }}</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
@@ -115,8 +115,8 @@
                                         </svg>
                                     </div>
                                     <div class="ml-6">
-                                        <h3 class="text-lg font-semibold text-gray-900">Categories</h3>
-                                        <p class="text-gray-700 mt-1">{{ \App\Models\Category::count() }}</p>
+                                        <h3 class="text-lg font-semibold text-gray-900">Catégories</h3>
+                                        <p class="text-gray-700 mt-1">{{ $categoryCount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +227,6 @@
         }
 
         @if($errors->any())
-            // Keep the modal open if there were validation errors
             document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('editProfileModal').classList.remove('hidden');
             });

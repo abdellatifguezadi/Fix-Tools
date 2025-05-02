@@ -23,7 +23,13 @@
                 <li>
                     <a href="{{ route('material-purchases.index') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
                         <i class="fas fa-shopping-cart w-6"></i>
-                        <span>Material Purchases</span>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('my-purchases') }}" class="flex items-center text-gray-300 hover:text-yellow-400 py-2">
+                        <i class="fas fa-shopping-basket w-6"></i>
+                        <span>My Purchases</span>
                     </a>
                 </li>
                 <li>

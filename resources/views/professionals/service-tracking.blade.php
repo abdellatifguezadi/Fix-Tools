@@ -38,14 +38,6 @@ use Illuminate\Support\Facades\Auth;
 
                                 <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
                                     <h3 class="font-semibold text-yellow-800">Loyalty Level</h3>
-                                    @php
-                                    $level = 'Bronze';
-                                    $allTimePoints = \App\Models\LoyaltyPoint::where('professional_id', Auth::id())->sum('points_earned');
-                                    if ($allTimePoints >= 100) $level = 'Silver';
-                                    if ($allTimePoints >= 250) $level = 'Gold';
-                                    if ($allTimePoints >= 500) $level = 'Platinum';
-                                    if ($allTimePoints >= 1000) $level = 'Diamond';
-                                    @endphp
                                     <p class="text-2xl font-bold 
                                         @if($level == 'Bronze') text-yellow-700
                                         @elseif($level == 'Silver') text-gray-500
@@ -83,7 +75,7 @@ use Illuminate\Support\Facades\Auth;
                                 <p class="text-gray-600 text-sm mb-2">{{ $serviceRequest->service ? Str::limit($serviceRequest->service->description, 100) : 'No description available' }}</p>
 
                                 <div class="flex justify-between items-center mb-2">
-                                    <p class="text-sm text-gray-500">{{ $serviceRequest->completion_date ? $serviceRequest->completion_date->format('d/m/Y') : 'Unknown date' }}</p>
+                                    <p class="text-sm text-gray-500">{{ $serviceRequest->completed_date ? $serviceRequest->completed_date->format('d/m/Y') : 'Unknown date' }}</p>
                                     <p class="text-sm text-gray-500">{{ $serviceRequest->final_price ? number_format($serviceRequest->final_price, 2) . ' DH' : 'Price not defined' }}</p>
                                 </div>
 

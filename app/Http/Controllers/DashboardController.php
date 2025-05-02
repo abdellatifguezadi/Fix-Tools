@@ -35,7 +35,12 @@ class DashboardController extends Controller
     
     public function adminDashboard()
     {
+
         $totalUsers = User::count();
+        $userCount = $totalUsers; 
+        $serviceCount = Service::count(); 
+        $categoryCount = Category::count();
+        
         $activeProfessionals = User::where('role', 'professional')->where('is_available', true)->count();
         $completedServices = ServiceRequest::completed()->count();
         $totalRevenue = ServiceRequest::completed()->sum('final_price');
@@ -123,7 +128,10 @@ class DashboardController extends Controller
             'servicesOverview',
             'monthlyRevenue',
             'recentServices',
-            'newUsers'
+            'newUsers',
+            'userCount',
+            'serviceCount',
+            'categoryCount'
         ));
     }
 } 
